@@ -3,7 +3,7 @@ import React from "react";
 const Testimonials = () => {
   return (
     <div className="bg-black flex justify-center items-center py-20 text-black">
-      <div className="w-[75%]">
+      <div className="w-[1161px]">
         <span className=" flex text-4xl cursor-pointer font-semibold border-b-[1px] border-white/30  pb-4 mb-4 text-white">
           Testimonials
         </span>

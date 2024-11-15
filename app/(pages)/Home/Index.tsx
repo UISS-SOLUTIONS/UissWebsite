@@ -18,8 +18,8 @@ const Index = () => {
         <div className="bg-black/70 absolute w-full h-[90vh] top-0 " />
       </div>
       <ItStartsWithYou />
-      <Quote/>
       <Programmes/>
+      <Quote/>
       <Events />
       <Testimonials/>
       <Sponsors/>

@@ -3,7 +3,7 @@ import React from "react";
 const ItStartsWithYou = () => {
   return (
     <div className="bg-black flex justify-center items-center">
-      <div className="w-[75%] flex justify-between items-center gap-5 my-10">
+      <div className="w-[1161px] flex justify-between items-center gap-5 my-20">
         <div className="w-[50%]">
           <span className="flex text-4xl py-3 font-semibold w-fit">
             It Starts With You

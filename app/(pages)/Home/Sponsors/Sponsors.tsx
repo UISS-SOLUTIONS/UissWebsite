@@ -3,7 +3,7 @@ import React from "react";
 const Sponsors = () => {
   return (
     <div className="flex justify-center items-center py-10 bg-white">
-      <div className="w-[75%]">
+      <div className="w-[1161px]">
         <div>
           <p className="text-4xl font-bold text-center pb-2 text-black">Our Supporters</p>
           <p className="uppercase text-[#efb631] text-base font-bold text-center">
