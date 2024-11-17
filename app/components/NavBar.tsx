@@ -3,6 +3,7 @@ import React from "react";
 import UissLogo from "@/public/logoUISS.png";
 import UdsmLogo from "@/public/Udsm.png";
 import NavDropDown from "./NavDropDown";
+import { INavDropDown } from "./types";
 
 const NavBar = () => {
   const NavLinks: INavDropDown[] = [
@@ -40,7 +41,7 @@ const NavBar = () => {
         </div>
         <div>
           <ul className="list-none flex gap-x-6">
-            {NavLinks.map((NavLink, index: number) => {
+            {NavLinks.map((NavLink) => {
               if (NavLink.name == "Support Us") {
                 return (
                   <NavDropDown

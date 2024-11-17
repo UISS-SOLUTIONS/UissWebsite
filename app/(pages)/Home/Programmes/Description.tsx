@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { IProgrammeDescription } from "../types";
 
 interface props {
   description: IProgrammeDescription;

@@ -1,6 +1,7 @@
 import React from "react";
 import Description from "./Description";
 import AutoSlider from "@/app/components/AutoSlider";
+import {IProgramme} from '../types';
 
 type Programmes = IProgramme[];
 

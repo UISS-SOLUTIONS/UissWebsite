@@ -1,5 +1,6 @@
 import AutoSlider from "@/app/components/AutoSlider";
 import TestmonyCard from "./TestmonyCard";
+import { ITestmonyCard } from "../types";
 
 const Testimonials = () => {
   const testimonals: ITestmonyCard[] = [

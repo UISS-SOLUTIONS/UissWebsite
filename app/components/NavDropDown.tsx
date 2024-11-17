@@ -1,11 +1,12 @@
 import React from "react";
+import { INavDropDown } from "./types";
 
 interface props {
   className?: string;
   NavDetail: INavDropDown;
 }
 
-const NavDropDown = ({NavDetail, className}:props) => {
+const NavDropDown:React.FC<props> = ({NavDetail, className}) => {
   return (
     <li className={`flex justify-center items-center gap-x-1 group cursor-pointer ${className}`}>
       <span className={`text-lg font-bold group-hover:text-[#efb631] ${NavDetail.name == 'Support Us' ? 'text-white group-hover:text-black':''}`}>

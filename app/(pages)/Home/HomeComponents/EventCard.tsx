@@ -1,4 +1,5 @@
 import React from "react";
+import { IEventCard } from "../types";
 
 interface CardProp{
   Card: IEventCard
