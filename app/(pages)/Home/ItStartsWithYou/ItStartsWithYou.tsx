@@ -5,10 +5,10 @@ const ItStartsWithYou = () => {
     <div className="bg-black flex justify-center items-center">
       <div className="w-[1161px] flex justify-between items-center gap-5 my-20">
         <div className="w-[50%]">
-          <span className="flex text-4xl py-3 font-semibold w-fit">
+          <span className="flex text-5xl py-4 font-semibold w-fit border-b border-white/15 cursor-pointer">
             It Starts With You
           </span>
-          <p className="text-lg text-justify">
+          <p className="text-lg text-justify mt-6 text-white/70">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
             necessitatibus velit possimus consequatur autem amet accusantium
             libero dolores, dolore dicta! Sint ipsam tenetur maiores quo, minus

@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Source_Sans_3 } from 'next/font/google'
 import "./globals.css";
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'], // Include the Latin subset
+  weight: ['400','500','600', '700'], // Add specific weights as needed
+  style: ['normal', 'italic'], // Optional: Include styles
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sourceSans3.className} antialiased`}
       >
         {children}
       </body>

@@ -1,14 +1,19 @@
 "use client";
 import React, { useState } from "react";
 
-const Description = () => {
+interface props {
+  description: IProgrammeDescription;
+}
+
+const Description:React.FC<props> = ({description}) => {
   const [About, setAbout] = useState<boolean>(true);
   const [Mission, setMission] = useState<boolean>();
   const [Vision, setVision] = useState<boolean>();
 
   return (
-    <div>
-      <div>
+      <div className="flex flex-col justify-between items-center h-full">
+        <div>
+
         <ul className="flex gap-10 pb-4 pt-8 text-2xl font-bold">
           <li
             className={`cursor-pointer ${About && 'border-b-[3px] border-[#efb631]'}`}
@@ -42,37 +47,26 @@ const Description = () => {
           </li>
         </ul>
         {About && (
-          <p className="text-lg text-justify w-[95%] opacity-70">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            corporis mollitia blanditiis delectus nisi molestias sed quisquam?
-            Deserunt debitis, rerum est minus quam ut. Doloremque repellat,
-            deleniti repudiandae voluptatum id tempore eum et. Neque explicabo
-            optio voluptate quae, tempore at autem laborum nisi. Veniam, natus?
-            Ipsa error quo quidem, totam dolore temporibus exercitationem quia!
-            Quae unde a ipsa libero et animi odit sapiente enim consequatur
-            molestias! Distinctio, ullam veritatis? Impedit.
+          <p className="text-base text-justify w-[95%] opacity-70">
+            {description.about}
+            
           </p>
         )}
         {Mission && (
-          <p className="text-lg text-justify w-[95%] opacity-70">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur eos
-            commodi non quibusdam consectetur. Quis earum at, atque eos commodi
-            adipisci placeat quaerat unde quasi id fugit amet, et sunt
-            laudantium maxime illum beatae. Aperiam!
+          <p className="text-base text-justify w-[95%] opacity-70">
+            {description.mission}
+            
           </p>
         )}
         {Vision && (
-          <p className="text-lg text-justify w-[95%] opacity-70">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa omnis
-            explicabo, minus sequi debitis maxime dolor necessitatibus dolorum?
-            Reiciendis quo nemo necessitatibus maiores quia alias iste vero,
-            eum, minus rerum eveniet vitae unde, deleniti inventore. Doloremque
-            blanditiis delectus at et sapiente architecto non, similique
-            eligendi animi sed, reiciendis velit fugiat?
+          <p className="text-base text-justify w-[95%] opacity-70">
+            {description.vision}
+            
           </p>
         )}
+        </div>
+        <button className="mb-8 bg-[#efb631] w-fit py-2 px-4 text-black font-bold rounded-lg">View Programme</button>
       </div>
-    </div>
   );
 };
 
