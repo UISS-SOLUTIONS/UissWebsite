@@ -12,7 +12,7 @@ const Footer = () => {
               className="h-full w-full object-contain"
             />
           </div>
-          <p className="py-5 opacity-60">
+          <p className="py-5 text-white/60">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
             assumenda obcaecati voluptatem veritatis odio vero. Consequuntur
             quae molestias dolorum non!

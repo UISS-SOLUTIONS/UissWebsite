@@ -1,5 +1,6 @@
 export interface INavDropDown {
-    id: number;
-    name: string;
-    dropDown?: boolean;
+  id: number;
+  name: string;
+  dropDown?: boolean;
+  children?: INavDropDown[]
 }
