@@ -7,7 +7,7 @@ const Quote = () => {
         <div className="w-full mt-8 flex justify-center">
           <div className="flex flex-col items-center w-[65%] rounded-lg z-10">
             <div className="w-[80%]">
-              <p className="text-justify pt-8 text-base">
+              <p className="text-justify pt-8 text-base line-clamp-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
                 odit ea nulla veniam dolorum doloremque magni nesciunt et ad
                 debitis. Soluta recusandae ducimus provident cupiditate fugiat
@@ -15,7 +15,7 @@ const Quote = () => {
                 explicabo laborum exercitationem. Quam deleniti architecto
                 ducimus cumque quod!
               </p>
-              <div className="flex flex-col items-end pb-8 pt-4">
+              <div className="flex flex-col items-end pb-8 pt-8">
                 <span className="text-black font-semibold">Moody A Mshana</span>
                 <span className="text-black font-semibold">
                   Website Technical Lead UISS
@@ -24,7 +24,7 @@ const Quote = () => {
             </div>
           </div>
         </div>
-      <div className="absolute top-[7%] left-[17%]">
+      <div className="absolute top-[5%] left-[17%]">
         <img src="./quoteBg.svg" alt="" />
       </div>
       </div>

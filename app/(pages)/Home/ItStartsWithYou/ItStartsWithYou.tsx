@@ -4,7 +4,7 @@ const ItStartsWithYou = () => {
   return (
     <div className="bg-black flex justify-center items-center">
       <div className="w-[1161px] flex justify-between items-center gap-5 my-20">
-        <div className="w-[50%]">
+        <div className="w-[50%] text-white">
           <span className="flex text-5xl py-4 font-semibold w-fit border-b border-white/15 cursor-pointer">
             It Starts With You
           </span>
