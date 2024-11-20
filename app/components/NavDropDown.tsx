@@ -33,7 +33,7 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
             >
               {NavDetail.name}
             </span>
-            {NavDetail.dropDown && (
+            {/* {NavDetail.dropDown && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -48,7 +48,7 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
                   d="m19.5 8.25-7.5 7.5-7.5-7.5"
                 />
               </svg>
-            )}
+            )} */}
           </li>
         </DropdownMenuTrigger>
         {NavDetail.children != undefined ? (
