@@ -53,10 +53,10 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
         </DropdownMenuTrigger>
         {NavDetail.children != undefined ? (
           <DropdownMenuContent className=" font-bold">
-            {NavDetail.children.map((children, index) => {
+            {NavDetail.children.map((children) => {
               if (children.children != undefined) {
                 return (
-                  <DropdownMenuSub>
+                  <DropdownMenuSub key={children.id}>
                     <DropdownMenuSubTrigger>
                       {children.name}
                     </DropdownMenuSubTrigger>
