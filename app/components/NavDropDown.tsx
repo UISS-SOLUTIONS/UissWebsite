@@ -10,6 +10,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 interface props {
   className?: string;
@@ -31,7 +32,11 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
                   : ""
               }`}
             >
-              {NavDetail.name}
+              {NavDetail.children != undefined ? (
+                <span>{NavDetail.name}</span>
+              ) : (
+                <Link href={NavDetail.link || "#"}>{NavDetail.name}</Link>
+              )}
             </span>
             {/* {NavDetail.dropDown && (
               <svg
@@ -64,9 +69,11 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
                       <DropdownMenuSubContent>
                         {children.children.map((children) => {
                           return (
-                            <DropdownMenuItem key={children.id}>
-                              {children.name}
-                            </DropdownMenuItem>
+                            <Link href={children.link || '#'} key={children.id}>
+                              <DropdownMenuItem>
+                                {children.name}
+                              </DropdownMenuItem>
+                            </Link>
                           );
                         })}
                       </DropdownMenuSubContent>
@@ -75,9 +82,11 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
                 );
               }
               return (
-                <DropdownMenuItem key={children.id}>
-                  {children.name}
-                </DropdownMenuItem>
+                <Link href={children.link || '#'} key={children.id}>
+                  <DropdownMenuItem>
+                    {children.name}
+                  </DropdownMenuItem>
+                </Link>
               );
             })}
           </DropdownMenuContent>

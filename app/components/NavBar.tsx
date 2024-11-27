@@ -10,6 +10,7 @@ const NavBar = () => {
     {
       id: 19,
       name: "Home",
+      link: "/"
     },
     {
       id: 20,
@@ -18,16 +19,18 @@ const NavBar = () => {
         {
           id: 191,
           name: "Welcome Note",
+          link: "/Explore",
         },
         {
           id: 192,
           name: "Vision and Mission",
+          link: "/Explore",
         },
-        { id: 193, name: "Core Values" },
-        { id: 194, name: "Awards and Achievements" },
-        { id: 195, name: "Constitution" },
-        { id: 196, name: "Governance / team" },
-        { id: 197, name: "Collaboration and Networks" },
+        { id: 193, name: "Core Values",link: "/Explore", },
+        { id: 194, name: "Awards and Achievements", link: "/Explore", },
+        { id: 195, name: "Constitution", link: "/Constitution", },
+        { id: 196, name: "Governance / team", link: "/Explore", },
+        { id: 197, name: "Collaboration and Networks", link: "/Explore", },
       ],
     },
     {
@@ -37,6 +40,7 @@ const NavBar = () => {
         {
           id: 211,
           name: "Podcast",
+          link: "/Podcast",
         },
         {
           id: 212,
@@ -45,55 +49,63 @@ const NavBar = () => {
             {
               id: 2121,
               name: "Software Development Club",
+              link: "/Programs/Clubs/software",
             },
             {
               id: 2122,
               name: "UI / UX Designing",
+              link: "Programs/Clubs/ui",
             },{
               id: 2123,
               name: "Cybersecurity Club",
+              link: "Programs/Clubs/cybersecurity",
             },{
               id: 2124,
               name: "Artificial Intelligence Club",
+              link: "Programs/Clubs/artificialintelligence",
             },{
               id: 2125,
               name: "Networking Club",
+              link: "Programs/Clubs/networking",
             },{
               id: 2126,
               name: "Data Science Club",
+              link: "Programs/Clubs/datascience",
             },
           ],
         },
-        { id: 213, name: "Initiatives" },
+        { id: 213, name: "Initiatives",link: "/Podcast", },
       ],
     },
     {
       id: 22,
       name: "Events",
       children: [
-        { id: 221, name: "Annual Timetable" },
-        { id: 222, name: "Upcoming Events" },
-        { id: 223, name: "Annual Highlights" },
+        { id: 221, name: "Annual Timetable",link: "/Events", },
+        { id: 222, name: "Upcoming Events",link: "/Events", },
+        { id: 223, name: "Annual Highlights",link: "/Events", },
       ],
     },
     {
       id: 23,
       name: "News",
       children: [
-        { id: 231, name: "Gallery" },
-        { id: 232, name: "Updates" },
+        { id: 231, name: "Gallery",link: "/News" },
+        { id: 232, name: "Updates", link: "/News" },
       ],
     },
     {
       id: 24,
       name: "Membership",
       children: [
-        {id: 241, name: "Benefits"}
+        {id: 241, name: "Benefits", link: "/Membership"},
+        {id: 242, name: "Sign Up", link: "/Membership"},
       ]
     },
     {
       id: 25,
       name: "Support Us",
+      link: "/SupportUs"
     },
   ];
   return (

@@ -25,7 +25,7 @@ const Quote = () => {
           </div>
         </div>
       <div className="absolute top-[5%] left-[17%]">
-        <img src="./quoteBg.svg" alt="" />
+        <img src="/quoteBg.svg" alt="" />
       </div>
       </div>
     </div>

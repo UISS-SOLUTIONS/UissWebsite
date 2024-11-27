@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col w-[450px]">
           <div className="w-[250px] h-[70px]">
             <img
-              src="./UISS_LOGO.png"
+              src="/UISS_LOGO.png"
               alt=""
               className="h-full w-full object-contain"
             />

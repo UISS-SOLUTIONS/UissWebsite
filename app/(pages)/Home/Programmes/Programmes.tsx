@@ -1,7 +1,7 @@
 import React from "react";
 import Description from "./Description";
 import AutoSlider from "@/app/components/AutoSlider";
-import {IProgramme} from '../types';
+import { IProgramme } from "../../types";
 
 type Programmes = IProgramme[];
 
@@ -114,7 +114,12 @@ const Programmes = () => {
           <AutoSlider>
             {Programmes.map((Programme, index) => {
               return (
-                <div className={`flex gap-5 px-3 text-white h-[50vh] keen-slider__slide number-slide${index+1}`} key={Programme.id}>
+                <div
+                  className={`flex gap-5 px-3 text-white h-[50vh] keen-slider__slide number-slide${
+                    index + 1
+                  }`}
+                  key={Programme.id}
+                >
                   <div className="w-[55%] aspect-video">
                     <iframe
                       width="100%"
@@ -127,7 +132,7 @@ const Programmes = () => {
                     ></iframe>
                   </div>
                   <div>
-                    <Description description={Programme.description}/>
+                    <Description description={Programme.description} />
                   </div>
                 </div>
               );
