@@ -1,6 +1,6 @@
 import React from "react";
 import EventCard from "../HomeComponents/EventCard";
-import { IEventCard } from "../types";
+import { IEventCard } from "../../types";
 
 type IEvents = IEventCard[];
 

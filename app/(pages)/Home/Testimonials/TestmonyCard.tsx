@@ -1,5 +1,5 @@
 import React from "react";
-import {ITestmonyCard} from '../types';
+import { ITestmonyCard } from "../../types";
 
 interface props {
   className?: string;
