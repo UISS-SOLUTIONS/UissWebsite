@@ -1,5 +1,4 @@
 import CallToAction from "@/app/components/CallToAction";
-import Link from "next/link";
 import React from "react";
 
 const LandPage = () => {
