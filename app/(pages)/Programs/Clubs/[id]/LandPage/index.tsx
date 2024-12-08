@@ -1,3 +1,4 @@
+import CallToAction from "@/app/components/CallToAction";
 import Link from "next/link";
 import React from "react";
 
@@ -27,12 +28,11 @@ const LandPage = () => {
             itaque quas nam fugiat vero molestiae impedit sed in excepturi quod
             tempore, adipisci reiciendis veritatis error eligendi
           </p>
-          <Link
-            href={"#"}
-            className="px-6 mt-8 py-1.5 bg-ternary w-fit rounded-full font-extrabold text-primary text-xl"
-          >
-            Join Club
-          </Link>
+
+          <CallToAction
+            className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-8"
+            name="Join Club"
+          />
         </div>
       </div>
     </section>
