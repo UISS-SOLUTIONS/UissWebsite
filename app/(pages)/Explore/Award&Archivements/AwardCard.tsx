@@ -17,7 +17,6 @@ const AwardCard : React.FC<props> = ({itemNo,award}) => {
         </p>
         <span className="text-lg font-semibold">
             {award.date}
-          
         </span>
       </div>
       <div className="w-[30%]">

@@ -2,7 +2,7 @@ import React from "react";
 
 const ComingSoon = () => {
   return (
-    <div className="bg-black h-[100vh] flex flex-col justify-center items-center gap-3">
+    <div className="bg-black h-[100vh] flex flex-col justify-center items-center gap-3 -mt-[10vh]">
       <div className="w-[400px] h-[320px]">
         <img src="/hat.png" alt="" className="h-full w-full object-cover"/>
       </div>

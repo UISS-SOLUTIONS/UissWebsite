@@ -40,7 +40,6 @@ export interface ICoreValue {
   description: string;
 }
 
-
 export interface IMemberCard {
   id: number;
   image: string;
@@ -51,7 +50,7 @@ export interface IMemberCard {
     linkedin: string;
     facebook?: string;
     twitter: string;
-  }
+  };
 }
 
 export interface IAwardCard {
@@ -60,4 +59,17 @@ export interface IAwardCard {
   description: string;
   date: string;
   image: string;
+}
+
+export interface IUpdateComponent {
+  id: number;
+  title: string;
+  image: string;
+  date: string;
+  description: string;
+}
+
+export interface IBenefitCard {
+  id: number;
+  title: string;
 }

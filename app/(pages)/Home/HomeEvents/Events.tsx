@@ -35,9 +35,9 @@ const Events = () => {
     },
   ];
   return (
-    <div className="bg-white flex justify-center items-center py-20 text-black">
+    <div className="bg-white flex justify-center items-center py-20 text-black" id="UpcomingEvents">
       <div className="w-[1161px]">
-        <span className=" flex text-4xl cursor-pointer font-semibold border-b-[1px] border-black/30  pb-4 mb-6">
+        <span className=" flex text-5xl font-bold cursor-pointer w-fit border-b-[1px] border-black/30  pb-4 mb-6">
           Upcoming Events
         </span>
         <div className="grid grid-cols-3 gap-16">

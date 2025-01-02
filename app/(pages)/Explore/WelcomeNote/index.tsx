@@ -34,7 +34,7 @@ const WelcomeNote = () => {
     },
   ];
   return (
-    <section className="flex flex-col justify-center items-center relative h-[100vh]">
+    <section className="flex flex-col justify-center items-center relative h-[100vh] -mt-[10vh]">
       <div className="w-full h-full absolute">
         <img
           src="./welcomeBg.jpg"

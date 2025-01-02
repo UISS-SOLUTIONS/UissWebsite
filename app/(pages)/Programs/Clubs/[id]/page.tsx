@@ -10,6 +10,7 @@ const ClubPage = () => {
     <div>
       <LandPage />
       <VisionAndMission />
+      <Quote />
       <Events />
       <Quote />
       <Governance />
