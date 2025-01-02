@@ -54,8 +54,8 @@ const AwardAndArchivement = () => {
     },
   ];
   return (
-    <section className="flex justify-center">
-      <div className="w-[1161px] py-10">
+    <section className="flex justify-center pt-[10vh]" id="ExploreAwardsAchivements">
+      <div className="w-[1161px] ">
         <div className="flex justify-between">
           <span className="text-5xl font-bold border-b-2 pb-2 border-primary/20">
             Awards & Archivements
@@ -64,7 +64,7 @@ const AwardAndArchivement = () => {
             selectOptions.map((selectOption) => <Selector select={selectOption} key={selectOption.id}/>)
           }
         </div>
-        <div className="py-10 flex flex-col gap-10">
+        <div className="py-5 flex flex-col gap-10">
           {awards.map((award, index) => (
             <AwardCard award={award} itemNo={index + 1} key={award.id} />
           ))}

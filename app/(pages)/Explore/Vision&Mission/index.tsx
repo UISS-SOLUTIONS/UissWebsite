@@ -20,7 +20,7 @@ const VisionAndMission = () => {
     },
   ];
   return (
-    <section className="flex flex-col justify-center items-center">
+    <section className="flex flex-col justify-center items-center" id="ExploreVisionMission">
       <div className="bg-ternary w-full flex justify-center py-20">
         <div className="w-[1161px] flex flex-col items-center text-center">
           <span className="text-5xl font-bold">Vision & Mission</span>

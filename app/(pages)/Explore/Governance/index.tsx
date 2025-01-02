@@ -75,8 +75,8 @@ const Governance = () => {
     },
   ];
   return (
-    <section className="flex justify-center">
-      <div className="w-[1161px] pt-10">
+    <section className="flex justify-center pt-[11vh]" id="ExploreGovernance">
+      <div className="w-[1161px]">
         <div className="flex justify-between">
           <span className="text-5xl font-bold border-b-2 pb-2 border-primary/20">
             Governance / Team

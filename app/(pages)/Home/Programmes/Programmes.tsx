@@ -105,7 +105,7 @@ const Programmes = () => {
     },
   ];
   return (
-    <div className="bg-white flex justify-center items-center py-20 text-black">
+    <div className="bg-white flex justify-center items-center py-20 text-black" id="HomeProgrammes">
       <div className="w-[1161px]">
         <span className=" flex text-4xl cursor-pointer font-semibold border-b-[1px] border-black/30  pb-4 mb-4 text-black">
           Explore our programmes
@@ -115,7 +115,7 @@ const Programmes = () => {
             {Programmes.map((Programme, index) => {
               return (
                 <div
-                  className={`flex gap-5 px-3 text-white h-[50vh] keen-slider__slide number-slide${
+                  className={`flex flex-col md:flex-row gap-5 px-3 text-white h-[50vh] keen-slider__slide number-slide${
                     index + 1
                   }`}
                   key={Programme.id}

@@ -3,7 +3,7 @@ import React from "react";
 
 const LandPage = () => {
   return (
-    <section className="flex flex-col justify-center items-center relative h-[100vh]">
+    <section className="flex flex-col justify-center items-center relative h-[100vh] -mt-[10vh]">
       <div className="w-full h-full absolute">
         <img
           src="https://img.freepik.com/free-photo/programer-sitting-desk-with-multiple-screens-running-code-talking-with-colleague-about-artificial-intelligence-algorithm-software-developers-doing-innovative-artificial-intelligence-project_482257-40606.jpg?t=st=1732703708~exp=1732707308~hmac=a98b0188c6ee985047e885f628903429d856a770d4d684e21ec9407ef54b8bda&w=996"

@@ -14,7 +14,7 @@ const TestmonyCard: React.FC<props> = ({
 }) => {
   return (
     <div
-      className={` flex flex-col items-center text-black  keen-slider__slide number-slide${slideNo.toString()} ${className}`}
+      className={`flex flex-col items-center text-black keen-slider__slide number-slide${slideNo.toString()} ${className}`}
     >
       <p className="w-[85%] text-justify pt-8 pb-4 text-base">
         {testmonyCard.description}

@@ -4,7 +4,7 @@ const Constitution = () => {
   return (
     <div>
       <iframe
-        src="/PT2Report.pdf"
+        src="/UISSConstitution.pdf"
         className="w-full h-[100vh]"
       ></iframe>
     </div>

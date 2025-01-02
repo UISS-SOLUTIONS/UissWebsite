@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface INavDropDown {
   id: number;
   name: string;
@@ -21,4 +23,11 @@ export interface SelectProps {
     id: number;
     placeholder: string;
     options: options[]
+}
+
+export interface IDialog {
+  btnTitle: string;
+  dialogTitle: string;
+  children: ReactNode;
+  className: string;
 }

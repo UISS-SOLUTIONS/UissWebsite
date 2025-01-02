@@ -24,7 +24,7 @@ const CoreValues = () => {
     },
   ];
   return (
-    <section className="flex justify-center items-center bg-primary pt-10 pb-20 text-white">
+    <section className="flex justify-center items-center bg-primary pt-[10vh] pb-20 text-white" id="ExploreCoreValues">
       <div className="w-[1161px]">
         <span className="text-5xl font-bold border-b-2 pb-2 border-white/15">
           Our Core Values
