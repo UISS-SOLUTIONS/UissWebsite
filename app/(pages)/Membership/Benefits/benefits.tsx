@@ -1,7 +1,7 @@
 import React from "react";
 import BenefitCard from "../components/benefitCard";
 import { IBenefitCard } from "../../types";
-import { AlertDialogDemo } from "@/app/components/alert";
+import { AlertDialogDemo } from "../../../components/alert";
 
 const Benefits = () => {
   const benefits: IBenefitCard[] = [
