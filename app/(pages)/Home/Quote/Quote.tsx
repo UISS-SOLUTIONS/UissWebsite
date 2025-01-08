@@ -5,7 +5,7 @@ const Quote = () => {
     <div className="bg-[#efb631] flex justify-center items-center pt-10 pb-20 text-black ">
       <div className="w-[1161px] relative">
         <div className="w-full mt-8 flex justify-center">
-          <div className="flex flex-col items-center w-[65%] rounded-lg z-10">
+          <div className="flex flex-col items-center md:w-[65%] rounded-lg z-10">
             <div className="w-[80%]">
               <p className="text-justify pt-8 text-base line-clamp-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
@@ -24,7 +24,7 @@ const Quote = () => {
             </div>
           </div>
         </div>
-      <div className="absolute top-[5%] left-[17%]">
+      <div className="absolute top-[5%] left-[17%] hidden md:block">
         <img src="/quoteBg.svg" alt="" />
       </div>
       </div>

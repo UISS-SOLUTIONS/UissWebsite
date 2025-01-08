@@ -10,7 +10,7 @@ const Sponsors = () => {
             Sponsors & Partners
           </p>
         </div>
-        <div className="flex justify-between items-center py-10">
+        <div className="grid grid-cols-2 space-y-5 px-5 md:flex justify-between items-center py-10">
           <div className="w-[150px] h-[150px]">
             <img src="/Sponsors/brand-shield.svg" alt="Binary Labs" className="w-full h-full"/>
           </div>

@@ -3,8 +3,8 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="flex flex-col justify-center items-center bg-black z-10">
-      <div className="container flex justify-between py-10 border-b-2 border-white/10">
-        <div className="flex flex-col w-[450px]">
+      <div className="container flex flex-col md:flex-row justify-between py-10 border-b-2 border-white/10">
+        <div className="flex flex-col w-[450px] px-5 md:px-0">
           <div className="w-[250px] h-[70px]">
             <img
               src="/UISS_LOGO.png"
@@ -17,7 +17,7 @@ const Footer = () => {
             assumenda obcaecati voluptatem veritatis odio vero. Consequuntur
             quae molestias dolorum non!
           </p>
-          <div className="flex items-center gap-x-5">
+          <div className="flex items-center gap-x-5 pb-5 md:pb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
@@ -49,8 +49,8 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col text-white">
-          <span className="flex font-bold text-xl"> PROGRAMMES</span>
-          <ul className="py-4">
+          <span className="flex font-bold text-xl justify-center md:justify-start"> PROGRAMMES</span>
+          <ul className="py-4 px-5 md:px-0">
             <li className="hover:text-[#efb631] text-white/60 cursor-pointer">
               Software Development Club
             </li>
@@ -66,8 +66,8 @@ const Footer = () => {
           </ul>
         </div>
         <div className="flex flex-col text-white">
-          <span className="flex font-bold text-xl"> QUICK LINKS</span>
-          <ul className="py-4">
+          <span className="flex font-bold text-xl justify-center md:justify-start"> QUICK LINKS</span>
+          <ul className="py-4 px-5 md:px-0">
             <li className="hover:text-[#efb631] text-white/60 cursor-pointer">
               About
             </li>
@@ -83,8 +83,8 @@ const Footer = () => {
           </ul>
         </div>
         <div className="flex flex-col text-white">
-          <span className="flex font-bold text-xl"> CONTACT US</span>
-          <ul className="py-4">
+          <span className="flex font-bold text-xl justify-center md:justify-start"> CONTACT US</span>
+          <ul className="py-4 px-5 md:px-0">
             <li className="hover:text-[#efb631] text-white/60 cursor-pointer flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="w-full flex justify-center items-center">
-        <div className="container flex justify-end">
+        <div className="container flex justify-center md:justify-end">
           <span className="text-white/50 flex py-8">@ {new Date().getFullYear()} UISS Software Development Club</span>
         </div>
       </div>

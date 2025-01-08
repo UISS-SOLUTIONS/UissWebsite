@@ -106,21 +106,21 @@ const Programmes = () => {
   ];
   return (
     <div className="bg-white flex justify-center items-center py-20 text-black" id="HomeProgrammes">
-      <div className="w-[1161px]">
-        <span className=" flex text-4xl cursor-pointer font-semibold border-b-[1px] border-black/30  pb-4 mb-4 text-black">
+      <div className="md:w-[1161px] w-full">
+        <span className="flex justify-center text-center md:justify-start md:text-left text-4xl cursor-pointer font-semibold border-b-[1px] border-black/30  pb-4 mb-4 text-black">
           Explore our programmes
         </span>
-        <div className="bg-black w-full rounded-2xl mt-10 overflow-hidden">
+        <div className="bg-black md:rounded-2xl mt-10 overflow-hidden">
           <AutoSlider>
             {Programmes.map((Programme, index) => {
               return (
                 <div
-                  className={`flex flex-col md:flex-row gap-5 px-3 text-white h-[50vh] keen-slider__slide number-slide${
+                  className={` flex flex-col md:flex-row gap-5 px-3 text-white md:h-[50vh] keen-slider__slide number-slide${
                     index + 1
                   }`}
                   key={Programme.id}
                 >
-                  <div className="w-[55%] aspect-video">
+                  <div className="w-full h-[30vh] md:h-full md:w-[55%] aspect-video">
                     <iframe
                       width="100%"
                       height="100%"

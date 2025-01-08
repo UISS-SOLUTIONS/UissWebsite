@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { IProgrammeDescription } from "../../types";
 
 interface props {
@@ -10,10 +10,9 @@ const Description: React.FC<props> = ({ description }) => {
   const [About, setAbout] = useState<boolean>(true);
   const [Mission, setMission] = useState<boolean>();
   const [Vision, setVision] = useState<boolean>();
-
   return (
     <div className="flex flex-col justify-between items-center h-full">
-      <div>
+      <div className="flex flex-col items-center md:items-start">
         <ul className="flex gap-10 pb-4 pt-8 text-2xl font-bold">
           <li
             className={`cursor-pointer ${

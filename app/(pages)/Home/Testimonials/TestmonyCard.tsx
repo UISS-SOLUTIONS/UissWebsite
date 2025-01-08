@@ -16,7 +16,7 @@ const TestmonyCard: React.FC<props> = ({
     <div
       className={`flex flex-col items-center text-black keen-slider__slide number-slide${slideNo.toString()} ${className}`}
     >
-      <p className="w-[85%] text-justify pt-8 pb-4 text-base">
+      <p className="w-full px-5 md:px-0 md:w-[85%] text-justify pt-8 pb-4 text-base">
         {testmonyCard.description}
       </p>
       <div className="h-[80px] w-[80px] rounded-[50%] overflow-hidden">
