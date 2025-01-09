@@ -43,12 +43,12 @@ const Testimonials = () => {
   ];
   return (
     <div className="bg-black flex justify-center items-center py-20 text-black">
-      <div className="w-[1161px]">
-        <span className=" flex text-4xl cursor-pointer font-semibold border-b-[1px] border-white/30  pb-4 mb-4 text-white">
+      <div className="w-full md:w-[1161px]">
+        <span className=" flex justify-center md:justify-start text-4xl cursor-pointer font-semibold border-b-[1px] border-white/30  pb-4 mb-4 text-white">
           Testimonials
         </span>
-        <div className="bg-black w-full mt-10 flex justify-center">
-          <div className="w-[80%] rounded-lg bg-white">
+        <div className="w-full mt-10 flex justify-center">
+          <div className="w-full md:w-[80%] rounded-lg bg-white">
             <AutoSlider>
               {testimonals.map((testmony, index) => {
                 return (
