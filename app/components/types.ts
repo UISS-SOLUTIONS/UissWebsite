@@ -31,3 +31,7 @@ export interface IDialog {
   children: ReactNode;
   className: string;
 }
+
+export interface IFormContainer{
+  children: ReactNode;
+}
