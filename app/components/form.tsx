@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { IFormContainer } from "./types";
 
 const FormContainer = () => {
   const [formData, setFormData] = useState({});
