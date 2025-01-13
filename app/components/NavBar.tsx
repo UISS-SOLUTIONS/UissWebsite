@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -29,9 +29,17 @@ const NavBar = () => {
           link: "/Explore/#ExploreVisionMission",
         },
         { id: 193, name: "Core Values", link: "/Explore/#ExploreCoreValues" },
-        { id: 194, name: "Awards and Achievements", link: "/Explore/#ExploreAwardsAchivements" },
+        {
+          id: 194,
+          name: "Awards and Achievements",
+          link: "/Explore/#ExploreAwardsAchivements",
+        },
         { id: 195, name: "Constitution", link: "/Constitution" },
-        { id: 196, name: "Governance / team", link: "/Explore/#ExploreGovernance" },
+        {
+          id: 196,
+          name: "Governance / team",
+          link: "/Explore/#ExploreGovernance",
+        },
         { id: 197, name: "Collaboration and Networks", link: "/Explore" },
       ],
     },
@@ -131,14 +139,18 @@ const NavBar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <nav className={`flex justify-center items-center border-b-[1px] border-white/10  top-0 w-full z-50 sticky h-[10vh] ${isScrolled ? 'backdrop-blur-md bg-black/30 shadow-md': ''}`}>
+    <nav
+      className={`flex justify-center items-center border-b-[1px] border-white/10  top-0 w-full z-50 sticky h-[10vh] ${
+        isScrolled ? "backdrop-blur-md bg-black/30 shadow-md" : ""
+      }`}
+    >
       <div className="container flex justify-between items-center">
         <div>
           <Image
@@ -150,7 +162,10 @@ const NavBar = () => {
           />
         </div>
         <div>
-          <ul className="list-none flex gap-x-6">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-8 fill-secondary">
+          <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+        </svg>
+          <ul className="hidden list-none md:flex flex-col md:flex-row gap-x-6">
             {NavLinks.map((NavLink) => {
               if (NavLink.name == "Support Us") {
                 return (
