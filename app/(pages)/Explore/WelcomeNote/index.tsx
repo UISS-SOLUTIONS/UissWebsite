@@ -43,7 +43,7 @@ const WelcomeNote = () => {
         />
       </div>
       <div className="absolute w-full h-full bg-black/85" />
-      <div className="w-[1400px] flex justify-between mt-[100px] z-10">
+      <div className="w-[1400px] flex flex-col md:flex-row items-center justify-between mt-[100px] z-10">
         <div className="text-white w-[60%] flex flex-col p-10">
           <span className="text-4xl font-bold">
             UNIVERSITY OF DAR ES SALAAM ICT STUDENTS&apos; SOCIETY
