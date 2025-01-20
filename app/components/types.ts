@@ -35,3 +35,10 @@ export interface IDialog {
 export interface IFormContainer{
   children: ReactNode;
 }
+
+export interface IModal {
+  children: ReactNode;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+}

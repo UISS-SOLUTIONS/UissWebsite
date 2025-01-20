@@ -1,4 +1,5 @@
 import CallToAction from "@/app/components/CallToAction";
+import CustomForm from "@/app/components/CustomForm";
 import React from "react";
 
 const LandPage = () => {
@@ -12,7 +13,7 @@ const LandPage = () => {
         />
       </div>
       <div className="absolute w-full h-full bg-black/85" />
-      <div className="w-[1400px] flex justify-between mt-20 z-10">
+      <div className="w-[1400px] flex justify-between mt-20 z-50">
         <div className="text-white w-[90%] flex flex-col p-10">
           <span className="text-4xl font-bold">
             UNIVERSITY OF DAR ES SALAAM ICT STUDENTS&apos; SOCIETY
@@ -29,9 +30,11 @@ const LandPage = () => {
           </p>
 
           <CallToAction
-            className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-8"
-            name="Join Club"
-          />
+          className="text-xl px-8 py-2 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-3"
+          name="Join Club"
+        >
+          <CustomForm />
+        </CallToAction>
         </div>
       </div>
     </section>
