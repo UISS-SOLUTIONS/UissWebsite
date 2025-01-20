@@ -1,4 +1,6 @@
 import CallToAction from "@/app/components/CallToAction";
+import CustomForm from "@/app/components/CustomForm";
+import Modal from "@/app/components/modal";
 import React from "react";
 
 const JoinUs = () => {
@@ -11,14 +13,26 @@ const JoinUs = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="bg-black/80 absolute top-0 w-full h-full"/>
-      <div className="z-10 flex flex-col items-center gap-5">
-        <span className="text-5xl font-bold text-secondary text-center">Join the UISS Community: <span className="text-ternary block mt-3">Empowering Ambitions, Inspiring Success</span></span>
-        <p className="w-[60%] text-secondary text-xl text-center">Ready to grow, connect, and make an impact? UISS is where ambitious students unite to innovate, learn, and collaborate. Join a vibrant community that empowers you to develop skills, expand networks, and shape the future. Start your journey with UISS today!</p>
+      <div className="bg-black/80 absolute top-0 w-full h-full" />
+      <div className="z-50 flex flex-col items-center gap-5">
+        <span className="text-5xl font-bold text-secondary text-center">
+          Join the UISS Community:{" "}
+          <span className="text-ternary block mt-3">
+            Empowering Ambitions, Inspiring Success
+          </span>
+        </span>
+        <p className="w-[60%] text-secondary text-xl text-center">
+          Ready to grow, connect, and make an impact? UISS is where ambitious
+          students unite to innovate, learn, and collaborate. Join a vibrant
+          community that empowers you to develop skills, expand networks, and
+          shape the future. Start your journey with UISS today!
+        </p>
         <CallToAction
-            className="text-xl px-8 py-2 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-3"
-            name="Sign Up"
-          />
+          className="text-xl px-8 py-2 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-3"
+          name="Sign Up"
+        >
+          <CustomForm />
+        </CallToAction>
       </div>
     </section>
   );
