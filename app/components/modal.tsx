@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import { IModal } from "./types";
 
 const Modal: React.FC<IModal> = ({ children, isOpen, setIsOpen  }) => {
