@@ -34,10 +34,9 @@ const Index = () => {
             </span>
           </p>
           <Link href={"#HomeProgrammes"}>
-            <CallToAction
-              className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg"
-              name="View Programmes"
-            />
+            <button className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg">
+              View Programmes
+            </button>
           </Link>
         </div>
       </div>

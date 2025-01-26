@@ -104,8 +104,8 @@ const NavBar = () => {
       id: 23,
       name: "News",
       children: [
-        { id: 231, name: "Gallery", link: "/ComingSoon" },
         { id: 232, name: "Updates", link: "/News" },
+        { id: 231, name: "Gallery", link: "/News/#Gallery" },
       ],
     },
     {
