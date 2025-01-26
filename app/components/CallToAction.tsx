@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Modal from "./modal";
-import CustomForm from "./CustomForm";
 
 interface props {
   className: string;
