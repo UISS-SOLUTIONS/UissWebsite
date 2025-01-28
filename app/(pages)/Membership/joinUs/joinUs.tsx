@@ -1,6 +1,5 @@
 import CallToAction from "@/app/components/CallToAction";
 import CustomForm from "@/app/components/CustomForm";
-import Modal from "@/app/components/modal";
 import React from "react";
 
 const JoinUs = () => {
