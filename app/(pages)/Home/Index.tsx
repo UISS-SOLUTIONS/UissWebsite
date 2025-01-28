@@ -5,7 +5,6 @@ import Sponsors from "./Sponsors/Sponsors";
 import Programmes from "./Programmes/Programmes";
 import Testimonials from "./Testimonials/Testimonals";
 import Quote from "./Quote/Quote";
-import CallToAction from "@/app/components/CallToAction";
 import Link from "next/link";
 
 const Index = () => {
