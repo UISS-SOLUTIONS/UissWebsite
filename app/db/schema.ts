@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { year } from "drizzle-orm/mysql-core";
+import { timestamp, year } from "drizzle-orm/mysql-core";
 import { integer, pgTable, text, varchar } from "drizzle-orm/pg-core";
 
 export const sponsors = pgTable("sponsors", {
@@ -56,3 +56,13 @@ export const leadersRelations = relations(leaders, ({ one }) => ({
     references: [position.id],
   }),
 }));
+
+export const users = pgTable("users", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  firstName: varchar({ length: 255 }).notNull(),
+  lastName: varchar({ length: 255 }).notNull(),
+  email: varchar({ length: 255 }).notNull(),
+  password: varchar({ length: 255 }).notNull(),
+  role: varchar({ length: 255 }).notNull(),
+  registeredAt: timestamp().notNull().defaultNow(),
+})
