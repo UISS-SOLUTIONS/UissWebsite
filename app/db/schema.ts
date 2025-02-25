@@ -1,6 +1,13 @@
-import { relations } from "drizzle-orm";
-import { timestamp, year } from "drizzle-orm/mysql-core";
-import { integer, pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { Description } from "@radix-ui/react-alert-dialog";
+import { desc, relations } from "drizzle-orm";
+import { year } from "drizzle-orm/mysql-core";
+import {
+  integer,
+  timestamp,
+  pgTable,
+  text,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const sponsors = pgTable("sponsors", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -65,4 +72,53 @@ export const users = pgTable("users", {
   password: varchar({ length: 255 }).notNull(),
   role: varchar({ length: 255 }).notNull(),
   registeredAt: timestamp().notNull().defaultNow(),
+});
+
+export const userRelations = relations(users, ({ many }) => ({
+  testimonies: many(testimonies),
+  clubs: many(clubs),
+}));
+
+export const testimonies = pgTable("testimonies", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer().notNull(),
+  testimony: text(),
+  postedOn: timestamp().notNull().defaultNow(),
+});
+
+export const testimoniesRelations = relations(testimonies, ({ one }) => ({
+  user: one(users, {
+    fields: [testimonies.userId],
+    references: [users.id],
+  }),
+}));
+
+export const events = pgTable("events", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  clubId: integer().notNull(),
+  title: varchar({ length: 255 }).notNull(),
+  description: text(),
+  date: varchar({ length: 255 }).notNull(),
+  addedon: timestamp().notNull().defaultNow(),
+});
+
+export const clubs = pgTable("clubs", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  visionMissionID: integer().notNull(),
+  title: varchar({ length: 255}).notNull(),
+  description: text(),
+});
+
+export const clubsRelations = relations(clubs, ({ one, many }) => ({
+  users: many(users),
+  visionMission: one(visionMission)
+}));
+
+export const visionMission = pgTable('vision_mission', {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  vision: text(),
+  mission: text(),
+  description: text(),
 })
+
+
