@@ -13,7 +13,7 @@ const JoinUs = () => {
         />
       </div>
       <div className="bg-black/80 absolute top-0 w-full h-full" />
-      <div className="z-50 flex flex-col items-center gap-5">
+      <div className="z-10 flex flex-col items-center gap-5">
         <span className="text-5xl font-bold text-secondary text-center">
           Join the UISS Community:{" "}
           <span className="text-ternary block mt-3">
