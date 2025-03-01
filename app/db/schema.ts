@@ -6,6 +6,7 @@ import {
   text,
   varchar,
   primaryKey,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 // Defines the sponsors table with columns id, logo, and name
@@ -36,7 +37,7 @@ export const heroPage = pgTable("hero_page", {
   section: varchar({ length: 255 }).notNull(),
   heading: varchar({ length: 255 }).notNull(),
   description: text(),
-  backgroundImg: text(),
+  backgroundImg: varchar({length: 255}).notNull(),
 });
 
 // Defines the position table with columns id and title
@@ -61,15 +62,19 @@ export const leaders = pgTable("leaders", {
 });
 
 // Defines the users table with columns id, firstName, lastName, email, password, role, and registeredAt
-export const users = pgTable("users", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  firstName: varchar({ length: 255 }).notNull(),
-  lastName: varchar({ length: 255 }).notNull(),
-  email: varchar({ length: 255 }).notNull(),
-  password: varchar({ length: 255 }).notNull(),
-  role: varchar({ length: 255 }).notNull(),
-  registeredAt: timestamp().notNull().defaultNow(),
-});
+export const users = pgTable(
+  "users",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    firstName: varchar({ length: 255 }).notNull(),
+    lastName: varchar({ length: 255 }).notNull(),
+    email: varchar({ length: 255 }).notNull(),
+    password: varchar({ length: 255 }).notNull(),
+    role: varchar({ length: 255 }).notNull(),
+    registeredAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex().on(table.email)]
+);
 
 // Defines the testimonies table with columns id, userId, testimony, and postedOn
 export const testimonies = pgTable("testimonies", {
@@ -84,7 +89,9 @@ export const testimonies = pgTable("testimonies", {
 // Defines the events table with columns id, clubId, title, description, date, and addedOn
 export const events = pgTable("events", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  clubID: integer().notNull().references(()=> clubs.id),
+  clubID: integer()
+    .notNull()
+    .references(() => clubs.id),
   title: varchar({ length: 255 }).notNull(),
   description: text(),
   date: varchar({ length: 255 }).notNull(),
@@ -172,6 +179,7 @@ export const clubsRelations = relations(clubs, ({ one, many }) => ({
   events: many(events),
 }));
 
+// Defines the relations for the events table, specifying that an event belongs to one club
 export const eventsRelations = relations(events, ({ one }) => ({
   clubs: one(clubs, {
     fields: [events.clubID],
