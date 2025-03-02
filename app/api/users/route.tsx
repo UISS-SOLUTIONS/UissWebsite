@@ -1,5 +1,5 @@
 import { db } from "@/app/db";
-import { users } from "@/app/db/schema";
+import { userClub, users } from "@/app/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(){
@@ -31,6 +31,12 @@ export async function POST(request: NextRequest) {
       })
       .onConflictDoNothing()
       .returning();
+      if(newUser){
+        await db.insert(userClub).values({
+          userID: newUser.id,
+          clubID: body.clubId
+        })
+      }
     return NextResponse.json(newUser, { status: 201 });
   } catch (e) {
     return NextResponse.json(

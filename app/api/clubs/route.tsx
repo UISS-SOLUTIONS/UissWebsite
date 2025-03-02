@@ -1,10 +1,11 @@
 import { db } from "@/app/db";
-import { clubs } from "@/app/db/schema";
+import { clubs, visionMission } from "@/app/db/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const allClubs = await db.select().from(clubs).orderBy(clubs.id);
+    const allClubs = await db.select().from(clubs).orderBy(clubs.id).leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id));
 
     if (allClubs.length === 0) {
       return NextResponse.json(

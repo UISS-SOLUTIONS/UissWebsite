@@ -37,7 +37,7 @@ export const heroPage = pgTable("hero_page", {
   section: varchar({ length: 255 }).notNull(),
   heading: varchar({ length: 255 }).notNull(),
   description: text(),
-  backgroundImg: varchar({length: 255}).notNull(),
+  backgroundImg: varchar({ length: 255 }).notNull(),
 });
 
 // Defines the position table with columns id and title
@@ -103,6 +103,7 @@ export const clubs = pgTable("clubs", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   visionMissionID: integer()
     .notNull()
+    .unique()
     .references(() => visionMission.id),
   title: varchar({ length: 255 }).notNull(),
   description: text(),
