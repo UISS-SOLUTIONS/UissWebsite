@@ -14,12 +14,30 @@ export async function submitForm(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to submit form");
+      throw new Error("Mhhh!! Failed to submit form");
     }
 
     const data = await response.json();
     return { success: true, message: "Hey Form submitted succesfully!", data };
   } catch (e) {
-    throw new Error((e as Error).message || "Something went wrong while submitting the form.");
+    throw new Error(
+      (e as Error).message || "Something went wrong while submitting the form."
+    );
+  }
+}
+
+export async function fetchData(endpoint: string) {
+  try {
+    const response = await fetch(endpoint);
+    if (response.ok) {
+      const data = await response.json();
+      return { success: true, data };
+    } else {
+      throw new Error("Failed to query data");
+    }
+  } catch (e) {
+    throw new Error(
+      (e as Error).message || "Something went wrong when quering data"
+    );
   }
 }
