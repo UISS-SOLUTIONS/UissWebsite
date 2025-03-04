@@ -18,6 +18,9 @@ const SideNav = () => {
           <Link href={"/AdminPanel/AdminPages/Explore"}>
             <li className="cursor-pointer">Explore</li>
           </Link>
+          <Link href={"/AdminPanel/AdminPages/Users"}>
+           <li className="cursor-pointer">Users</li>
+          </Link>
         </div>
       </ul>
     </div>
