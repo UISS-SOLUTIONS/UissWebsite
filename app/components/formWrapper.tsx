@@ -4,9 +4,10 @@ import { toast } from "sonner";
 interface FormWrapperProps {
   onSubmit: (values: Record<string, FormDataEntryValue | null>) => void;
   children: React.ReactNode;
+  className?: string
 }
 
-const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children }) => {
+const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children, className }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -22,7 +23,7 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children }) => {
 
   return (
     <form
-      className="flex flex-col items-center gap-2 bg-[#FAFAFA] rounded-xl shadow-lg"
+      className={className}
       onSubmit={handleSubmit}
     >
       {children}

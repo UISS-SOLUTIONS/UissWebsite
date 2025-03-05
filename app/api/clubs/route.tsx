@@ -5,7 +5,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const allClubs = await db.select().from(clubs).orderBy(clubs.id).leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id));
+    const allClubs = await db
+      .select({
+        id: clubs.id,
+        title: clubs.title,
+        description: clubs.description,
+        vision: visionMission.vision,
+        mission: visionMission.mission,
+        visiondescription: visionMission.description,
+      })
+      .from(clubs)
+      .leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id))
+      .orderBy(clubs.id);
 
     if (allClubs.length === 0) {
       return NextResponse.json(
@@ -16,7 +27,10 @@ export async function GET() {
       return NextResponse.json(allClubs, { status: 200 });
     }
   } catch (e) {
-    return NextResponse.json({ message: (e as Error).message }, { status: 400 });
+    return NextResponse.json(
+      { message: (e as Error).message },
+      { status: 400 }
+    );
   }
 }
 
