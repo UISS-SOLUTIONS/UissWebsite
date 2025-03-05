@@ -1,32 +1,19 @@
-import React from 'react'
-import TabHeader from '../../Components/header'
-
+import React from "react";
+import HomePageForm from "../../Components/homePageForm";
+import ExplorePageForm from "../../Components/explorePageForm";
 
 const WebMaintenance = () => {
-
   return (
-    <TabHeader title='Landing Page'>
-          <form className='flex justify-center gap-2'>
-            <div className='flex flex-col w-[90%] '>
-            <label htmlFor="LandTitle" className='text-xl font-bold pt-5'>Hero Page Title:</label>
-            <input type="text" name="LandTitle" id="" className='py-1 px-2 text-lg focus:outline-none' placeholder='Uiss club' />
-            <label htmlFor="Description" className='text-xl font-bold pt-3'>Hero Page Description:</label>
-            <textarea name="Description" id="" className='p-2 resize-none focus:outline-none' rows={6}/>
-            <button type="submit" className='text-xl px-4 py-1 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-5 items-end'>Submit</button>
-            </div>
-          </form>
-          <span className='flex text-4xl font-bold pb-2 border-b-2 border-black/20 pt-10'>Section One</span>
-          <form className='flex justify-center gap-2'>
-            <div className='flex flex-col w-[90%]'>
-            <label htmlFor="SectionOneTitle" className='text-xl font-bold pt-5'>Section One Title:</label>
-            <input type="text" name="SectionOneTitle" id="" className='py-1 px-2 text-lg focus:outline-none' placeholder='It Starts With You' />
-            <label htmlFor="Description" className='text-xl font-bold pt-3'>Section One Description:</label>
-            <textarea name="Description" id="" className='p-2 resize-none focus:outline-none' rows={6}/>
-            <button type="submit" className='text-xl px-4 py-1 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-5 items-end'>Submit</button>
-            </div>
-          </form>
-    </TabHeader>
-  )
-}
+    <>
+      <div className="bg-[#FAFAFA] rounded-md shadow-lg mx-10 py-3 px-8 text-3xl font-bold mb-7">
+       <span className="text-ternary">Forms / </span><span>Pages</span>
+      </div>
+      <div className="grid grid-cols-2 gap-7 mx-10">
+        <HomePageForm />
+        <ExplorePageForm />
+      </div>
+    </>
+  );
+};
 
-export default WebMaintenance
+export default WebMaintenance;

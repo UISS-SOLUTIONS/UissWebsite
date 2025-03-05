@@ -8,10 +8,12 @@ interface props {
 const AdminLayout = ({ children }: props) => {
   return (
     <div className="w-full h-[100vh] bg-primary flex justify-between">
-      <div className="w-[15%]">
+      <div className="w-[18%]">
         <SideNav />
       </div>
-      <div className="rounded-l-xl bg-slate-200 w-[85%] overflow-auto">{children}</div>
+      <div className="bg-[#E1ECE9] w-[82%]">
+        <div className="my-[3vh]">{children}</div>
+      </div>
     </div>
   );
 };
