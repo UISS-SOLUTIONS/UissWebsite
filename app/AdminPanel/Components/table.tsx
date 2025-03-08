@@ -1,23 +1,29 @@
 "use client";
 import { fetchData } from "@/app/actions";
-import CallToAction from "@/app/components/CallToAction";
 import React, { useEffect, useState } from "react";
 import EditIcon from "./editIcon";
-import FormWrapper from "@/app/components/formWrapper";
+import AddIcon from "./addIcon";
+import CoreValueForm from "./coreValueForm";
+import AddUserForm from "./addUserForm";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface props {
   title: string;
   endpoint: string;
   action?: boolean;
+  view?: boolean;
 }
 
 const TableComponent: React.FC<props> = ({
   title,
   endpoint,
   action = false,
+  view = false,
 }) => {
   const [data, setdata] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
 
   useEffect(() => {
     const loadData = async () => {
@@ -61,15 +67,12 @@ const TableComponent: React.FC<props> = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search users..."
           />
-          <div className="p-3 text-2xl bg-ternary/90 cursor-pointer font-extrabold rounded-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-              className="size-4"
-            >
-              <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
-            </svg>
-          </div>
+          <AddIcon>
+            {pathname === "/AdminPanel/AdminPages/Users" && <AddUserForm />}
+            {pathname === "/AdminPanel/AdminPages/CoreValues" && (
+              <CoreValueForm add />
+            )}
+          </AddIcon>
         </div>
       </div>
       <div className="w-full flex flex-col items-center pb-5">
@@ -81,7 +84,7 @@ const TableComponent: React.FC<props> = ({
                   {header.charAt(0).toUpperCase() + header.slice(1)}
                 </td>
               ))}
-              {action && <td className="py-3">Action</td>}
+              {(action || view) && <td className="py-3">Action</td>}
             </tr>
           </thead>
           <tbody>
@@ -99,40 +102,20 @@ const TableComponent: React.FC<props> = ({
                   {action && (
                     <td className="py-3">
                       <EditIcon>
-                        <FormWrapper onSubmit={(e) => console.log(e.values)}>
-                          <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
-                            Core Value
-                          </span>
-                          <div className="flex flex-col gap-2 py-5">
-                            <label
-                              htmlFor="value"
-                              className="text-xl font-bold"
-                            >
-                              Value:
-                            </label>
-                            <input
-                              type="text"
-                              name="value"
-                              id=""
-                              className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-                              value={"Creativity"}
-                            />
-                            <label
-                              htmlFor="description"
-                              className="text-xl font-bold"
-                            >
-                              Description:
-                            </label>
-                            <textarea
-                              name="description"
-                              id=""
-                              className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-                              rows={6}
-                            />
-                          </div>
-                        </FormWrapper>
+                        {pathname === "/AdminPanel/AdminPages/CoreValues" && (
+                          <CoreValueForm />
+                        )}
                       </EditIcon>
                     </td>
+                  )}
+                  {view && (
+                    <Link href={`/AdminPanel/AdminPages/Clubs/${data.id}`}>
+                      <td className="py-3">
+                        <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
+                          View
+                        </span>
+                      </td>
+                    </Link>
                   )}
                 </tr>
               ))
