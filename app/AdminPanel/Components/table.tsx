@@ -1,6 +1,5 @@
 "use client";
-import { fetchData } from "@/app/actions";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import EditIcon from "./editIcon";
 import AddIcon from "./addIcon";
 import CoreValueForm from "./coreValueForm";
@@ -10,39 +9,24 @@ import Link from "next/link";
 
 interface props {
   title: string;
-  endpoint: string;
+  endpoint?: string;
   action?: boolean;
   view?: boolean;
+  values: any[];
 }
 
 const TableComponent: React.FC<props> = ({
   title,
-  endpoint,
   action = false,
   view = false,
+  values = [],
 }) => {
-  const [data, setdata] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const response = await fetchData(endpoint);
-        if (response.success) {
-          setdata(response.data);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  const tableHeaders = values.length > 0 ? Object.keys(values[0]) : [];
 
-    loadData();
-  }, [endpoint]);
-
-  const tableHeaders = data.length > 0 ? Object.keys(data[0]) : [];
-
-  const filteredData = data.filter((item) =>
+  const filteredData = values.filter((item) =>
     tableHeaders.some((key) =>
       String(item[key]).toLowerCase().includes(searchQuery.toLowerCase())
     )
@@ -109,13 +93,13 @@ const TableComponent: React.FC<props> = ({
                     </td>
                   )}
                   {view && (
-                    <Link href={`/AdminPanel/AdminPages/Clubs/${data.id}`}>
-                      <td className="py-3">
-                        <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
+                    <td className="py-3">
+                      <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
+                        <Link href={`/AdminPanel/AdminPages/Clubs/${data.id}`}>
                           View
-                        </span>
-                      </td>
-                    </Link>
+                        </Link>
+                      </span>
+                    </td>
                   )}
                 </tr>
               ))

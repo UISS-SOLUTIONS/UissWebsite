@@ -1,11 +1,12 @@
 import { db } from "@/app/db";
-import { clubs, userClub, users } from "@/app/db/schema";
+import { clubs, userClub, users, visionMission } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 // API Route Handler
 export async function GET(
-  { params }: { params: { id?: string } }
+  request: NextRequest,
+  { params }: { params: { id?: string } } // Ensure `params` is optional
 ) {
   try {
     if (!params?.id) {
@@ -28,6 +29,10 @@ export async function GET(
       .select({
         clubId: clubs.id,
         clubName: clubs.title,
+        clubDescription: clubs.description,
+        vision: visionMission.vision,
+                mission: visionMission.mission,
+                visiondescription: visionMission.description,
         userId: users.id,
         firstName: users.firstName,
         lastName: users.lastName,
@@ -36,6 +41,7 @@ export async function GET(
       .from(userClub)
       .innerJoin(users, eq(userClub.userID, users.id))
       .innerJoin(clubs, eq(userClub.clubID, clubs.id))
+      .leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id))
       .where(eq(userClub.clubID, clubId));
 
     if (clubDetails.length === 0) {
@@ -49,6 +55,10 @@ export async function GET(
       {
         clubId: clubDetails[0].clubId,
         clubName: clubDetails[0].clubName,
+        clubDescription: clubDetails[0].clubDescription,
+        vision: clubDetails[0].vision,
+        mission: clubDetails[0].mission,
+        visiondescription: clubDetails[0].visiondescription,
         users: clubDetails.map((row) => ({
           id: row.userId,
           firstName: row.firstName,
