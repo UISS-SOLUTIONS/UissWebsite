@@ -15,7 +15,7 @@ const ExplorePageForm = () => {
         });
       };
   return (
-    <FormWrapper onSubmit={handleFormSubmit}>
+    <FormWrapper onSubmit={handleFormSubmit} className="flex flex-col items-center gap-2 bg-[#FAFAFA] rounded-xl shadow-lg">
         <span className="w-full text-3xl border-b-black/30 border-[1px] uppercase font-bold px-7 py-3">
           Explore
         </span>

@@ -24,6 +24,10 @@ export async function POST(request: NextRequest){
             .values({
                 value: body.value,
                 description: body.description,
+            }).onConflictDoUpdate({
+                target: coreValues.value,
+                set: {
+                    description: body.description,}
             })
             .returning();
         return NextResponse.json(newCoreValue, {status: 201});

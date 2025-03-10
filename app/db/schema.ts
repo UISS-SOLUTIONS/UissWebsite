@@ -27,7 +27,7 @@ export const awardsAndAchievements = pgTable("awards_and_achievements", {
 // Defines the core_values table with columns id, value, and description
 export const coreValues = pgTable("core_values", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  value: varchar({ length: 255 }).notNull(),
+  value: varchar({ length: 255 }).notNull().unique(),
   description: text(),
 });
 
@@ -43,7 +43,7 @@ export const heroPage = pgTable("hero_page", {
 // Defines the position table with columns id and title
 export const position = pgTable("position", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({ length: 255 }).notNull(),
+  title: varchar({ length: 255 }).notNull().unique(),
 });
 
 // Defines the leaders table with columns id, firstName, lastName, positionId, year, facebook, linkedIn, instagram, and twitter

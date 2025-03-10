@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       if(newUser){
         await db.insert(userClub).values({
           userID: newUser.id,
-          clubID: body.clubId
+          clubID: parseInt(body.clubId)
         })
       }
     return NextResponse.json(newUser, { status: 201 });
