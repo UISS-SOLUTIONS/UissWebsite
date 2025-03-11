@@ -3,6 +3,7 @@ import UpcomingEventsCard from "../components/upcomingEventsCards";
 import { fetchData } from "@/app/actions";
 import TableComponent from "@/app/AdminPanel/Components/table";
 import VisionMissionCard from "../components/visionMissionCard";
+import DescriptionCard from "../components/descriptionCard";
 
 const AdminClubDetails = async ({ params }: { params: { id: string } }) => {
   let data: {
@@ -52,16 +53,8 @@ const AdminClubDetails = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className="flex justify-end w-[94%] gap-5 mt-14">
         <div className="w-[60%] flex flex-col justify-between">
-          <div className="bg-white rounded-md shadow-md p-3 ">
-            <span className="text-2xl font-bold">Description</span>
-            <p className="py-2 opacity-60">{data.clubDescription}</p>
-          </div>
-          <div className="bg-white rounded-md shadow-md p-3 mt-5">
-            <span className="text-2xl font-bold">Vision & Mission</span>
-            <p className="py-2 opacity-60 line-clamp-3">
-              {data.visiondescription}
-            </p>
-          </div>
+          <DescriptionCard description={data.clubDescription} title="Description" />
+          <DescriptionCard description={data.visiondescription} title="Vision & Mission"/>
 
           <div className="flex gap-5 mt-5 ">
             <VisionMissionCard title="Vision" description={data.vision} />
