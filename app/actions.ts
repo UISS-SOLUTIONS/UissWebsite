@@ -41,3 +41,23 @@ export async function fetchData(endpoint: string) {
     );
   }
 }
+
+export async function updateData(values: Record<string, FormDataEntryValue | null>, endpoint:string){
+  try{
+    const response = await fetch(endpoint,{
+      method: "PATCH",
+      headers: {
+        contentType: "application/json",
+
+      },
+      body: JSON.stringify(values),
+    })
+    if(!response.ok){
+      throw new Error("Failed to update data");
+    }
+    const data = await response.json();
+    return {success: true, message: "Data updated successfully", data};
+  }catch(e){
+    throw new Error((e as Error).message || "Something went wrong while updating the data");
+  }
+}

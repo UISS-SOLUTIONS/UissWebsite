@@ -19,10 +19,7 @@ export async function GET(
     const clubId = parseInt(params.id);
 
     if (isNaN(clubId)) {
-      return NextResponse.json(
-        { error: "Invalid club ID" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
     }
 
     const clubDetails = await db
@@ -31,8 +28,8 @@ export async function GET(
         clubName: clubs.title,
         clubDescription: clubs.description,
         vision: visionMission.vision,
-                mission: visionMission.mission,
-                visiondescription: visionMission.description,
+        mission: visionMission.mission,
+        visiondescription: visionMission.description,
         userId: users.id,
         firstName: users.firstName,
         lastName: users.lastName,
@@ -45,10 +42,7 @@ export async function GET(
       .where(eq(userClub.clubID, clubId));
 
     if (clubDetails.length === 0) {
-      return NextResponse.json(
-        { error: "Club not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Club not found" }, { status: 404 });
     }
 
     return NextResponse.json(
@@ -73,5 +67,45 @@ export async function GET(
       { error: (error as Error).message || "Internal server error" },
       { status: 500 }
     );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id?: string } }
+) {
+  try {
+    if (!params?.id) {
+      return NextResponse.json(
+        { error: "Missing club ID in URL" },
+        { status: 400 }
+      );
+    }
+
+    const clubId = parseInt(params.id);
+
+    if (isNaN(clubId)) {
+      return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
+    }
+
+    const body = await request.json();
+    const updatedClub = await db
+      .update(clubs)
+      .set(body)
+      .where(eq(clubs.id, clubId))
+      .returning();
+    if (updatedClub.length === 0) {
+      return NextResponse.json({ error: "Club not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: updatedClub[0],
+      },
+      { status: 200 }
+    );
+  } catch (e) {
+    throw new Error((e as Error).message);
   }
 }
