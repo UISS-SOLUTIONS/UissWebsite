@@ -1,6 +1,10 @@
 import React from "react";
+interface props {
+  title: string;
+  date: string;
+}
 
-const UpcomingEventsCard = () => {
+const UpcomingEventsCard: React.FC<props> = ({title, date}) => {
   return (
     <div className="flex py-5 gap-3 w-full border-b-[1px] border-black/20">
       <div className="w-[25%] rounded-md overflow-hidden">
@@ -12,7 +16,7 @@ const UpcomingEventsCard = () => {
       </div>
       <div className=" w-[75%] flex flex-col gap-1">
         <span className="font-bold text-lg">
-          Catch The Flag 2nd Runner up Winner
+          {title}
         </span>
         
         <div className="flex flex-col justify-around">
@@ -53,7 +57,7 @@ const UpcomingEventsCard = () => {
                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
               />
             </svg>
-            <span className="text-black/60 font-semibold">2025-04-20 : 14:00</span>
+            <span className="text-black/60 font-semibold">{date.slice(0,10)} : {date.slice(11, 16)}</span>
           </div>
         </div>
       </div>
