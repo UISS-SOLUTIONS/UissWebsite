@@ -51,7 +51,7 @@ const TableComponent: React.FC<props> = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search users..."
           />
-          <AddIcon>
+          <AddIcon className="p-3 bg-ternary/90 cursor-pointer rounded-md">
             {pathname === "/AdminPanel/AdminPages/Users" && <AddUserForm />}
             {pathname === "/AdminPanel/AdminPages/CoreValues" && (
               <CoreValueForm add />
