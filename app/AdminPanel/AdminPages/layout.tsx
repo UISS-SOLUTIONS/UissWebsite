@@ -12,7 +12,7 @@ const AdminLayout = ({ children }: props) => {
         <SideNav />
       </div>
       <div className="bg-[#E1ECE9] w-[82%] overflow-auto">
-        <div className="my-[3vh]">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );

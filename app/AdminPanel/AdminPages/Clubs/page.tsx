@@ -12,8 +12,11 @@ const Clubs = async () => {
   } catch (e) {
     throw new Error((e as Error).message);
   }
-  return <TableComponent title="Clubs" values={data} view />;
+  return (
+    <div className="my-[3vh]">
+      <TableComponent title="Clubs" values={data} view />;
+    </div>
+  );
 };
 
 export default Clubs;
- 

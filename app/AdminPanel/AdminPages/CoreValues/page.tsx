@@ -14,7 +14,10 @@ const CoreValues = async () => {
   }
 
   return (
-    <TableComponent title="Core Values" values={data} action/>
+    <div className="my-[3vh]">
+
+      <TableComponent title="Core Values" values={data} action/>
+    </div>
   )
 }
 
