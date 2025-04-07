@@ -1,5 +1,5 @@
 "use client";
-import { submitForm, updateData } from "@/app/actions";
+import { updateData } from "@/app/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import { useParams } from "next/navigation";
 import React from "react";

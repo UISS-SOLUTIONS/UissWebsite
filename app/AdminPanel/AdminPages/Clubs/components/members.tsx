@@ -1,6 +1,4 @@
 import { fetchData } from "@/app/actions";
-import TableComponent from "@/app/AdminPanel/Components/table";
-import React from "react";
 
 const ClubMembers = async ({ params }: { params: { id: string } }) => {
   let data: {
