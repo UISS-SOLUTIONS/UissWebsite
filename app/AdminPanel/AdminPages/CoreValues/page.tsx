@@ -1,24 +1,23 @@
-import React from 'react'
-import TableComponent from '../../Components/table'
-import { fetchData } from '@/app/actions';
+import React from "react";
+import TableComponent from "../../Components/table";
+import { fetchData } from "@/app/actions";
 
 const CoreValues = async () => {
   let data: any[] = [];
   try {
-    const response =  await fetchData("http://localhost:3000/api/coreValues")
-    if(response.success){
+    const response = await fetchData("http://localhost:3000/api/coreValues");
+    if (response.success) {
       data = response.data;
     }
-  } catch (e){
-    throw new Error((e as Error).message)
+  } catch (e) {
+    throw new Error((e as Error).message);
   }
 
   return (
     <div className="my-[3vh]">
-
-      <TableComponent title="Core Values" values={data} action/>
+      <TableComponent title="Core Values" values={data} action />
     </div>
-  )
-}
+  );
+};
 
-export default CoreValues
+export default CoreValues;

@@ -19,12 +19,6 @@ export default async function AdminClubDetails({
     vision: string;
     mission: string;
     visiondescription: string;
-    users: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      email: string;
-    }[];
   } = {
     clubId: 0,
     clubName: "",
@@ -32,15 +26,24 @@ export default async function AdminClubDetails({
     vision: "",
     mission: "",
     visiondescription: "",
-    users: [],
   };
+  let users: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }[] = [];
   try {
     const response = await fetchData(`http://localhost:3000/api/clubs/${id}`);
+    const userRes = await fetchData(`http://localhost:3000/api/users/clubUsers/${id}`);
     if (response.success) {
       data = response.data;
     }
+    if(userRes.success) {
+      users = userRes.data;
+    } 
   } catch (e) {
-    throw new Error((e as Error).message);
+    return (e as Error).message;
   }
   return (
     <div className="flex flex-col items-center gap-5">
@@ -50,16 +53,20 @@ export default async function AdminClubDetails({
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="bg-black/75 w-full h-full absolute top-0"/>
+        <div className="bg-black/75 w-full h-full absolute top-0" />
         <div className="absolute top-[35%] left-5 z-10 flex gap-5">
           <div className="w-[150px] h-[150px] bg-orange-600  rounded-full overflow-hidden border-[5px] border-[#E1ECE9]">
-            <img src="https://img.freepik.com/premium-photo/engineer-working-big-cloud-computing-server_249974-14070.jpg?w=900" alt="" className="w-full h-full object-cover"/>
+            <img
+              src="https://img.freepik.com/premium-photo/engineer-working-big-cloud-computing-server_249974-14070.jpg?w=900"
+              alt=""
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex flex-col">
             <span className="text-4xl pt-4 font-bold text-[#E1ECE9]">
               {data.clubName} Club
             </span>
-            <span className="text-xl text-[#E1ECE9] font-semibold">{data.users.length} students</span>
+            <span className="text-xl text-[#E1ECE9] font-semibold">{users.length} students</span>
           </div>
         </div>
       </div>
@@ -88,7 +95,10 @@ export default async function AdminClubDetails({
         </div>
       </div>
       <div className="w-full mt-10">
-        <TableComponent title="Members" values={data.users} />
+        {
+          
+        }
+        <TableComponent title="Members" values={users} />
       </div>
     </div>
   );

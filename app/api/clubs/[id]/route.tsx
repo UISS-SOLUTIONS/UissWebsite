@@ -30,16 +30,16 @@ export async function GET(
         vision: visionMission.vision,
         mission: visionMission.mission,
         visiondescription: visionMission.description,
-        userId: users.id,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        email: users.email,
+        // userId: users.id,
+        // firstName: users.firstName,
+        // lastName: users.lastName,
+        // email: users.email,
       })
-      .from(userClub)
-      .innerJoin(users, eq(userClub.userID, users.id))
-      .innerJoin(clubs, eq(userClub.clubID, clubs.id))
+      .from(clubs)
+      .leftJoin(userClub, eq(userClub.clubID, clubs.id))
+      // .leftJoin(users, eq(userClub.userID, users.id))
       .leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id))
-      .where(eq(userClub.clubID, clubId));
+      .where(eq(clubs.id, clubId));
 
     if (clubDetails.length === 0) {
       return NextResponse.json({ error: "Club not found" }, { status: 404 });
@@ -53,12 +53,13 @@ export async function GET(
         vision: clubDetails[0].vision,
         mission: clubDetails[0].mission,
         visiondescription: clubDetails[0].visiondescription,
-        users: clubDetails.map((row) => ({
-          id: row.userId,
-          firstName: row.firstName,
-          lastName: row.lastName,
-          email: row.email,
-        })),
+      //   users: clubDetails.map((row) => ({
+      //     id: row.userId,
+      //     firstName: row.firstName,
+      //     lastName: row.lastName,
+      //     email: row.email,
+      //   })
+      // ),
       },
       { status: 200 }
     );

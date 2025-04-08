@@ -126,6 +126,7 @@ export const userClub = pgTable(
 // Defines the vision_mission table with columns id, vision, mission, and description
 export const visionMission = pgTable("vision_mission", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar({ length: 10 }).notNull().default(""),
   vision: text(),
   mission: text(),
   description: text(),

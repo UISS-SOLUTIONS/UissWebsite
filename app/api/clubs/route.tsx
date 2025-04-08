@@ -37,17 +37,29 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   try {
-    const [newClub] = await db
-      .insert(clubs)
-      .values({
-        title: body.title,
-        description: body.description,
-        visionMissionID: body.visionMissionID,
-      })
-      .onConflictDoNothing()
-      .returning();
+    let newClub: any[] = []
+    await db.transaction(async (trx) => {
+      const [vision] = await trx
+        .insert(visionMission)
+        .values({
+          vision: body.vision,
+          mission: body.mission,
+          description: body.description,
+        })
+        .returning();
 
-    return NextResponse.json(newClub, { status: 201 });
+      newClub = await trx
+        .insert(clubs)
+        .values({
+          title: body.title,
+          description: body.missiondescription,
+          visionMissionID: vision.id,
+        })
+        .onConflictDoNothing()
+        .returning();
+    });
+
+    return NextResponse.json(newClub[0], { status: 201 });
   } catch (e) {
     return NextResponse.json(
       { message: (e as Error).message },
