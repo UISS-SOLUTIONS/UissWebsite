@@ -26,12 +26,12 @@ export async function submitForm(
   }
 }
 
-export async function fetchData(endpoint: string) {
+export async function fetchData<T = any>(endpoint: string): Promise<{ success: boolean; data: T }> {
   try {
     const response = await fetch(endpoint);
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(`An Error Occured : ${data.error}`);
+      throw new Error(`An error occurred: ${data.error || response.statusText}`);
     }
     return { success: true, data };
   } catch (e) {

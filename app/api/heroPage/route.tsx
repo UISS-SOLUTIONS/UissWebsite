@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const allHeroes = await db.select().from(heroPage);
+    const allHeroes = await db.select().from(heroPage)
     if (allHeroes.length === 0) {
       return NextResponse.json(
         { message: "Sorry!! No hero page found" },
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
       .values({
         section: body.section,
         heading: body.heading,
+        subheading: body.subheading,
         description: body.description,
         backgroundImg: body.backgroundImg,
       })

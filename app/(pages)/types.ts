@@ -36,7 +36,7 @@ export interface IVisionCard {
 
 export interface ICoreValue {
   id: number;
-  title: string;
+  value: string;
   description: string;
 }
 
@@ -72,4 +72,13 @@ export interface IUpdateComponent {
 export interface IBenefitCard {
   id: number;
   title: string;
+}
+
+export interface IHomePage {
+  id:            number;
+  section:       string;
+  heading:       string;
+  subheading:    string;
+  description:   string;
+  backgroundImg: string;
 }

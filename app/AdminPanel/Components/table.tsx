@@ -89,7 +89,7 @@ const TableComponent: React.FC<props> = ({
                     <td className="py-3">
                       <EditIcon>
                         {pathname === "/AdminPanel/AdminPages/CoreValues" && (
-                          <CoreValueForm />
+                          <CoreValueForm data={data} />
                         )}
                       </EditIcon>
                     </td>

@@ -3,12 +3,17 @@ import FormWrapper from "../../components/formWrapper";
 import { submitForm } from "../../actions";
 import { toast } from "sonner";
 
-interface props{
+interface props {
   add?: boolean;
+  data?: {
+    id : number
+    value: string;
+    description: string;  
+  };
 }
 
+const CoreValueForm: React.FC<props> = ({ add, data }) => {
 
-const CoreValueForm:React.FC<props> = ({add}) => {
   const handleSubmit = async (
     values: Record<string, FormDataEntryValue | null>
   ) => {
@@ -21,7 +26,7 @@ const CoreValueForm:React.FC<props> = ({add}) => {
   return (
     <FormWrapper onSubmit={handleSubmit}>
       <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
-        {!add ? "Edit Core Value": "Add Core Value"}
+        {add ? "Add Core Value" : "Edit Core Value"}
       </span>
       <div className="flex flex-col gap-2 py-5">
         <label htmlFor="value" className="text-xl font-bold">
@@ -32,7 +37,8 @@ const CoreValueForm:React.FC<props> = ({add}) => {
           name="value"
           id=""
           className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          defaultValue={add ? "" : "Creativity"}
+          value={add ? "" : data?.value}
+          readOnly={add?false:true}
         />
         <label htmlFor="description" className="text-xl font-bold">
           Description:
@@ -40,6 +46,7 @@ const CoreValueForm:React.FC<props> = ({add}) => {
         <textarea
           name="description"
           id=""
+          defaultValue={add ? "" : data?.description}
           className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
           rows={6}
         />

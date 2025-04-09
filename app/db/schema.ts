@@ -34,8 +34,9 @@ export const coreValues = pgTable("core_values", {
 // Defines the hero_page table with columns id, section, heading, description, and backgroundImg
 export const heroPage = pgTable("hero_page", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  section: varchar({ length: 255 }).notNull().unique(),
-  heading: varchar({ length: 255 }).notNull(),
+  section: varchar({ length: 25 }).notNull().unique(),
+  heading: varchar({ length: 100 }).notNull(),
+  subheading: varchar({length: 30}).notNull(),
   description: text().notNull(),
   backgroundImg: varchar({ length: 255 }).notNull(),
 });
