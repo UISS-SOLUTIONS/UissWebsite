@@ -3,7 +3,10 @@ import { events } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     if (!params?.id) {
       return NextResponse.json(
@@ -23,10 +26,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       .select()
       .from(events)
       .where(eq(events.clubID, clubId));
-    return NextResponse.json(
-       {events: eventsResults},
-      {status: 200} 
-    );
+    return NextResponse.json(eventsResults, { status: 200 });
   } catch (e) {
     throw new Error((e as Error).message);
   }
@@ -62,7 +62,7 @@ export async function POST(
       })
       .returning();
 
-    return NextResponse.json({ success: true, event: event }, { status: 201 });
+    return NextResponse.json(event, { status: 201 });
   } catch (e) {
     throw new Error((e as Error).message);
   }

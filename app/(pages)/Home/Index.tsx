@@ -7,10 +7,11 @@ import Testimonials from "./Testimonials/Testimonals";
 import Quote from "./Quote/Quote";
 import Link from "next/link";
 import { fetchData } from "@/app/actions";
-import { IHomePage } from "../types";
+import { IEventCard, IHomePage } from "../types";
 
 const Index = async () => {
   const {data} = await fetchData<IHomePage>(`${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage/homepage`)
+  const {data: events} = await fetchData<IEventCard[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`)
 
   return (
     <>
@@ -44,7 +45,7 @@ const Index = async () => {
       <ItStartsWithYou />
       <Programmes />
       <Quote />
-      <Events />
+      <Events Events={events} />
       <Testimonials />
       <Sponsors />
     </>

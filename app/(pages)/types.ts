@@ -1,10 +1,12 @@
 export interface IEventCard {
   id: number;
+  clubID: number;
   image: string;
   title: string;
   description: string;
   date?: string;
   venue?: string;
+  addedOn: string;
 }
 
 export interface ITestmonyCard {
