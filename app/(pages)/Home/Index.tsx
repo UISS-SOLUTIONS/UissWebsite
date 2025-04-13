@@ -31,9 +31,6 @@ const Index = async () => {
           </h1>
           <p className="text-center text-xl opacity-80 py-8">
             {data.description}
-            {/* <span className="flex justify-center">
-              Your journey starts here.
-            </span> */}
           </p>
           <Link href={"#HomeProgrammes"}>
             <button className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg">
