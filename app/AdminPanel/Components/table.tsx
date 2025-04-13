@@ -7,6 +7,7 @@ import AddUserForm from "./addUserForm";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AddClub from "../AdminPages/Clubs/components/addClub";
+import AddLeaderForm from "./addLeaderForm";
 
 interface props {
   title: string;
@@ -58,6 +59,7 @@ const TableComponent: React.FC<props> = ({
               <CoreValueForm add />
             )}
             {pathname === "/AdminPanel/AdminPages/Clubs" && (<AddClub/>)}
+            {pathname === "/AdminPanel/AdminPages/Leaders" && (<AddLeaderForm/>)}
           </AddIcon>
         </div>
       </div>
