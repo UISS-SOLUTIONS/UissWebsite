@@ -11,6 +11,10 @@ export async function GET() {
       lastName: leaders.lastName,
       position: position.title,
       year: leaders.year,
+      facebook: leaders.facebook,
+      linkedIn: leaders.linkedIn,
+      instagram: leaders.instagram,
+      twitter: leaders.twitter,
     }).from(leaders).orderBy(leaders.year).innerJoin(position, eq(leaders.positionId, position.id));
     if (allLeaders.length === 0) {
       return NextResponse.json(

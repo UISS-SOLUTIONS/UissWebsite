@@ -8,7 +8,6 @@ import WelcomeNote from "./WelcomeNote"
 import { IVisionCard } from "../types"
 
 const Explore = async () => {
-  const { data } = await fetchData<IVisionCard>(`${process.env.NEXT_PUBLIC_API_ROUTE}/visionMission/3`)
   return (
     <div>
         <WelcomeNote/>

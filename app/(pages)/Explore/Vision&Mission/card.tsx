@@ -15,7 +15,7 @@ const Card: React.FC<props> = ({ card }) => {
           className="h-full w-full object-cover"
         />
       </div>
-      <span className="text-4xl font-bold pt-[100px]">{card.title}</span>
+      <span className="text-4xl font-bold pt-[107px]">{card.title}</span>
       <p className="text-justify py-5">{card.description}</p>
     </div>
   );
