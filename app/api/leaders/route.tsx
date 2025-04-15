@@ -15,6 +15,7 @@ export async function GET() {
       linkedIn: leaders.linkedIn,
       instagram: leaders.instagram,
       twitter: leaders.twitter,
+      imageURL: leaders.imageURL
     }).from(leaders).orderBy(leaders.year).innerJoin(position, eq(leaders.positionId, position.id));
     if (allLeaders.length === 0) {
       return NextResponse.json(
@@ -47,6 +48,7 @@ export async function POST(request: NextRequest) {
         instagram: body.instagram,
         twitter: body.twitter,
         positionId: parseInt(body.positionId),
+        imageURL: body.imageUrl        
       })
       .returning();
     return NextResponse.json(newLeader, { status: 201 });

@@ -64,6 +64,7 @@ export interface ILeader {
   linkedIn:  string;
   instagram: string;
   twitter:   string;
+  imageURL: string;
 }
 
 

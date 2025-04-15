@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { isNull, relations } from "drizzle-orm";
 import {
   integer,
   timestamp,
@@ -60,6 +60,7 @@ export const leaders = pgTable("leaders", {
   linkedIn: varchar({ length: 255 }),
   instagram: varchar({ length: 255 }),
   twitter: varchar({ length: 255 }),
+  imageURL: varchar({length: 100}).default(""),
 });
 
 // Defines the users table with columns id, firstName, lastName, email, password, role, and registeredAt

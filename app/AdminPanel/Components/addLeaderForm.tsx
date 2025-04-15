@@ -38,16 +38,14 @@ const AddLeaderForm = () => {
         .then((res) => res.json())
         .then((data) => {
           values.imageUrl = data.public_id;
-
-          return console.log(values)
-          // submitForm(
-          //   values,
-          //   `${process.env.NEXT_PUBLIC_API_ROUTE}/leaders`
-          // );
+          submitForm(
+            values,
+            `${process.env.NEXT_PUBLIC_API_ROUTE}/leaders`
+          );
         }),
       {
         loading: "Submitting data...",
-        success: (result) => result.message || "Form submitted successfully!",
+        success: (result) =>  "Form submitted successfully!",
         error: (error) => error.message || "Failed to submit form.",
       }
     );

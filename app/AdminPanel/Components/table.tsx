@@ -35,7 +35,7 @@ const TableComponent: React.FC<props> = ({
   );
 
   return (
-    <div className="bg-[#FAFAFA] rounded-xl shadow-lg mx-10">
+    <div className="bg-[#FAFAFA] rounded-xl shadow-lg mx-10 w-[90%]">
       <span className="flex w-full text-3xl border-b-black/30 border-[1px] uppercase font-bold px-7 py-3">
         {title}
       </span>
@@ -58,64 +58,68 @@ const TableComponent: React.FC<props> = ({
             {pathname === "/AdminPanel/AdminPages/CoreValues" && (
               <CoreValueForm add />
             )}
-            {pathname === "/AdminPanel/AdminPages/Clubs" && (<AddClub/>)}
-            {pathname === "/AdminPanel/AdminPages/Leaders" && (<AddLeaderForm/>)}
+            {pathname === "/AdminPanel/AdminPages/Clubs" && <AddClub />}
+            {pathname === "/AdminPanel/AdminPages/Leaders" && <AddLeaderForm />}
           </AddIcon>
         </div>
       </div>
       <div className="w-full flex flex-col items-center pb-5">
-        <table className="table-auto w-[95%]">
-          <thead className="font-bold text-lg">
-            <tr>
-              {tableHeaders.map((header) => (
-                <td key={header} className="py-3">
-                  {header.charAt(0).toUpperCase() + header.slice(1)}
-                </td>
-              ))}
-              {(action || view) && <td className="py-3">Action</td>}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((data, index) => (
-                <tr
-                  key={index}
-                  className="text-lg odd:bg-slate-100 border-y-[1px] border-black/10 text-black/80 "
-                >
-                  {tableHeaders.map((header) => (
-                    <td key={header} className="py-3">
-                      <p className="line-clamp-1 pr-5">{data[header]}</p>
-                    </td>
-                  ))}
-                  {action && (
-                    <td className="py-3">
-                      <EditIcon>
-                        {pathname === "/AdminPanel/AdminPages/CoreValues" && (
-                          <CoreValueForm data={data} />
-                        )}
-                      </EditIcon>
-                    </td>
-                  )}
-                  {view && (
-                    <td className="py-3">
-                      <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
-                        <Link href={`/AdminPanel/AdminPages/Clubs/${data.id}`}>
-                          View
-                        </Link>
-                      </span>
-                    </td>
-                  )}
-                </tr>
-              ))
-            ) : (
+        <div className="overflow-x-auto w-full px-6">
+          <table className="w-full">
+            <thead className="font-bold text-lg">
               <tr>
-                <td colSpan={tableHeaders.length} className="text-center">
-                  No data found
-                </td>
+                {tableHeaders.map((header) => (
+                  <td key={header} className="py-3">
+                    {header.charAt(0).toUpperCase() + header.slice(1)}
+                  </td>
+                ))}
+                {(action || view) && <td className="py-3">Action</td>}
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredData.length > 0 ? (
+                filteredData.map((data, index) => (
+                  <tr
+                    key={index}
+                    className="text-lg odd:bg-slate-100 border-y-[1px] border-black/10 text-black/80"
+                  >
+                    {tableHeaders.map((header) => (
+                      <td key={header} className="py-3">
+                        <p className="line-clamp-1 pr-5">{data[header]}</p>
+                      </td>
+                    ))}
+                    {action && (
+                      <td className="py-3">
+                        <EditIcon>
+                          {pathname === "/AdminPanel/AdminPages/CoreValues" && (
+                            <CoreValueForm data={data} />
+                          )}
+                        </EditIcon>
+                      </td>
+                    )}
+                    {view && (
+                      <td className="py-3">
+                        <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
+                          <Link
+                            href={`/AdminPanel/AdminPages/Clubs/${data.id}`}
+                          >
+                            View
+                          </Link>
+                        </span>
+                      </td>
+                    )}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={tableHeaders.length} className="text-center">
+                    No data found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
         <div className="flex justify-between items-center w-[95%] py-5">
           <span className="col-span-3 font-bold text-lg">
             Showing 1 to 10 of 57 entries

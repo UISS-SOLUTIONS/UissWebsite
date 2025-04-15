@@ -6,11 +6,12 @@ interface props {
   leader: ILeader;
 }
 const MemberCard: React.FC<props> = ({ leader }) => {
+  console.log(leader)
   return (
     <div className="flex flex-col w-[30%] items-center">
       <div className="w-[200px] h-[200px] bg-custom-gradient rounded-full flex justify-center overflow-hidden">
         <img
-          src={ "https://media.istockphoto.com/id/1394375495/photo/young-african-businessman-sitting-in-an-office-at-work.jpg?s=612x612&w=0&k=20&c=FzbEKSKL2Wr4NJfxMViw_SrBGQGaz2ICjhB6i2Yubos="}
+          src={leader.imageURL === "" ? `https://media.istockphoto.com/id/1394375495/photo/young-african-businessman-sitting-in-an-office-at-work.jpg?s=612x612&w=0&k=20&c=FzbEKSKL2Wr4NJfxMViw_SrBGQGaz2ICjhB6i2Yubos=`:`https://res.cloudinary.com/dsuixbwp7/image/upload/${leader.imageURL}.jpg`}
           alt=""
           className="h-full w-full object-cover"
         />
