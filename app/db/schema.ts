@@ -1,4 +1,4 @@
-import { isNull, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   integer,
   timestamp,
@@ -97,6 +97,8 @@ export const events = pgTable("events", {
   title: varchar({ length: 255 }).notNull(),
   description: text(),
   date: varchar({ length: 255 }).notNull(),
+  location: varchar({length: 255}).notNull().default(""),
+  imageURL: varchar({length: 255}).notNull().default(""),
   addedOn: timestamp().notNull().defaultNow(),
 });
 
@@ -109,6 +111,7 @@ export const clubs = pgTable("clubs", {
     .references(() => visionMission.id),
   title: varchar({ length: 255 }).notNull(),
   description: text(),
+  introVidId: varchar({ length: 100 }).notNull().default(""),
 });
 
 // Defines the user_club table with columns userID and clubID intersect of clubs and users table

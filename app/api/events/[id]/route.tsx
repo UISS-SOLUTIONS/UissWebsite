@@ -5,16 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    if (!params?.id) {
-      return NextResponse.json(
-        { error: "Missing an id parameter in URL" },
-        { status: 400 }
-      );
-    }
-    const clubId = parseInt(params.id);
+    const { id } = await params;
+    const clubId = parseInt(id);
     if (isNaN(clubId)) {
       return NextResponse.json(
         { error: "Invalid id provided" },
@@ -34,16 +29,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    if (!params?.id) {
-      return NextResponse.json(
-        { error: "Missing an id parameter in URL" },
-        { status: 400 }
-      );
-    }
-    const clubId = parseInt(params.id);
+    const {id} = await params;
+    const clubId = parseInt(id);
     if (isNaN(clubId)) {
       return NextResponse.json(
         { error: "Invalid id provided" },

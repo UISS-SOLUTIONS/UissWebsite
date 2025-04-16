@@ -7,11 +7,12 @@ import Testimonials from "./Testimonials/Testimonals";
 import Quote from "./Quote/Quote";
 import Link from "next/link";
 import { fetchData } from "@/app/actions";
-import { IEventCard, IHomePage } from "../types";
+import { IHomePage } from "../types";
+import { IEvents } from "@/app/AdminPanel/types";
 
 const Index = async () => {
   const {data} = await fetchData<IHomePage>(`${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage/homepage`)
-  const {data: events} = await fetchData<IEventCard[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`)
+  const {data: events} = await fetchData<IEvents[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`)
 
   return (
     <>

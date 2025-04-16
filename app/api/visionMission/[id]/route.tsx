@@ -5,16 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    if (!params?.id) {
-      return NextResponse.json(
-        { error: "Missing club ID in URL" },
-        { status: 400 }
-      );
-    }
-    const clubId = parseInt(params.id);
+    const { id } = await params;
+    const clubId = parseInt(id);
     if (isNaN(clubId)) {
       return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
     }
@@ -37,8 +32,42 @@ export async function PATCH(
         { status: 404 }
       );
     }
-    return NextResponse.json({success: true, data: updatedvisionMission[0]},{status: 200})
+    return NextResponse.json(
+      { success: true, data: updatedvisionMission[0] },
+      { status: 200 }
+    );
   } catch (e) {
     throw new Error((e as Error).message);
+  }
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const visionMissionID = parseInt(id);
+    if (isNaN(visionMissionID)) {
+      return NextResponse.json(
+        { error: "Invalid Vision Mission Id" },
+        { status: 400 }
+      );
+    }
+    const result = await db
+      .select()
+      .from(visionMission)
+      .where(eq(visionMission.id, visionMissionID));
+
+    if (result.length === 0) {
+      NextResponse.json({ Message: "Sorry!! No Data Found" }, { status: 404 });
+    } else {
+      return NextResponse.json(result, { status: 200 });
+    }
+  } catch (e) {
+    return NextResponse.json(
+      { message: (e as Error).message },
+      { status: 400 }
+    );
   }
 }

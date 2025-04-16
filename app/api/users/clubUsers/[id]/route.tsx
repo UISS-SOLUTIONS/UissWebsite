@@ -5,17 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id?: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    if (!params?.id) {
-      return NextResponse.json(
-        { error: "Missing club ID in URL" },
-        { status: 400 }
-      );
-    }
+    const { id } = await params;
 
-    const clubId = parseInt(params.id);
+    const clubId = parseInt(id);
 
     if (isNaN(clubId)) {
       return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
@@ -33,10 +28,7 @@ export async function GET(
       .where(eq(userClub.clubID, clubId));
 
     if (clubusers.length === 0) {
-      return NextResponse.json(
-        [],
-        { status: 200 }
-      );
+      return NextResponse.json([], { status: 200 });
     }
 
     return NextResponse.json(clubusers, { status: 200 });

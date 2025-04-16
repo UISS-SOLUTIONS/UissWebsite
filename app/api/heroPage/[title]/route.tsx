@@ -3,7 +3,7 @@ import { heroPage } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, {params}: {params: {title: string}}) {
+export async function GET(request: NextRequest, {params}: {params: Promise<{title: string}>}) {
     const {title} = await params;
   try {
     const Heroes = await db.select().from(heroPage).where(eq(heroPage.section, title))
