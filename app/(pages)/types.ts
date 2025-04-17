@@ -1,10 +1,12 @@
 export interface IEventCard {
   id: number;
+  clubID: number;
   image: string;
   title: string;
   description: string;
   date?: string;
   venue?: string;
+  addedOn: string;
 }
 
 export interface ITestmonyCard {
@@ -13,18 +15,6 @@ export interface ITestmonyCard {
   name: string;
   position: string;
   description: string;
-}
-
-export interface IProgrammeDescription {
-  about: string;
-  mission: string;
-  vision: string;
-}
-
-export interface IProgramme {
-  id: number;
-  video: string;
-  description: IProgrammeDescription;
 }
 
 export interface IVisionCard {
@@ -36,7 +26,7 @@ export interface IVisionCard {
 
 export interface ICoreValue {
   id: number;
-  title: string;
+  value: string;
   description: string;
 }
 
@@ -52,6 +42,19 @@ export interface IMemberCard {
     twitter: string;
   };
 }
+export interface ILeader {
+  id:        number;
+  firstName: string;
+  lastName:  string;
+  position:  string;
+  year:      string;
+  facebook:  string;
+  linkedIn:  string;
+  instagram: string;
+  twitter:   string;
+  imageURL: string;
+}
+
 
 export interface IAwardCard {
   id: number;
@@ -73,3 +76,23 @@ export interface IBenefitCard {
   id: number;
   title: string;
 }
+
+export interface IHomePage {
+  id:            number;
+  section:       string;
+  heading:       string;
+  subheading:    string;
+  description:   string;
+  backgroundImg: string;
+}
+
+export interface IClub {
+  id:                number;
+  title:             string;
+  description:       string;
+  introVidId:        string;
+  vision:            string;
+  mission:           string;
+  visiondescription: string;
+}
+

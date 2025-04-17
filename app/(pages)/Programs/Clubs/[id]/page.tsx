@@ -4,14 +4,21 @@ import VisionAndMission from "@/app/(pages)/Explore/Vision&Mission";
 import Governance from "@/app/(pages)/Explore/Governance";
 import Events from "@/app/(pages)/Home/HomeEvents/Events";
 import Quote from "@/app/(pages)/Home/Quote/Quote";
+import { fetchData } from "@/app/actions";
+import { IClubData } from "@/app/components/types";
+import { IEvents } from "@/app/AdminPanel/types";
 
-const ClubPage = () => {
+const ClubPage = async ({ params}: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  const {data} = await fetchData<IClubData>(`${process.env.NEXT_PUBLIC_API_ROUTE}/clubs/${id}`)
+  const {data: events} = await fetchData<IEvents[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`)
+
   return (
     <div>
-      <LandPage />
-      <VisionAndMission />
+      <LandPage title={data.clubName} description={data.clubDescription} />
+      <VisionAndMission visionDescription={data.vision} missionDescription={data.mission} visionMissionDescription={data.visiondescription} />
       <Quote />
-      <Events />
+      <Events Events={events} />
       <Quote />
       <Governance />
     </div>

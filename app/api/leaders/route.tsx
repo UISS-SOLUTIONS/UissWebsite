@@ -1,10 +1,22 @@
 import { db } from "@/app/db";
-import { leaders } from "@/app/db/schema";
+import { leaders, position } from "@/app/db/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const allLeaders = await db.select().from(leaders).orderBy(leaders.year);
+    const allLeaders = await db.select({
+      id: leaders.id,
+      firstName: leaders.firstName,
+      lastName: leaders.lastName,
+      position: position.title,
+      year: leaders.year,
+      facebook: leaders.facebook,
+      linkedIn: leaders.linkedIn,
+      instagram: leaders.instagram,
+      twitter: leaders.twitter,
+      imageURL: leaders.imageURL
+    }).from(leaders).orderBy(leaders.year).innerJoin(position, eq(leaders.positionId, position.id));
     if (allLeaders.length === 0) {
       return NextResponse.json(
         { message: "Sorry!! No leaders found" },
@@ -35,7 +47,8 @@ export async function POST(request: NextRequest) {
         linkedIn: body.linkedIn,
         instagram: body.instagram,
         twitter: body.twitter,
-        positionId: body.positionId,
+        positionId: parseInt(body.positionId),
+        imageURL: body.imageUrl        
       })
       .returning();
     return NextResponse.json(newLeader, { status: 201 });

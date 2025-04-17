@@ -14,11 +14,15 @@ import { SelectProps } from "./types";
 interface props {
   classname?: string;
   select: SelectProps;
+  onChange?: (value: string) => void; // Add onChange prop
 }
-export function Selector({ classname, select }: props) {
+
+export function Selector({ classname, select, onChange }: props) {
   return (
-    <Select>
-      <SelectTrigger className={`${classname != undefined ? {classname} : 'w-[100px]'}`}>
+    <Select onValueChange={(value) => onChange?.(value)}>
+      {" "}
+      {/* Trigger onChange */}
+      <SelectTrigger className={`${classname ? classname : "w-[100px]"}`}>
         <SelectValue placeholder={`${select.placeholder}`} />
       </SelectTrigger>
       <SelectContent>

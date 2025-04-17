@@ -2,7 +2,7 @@ import CallToAction from "@/app/components/CallToAction";
 import CustomForm from "@/app/components/CustomForm";
 import React from "react";
 
-const LandPage = () => {
+const LandPage = ({title, description}:{title:string, description:string}) => {
   return (
     <section className="flex flex-col justify-center items-center relative h-[100vh] -mt-[10vh]">
       <div className="w-full h-full absolute">
@@ -19,14 +19,10 @@ const LandPage = () => {
             UNIVERSITY OF DAR ES SALAAM ICT STUDENTS&apos; SOCIETY
           </span>
           <span className="flex py-5 text-4xl font-bold text-ternary">
-            Software Development Club
+            {title}
           </span>
           <p className="text-xl  opacity-60 w-[80%]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            sapiente optio placeat delectus provident dignissimos, illum quae!
-            Ducimus, eveniet veniam. Asperiores exercitationem porro consequatur
-            itaque quas nam fugiat vero molestiae impedit sed in excepturi quod
-            tempore, adipisci reiciendis veritatis error eligendi
+            {description}
           </p>
 
           <CallToAction

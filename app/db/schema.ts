@@ -34,8 +34,9 @@ export const coreValues = pgTable("core_values", {
 // Defines the hero_page table with columns id, section, heading, description, and backgroundImg
 export const heroPage = pgTable("hero_page", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  section: varchar({ length: 255 }).notNull().unique(),
-  heading: varchar({ length: 255 }).notNull(),
+  section: varchar({ length: 25 }).notNull().unique(),
+  heading: varchar({ length: 100 }).notNull(),
+  subheading: varchar({length: 30}).notNull(),
   description: text().notNull(),
   backgroundImg: varchar({ length: 255 }).notNull(),
 });
@@ -59,6 +60,7 @@ export const leaders = pgTable("leaders", {
   linkedIn: varchar({ length: 255 }),
   instagram: varchar({ length: 255 }),
   twitter: varchar({ length: 255 }),
+  imageURL: varchar({length: 100}).default(""),
 });
 
 // Defines the users table with columns id, firstName, lastName, email, password, role, and registeredAt
@@ -95,6 +97,8 @@ export const events = pgTable("events", {
   title: varchar({ length: 255 }).notNull(),
   description: text(),
   date: varchar({ length: 255 }).notNull(),
+  location: varchar({length: 255}).notNull().default(""),
+  imageURL: varchar({length: 255}).notNull().default(""),
   addedOn: timestamp().notNull().defaultNow(),
 });
 
@@ -107,6 +111,7 @@ export const clubs = pgTable("clubs", {
     .references(() => visionMission.id),
   title: varchar({ length: 255 }).notNull(),
   description: text(),
+  introVidId: varchar({ length: 100 }).notNull().default(""),
 });
 
 // Defines the user_club table with columns userID and clubID intersect of clubs and users table
@@ -126,6 +131,7 @@ export const userClub = pgTable(
 // Defines the vision_mission table with columns id, vision, mission, and description
 export const visionMission = pgTable("vision_mission", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar({ length: 10 }).notNull().default(""),
   vision: text(),
   mission: text(),
   description: text(),

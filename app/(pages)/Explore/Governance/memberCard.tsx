@@ -1,31 +1,32 @@
 import React from "react";
-import { IMemberCard } from "../../types";
+import { ILeader} from "../../types";
 import Link from "next/link";
 
 interface props {
-  member: IMemberCard;
+  leader: ILeader;
 }
-const MemberCard: React.FC<props> = ({ member }) => {
+const MemberCard: React.FC<props> = ({ leader }) => {
+  console.log(leader)
   return (
     <div className="flex flex-col w-[30%] items-center">
       <div className="w-[200px] h-[200px] bg-custom-gradient rounded-full flex justify-center overflow-hidden">
         <img
-          src={`${member.image}`}
+          src={leader.imageURL === "" ? `https://media.istockphoto.com/id/1394375495/photo/young-african-businessman-sitting-in-an-office-at-work.jpg?s=612x612&w=0&k=20&c=FzbEKSKL2Wr4NJfxMViw_SrBGQGaz2ICjhB6i2Yubos=`:`https://res.cloudinary.com/dsuixbwp7/image/upload/${leader.imageURL}.jpg`}
           alt=""
           className="h-full w-full object-cover"
         />
       </div>
       <div className="flex flex-col items-center py-5">
         <span className="text-xl font-semibold">
-          {member.name}
+          {leader.firstName} {leader.lastName}
         </span>
         <span className="text-2xl font-bold">
-          {member.position}
+          {leader.position}
         </span>
       </div>
       <div className="flex justify-around w-[70%]">
-        {member.socials.facebook && (
-          <Link href={member.socials.facebook}>
+        {leader.facebook && (
+          <Link href={leader.facebook}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
@@ -35,8 +36,8 @@ const MemberCard: React.FC<props> = ({ member }) => {
             </svg>
           </Link>
         )}
-        {member.socials.instagram && (
-          <Link href={member.socials.instagram}>
+        {leader.instagram && (
+          <Link href={leader.instagram}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
@@ -46,8 +47,8 @@ const MemberCard: React.FC<props> = ({ member }) => {
             </svg>
           </Link>
         )}
-        {member.socials.linkedin && (
-          <Link href={member.socials.linkedin}>
+        {leader.linkedIn && (
+          <Link href={leader.linkedIn}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
@@ -57,8 +58,8 @@ const MemberCard: React.FC<props> = ({ member }) => {
             </svg>
           </Link>
         )}
-        {member.socials.twitter && (
-          <Link href={member.socials.twitter}>
+        {leader.twitter && (
+          <Link href={leader.twitter}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"

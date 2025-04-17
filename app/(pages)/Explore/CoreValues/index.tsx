@@ -1,28 +1,10 @@
 import React from "react";
 import CoreValueCard from "./coreValueCard";
 import { ICoreValue } from "../../types";
+import { fetchData } from "@/app/actions";
 
-const CoreValues = () => {
-  const coreValues: ICoreValue[] = [
-    {
-      id: 30,
-      title: "Creativity",
-      description:
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure atque,delectus ab fugit maiores laboriosam recusandae temporibus provident dolorum totam, facere eum! Eum alias quod distinctio aliquam modi quibusdam id.",
-    },
-    {
-      id: 31,
-      title: "Innovation",
-      description:
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure atque,delectus ab fugit maiores laboriosam recusandae temporibus provident dolorum totam, facere eum! Eum alias quod distinctio aliquam modi quibusdam id.",
-    },
-    {
-      id: 32,
-      title: "Humanity",
-      description:
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure atque,delectus ab fugit maiores laboriosam recusandae temporibus provident dolorum totam, facere eum! Eum alias quod distinctio aliquam modi quibusdam id.",
-    },
-  ];
+const CoreValues = async() => {
+  const {data} = await fetchData<ICoreValue[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/coreValues`)
   return (
     <section className="flex justify-center items-center bg-primary pt-[10vh] pb-20 text-white" id="ExploreCoreValues">
       <div className="w-[1161px]">
@@ -30,7 +12,7 @@ const CoreValues = () => {
           Our Core Values
         </span>
         <div className="flex justify-between pt-10">
-          {coreValues.map((coreValue) => (
+          {data.map((coreValue) => (
             <CoreValueCard ValueCard={coreValue} key={coreValue.id} />
           ))}
         </div>

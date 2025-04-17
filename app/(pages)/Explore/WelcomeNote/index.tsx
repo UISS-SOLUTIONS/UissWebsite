@@ -1,8 +1,11 @@
+import { fetchData } from "@/app/actions";
 import StatCounter from "@/app/components/Counter";
 import { StatCounterProps } from "@/app/components/types";
 import React from "react";
+import { IHomePage } from "../../types";
 
-const WelcomeNote = () => {
+const WelcomeNote = async() => {
+  const {data} = await fetchData<IHomePage>(`${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage/explore`)
   const stats: StatCounterProps[] = [
     {
       id: 40,
@@ -37,7 +40,7 @@ const WelcomeNote = () => {
     <section className="flex flex-col justify-center items-center relative h-[100vh] -mt-[10vh]">
       <div className="w-full h-full absolute">
         <img
-          src="./welcomeBg.jpg"
+          src={data.backgroundImg}
           alt=""
           className="h-full w-full object-cover"
         />
@@ -46,25 +49,13 @@ const WelcomeNote = () => {
       <div className="w-[1400px] flex flex-col md:flex-row items-center justify-between mt-[100px] z-10">
         <div className="text-white w-[60%] flex flex-col p-10">
           <span className="text-4xl font-bold">
-            UNIVERSITY OF DAR ES SALAAM ICT STUDENTS&apos; SOCIETY
+            {data.heading}
           </span>
           <span className="flex py-5 text-4xl font-bold text-ternary">
-            WELCOME NOTE
+            {data.subheading}
           </span>
           <p className="text-lg text-justify opacity-60">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            sapiente optio placeat delectus provident dignissimos, illum quae!
-            Ducimus, eveniet veniam. Asperiores exercitationem porro consequatur
-            itaque quas nam fugiat vero molestiae impedit sed in excepturi quod
-            tempore, adipisci reiciendis veritatis error eligendi voluptatum
-            voluptas ipsa. Iusto commodi iste odio repudiandae atque facere,
-            aperiam ipsa et soluta, nisi sapiente voluptates enim vero saepe
-            dicta illo perferendis sequi quas quos. Consequuntur qui molestias
-            odit sunt minus blanditiis, quo vitae natus animi soluta numquam
-            commodi inventore quos corrupti dignissimos est nobis corporis
-            tempora ut. Iste unde, autem rerum voluptatibus maiores quos soluta
-            voluptatem nam!quo vitae natus animi soluta numquam commodi
-            inventore quos corrupti dignissimos est nobis corporis tempora ut.
+            {data.description}
           </p>
         </div>
         <div className="w-[40%] flex items-center">

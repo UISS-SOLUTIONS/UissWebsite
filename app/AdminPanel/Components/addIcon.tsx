@@ -1,15 +1,17 @@
+'use client'
 import Modal from "@/app/components/modal";
 import React, { useState } from "react";
 
 interface props {
   children?: React.ReactNode;
+  className: string;
 }
-const AddIcon = ({ children }: props) => {
+const AddIcon = ({ children, className }: props) => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
       <button
-        className="p-3 bg-ternary/90 cursor-pointer rounded-md"
+        className={className}
         onClick={() => setOpenModal(true)}
       >
         <svg

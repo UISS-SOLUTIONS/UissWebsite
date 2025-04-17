@@ -27,15 +27,15 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
           >
             <span
               className={`text-lg font-bold group-hover:text-[#efb631] ${
-                NavDetail.name == "Support Us"
+                NavDetail.title == "Support Us"
                   ? "text-white group-hover:text-black"
                   : ""
               }`}
             >
               {NavDetail.children != undefined ? (
-                <span>{NavDetail.name}</span>
+                <span>{NavDetail.title}</span>
               ) : (
-                <Link href={NavDetail.link || "#"}>{NavDetail.name}</Link>
+                <Link href={NavDetail.link || "#"}>{NavDetail.title}</Link>
               )}
             </span>
             {/* {NavDetail.dropDown && (
@@ -63,15 +63,15 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
                 return (
                   <DropdownMenuSub key={children.id}>
                     <DropdownMenuSubTrigger>
-                      {children.name}
+                      {children.title}
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent>
                         {children.children.map((children) => {
                           return (
-                            <Link href={children.link || '#'} key={children.id}>
+                            <Link href={children.link || '#'} key={children.id} >
                               <DropdownMenuItem>
-                                {children.name}
+                                {children.title}
                               </DropdownMenuItem>
                             </Link>
                           );
@@ -84,7 +84,7 @@ const NavDropDown: React.FC<props> = ({ NavDetail, className }) => {
               return (
                 <Link href={children.link || '#'} key={children.id}>
                   <DropdownMenuItem>
-                    {children.name}
+                    {children.title}
                   </DropdownMenuItem>
                 </Link>
               );

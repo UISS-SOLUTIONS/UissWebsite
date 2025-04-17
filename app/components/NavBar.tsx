@@ -5,125 +5,105 @@ import React, { useEffect, useState } from "react";
 import UissLogo from "@/public/logoUISS.png";
 import UdsmLogo from "@/public/Udsm.png";
 import NavDropDown from "./NavDropDown";
-import { INavDropDown } from "./types";
+import { IClubsData, INavDropDown } from "./types";
+import { fetchData } from "../actions";
 
 const NavBar = () => {
+  const [clubs, setclubs] = useState<IClubsData[]>([])
+  useEffect(() => {
+    const fetchClubsData = async () => {
+      const { data } = await fetchData<IClubsData[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/clubs`);
+      const clubs = data.map((club)=> ({...club, link: `/Programs/Clubs/${club.id}`}))
+      setclubs(clubs)
+    };
+
+    fetchClubsData();
+  }, []);
   const NavLinks: INavDropDown[] = [
     {
       id: 19,
-      name: "Home",
+      title: "Home",
       link: "/",
     },
     {
       id: 20,
-      name: "Explore",
+      title: "Explore",
       children: [
         {
           id: 191,
-          name: "Welcome Note",
+          title: "Welcome Note",
           link: "/Explore",
         },
         {
           id: 192,
-          name: "Vision and Mission",
+          title: "Vision and Mission",
           link: "/Explore/#ExploreVisionMission",
         },
-        { id: 193, name: "Core Values", link: "/Explore/#ExploreCoreValues" },
+        { id: 193, title: "Core Values", link: "/Explore/#ExploreCoreValues" },
         {
           id: 194,
-          name: "Awards and Achievements",
+          title: "Awards and Achievements",
           link: "/Explore/#ExploreAwardsAchivements",
         },
-        { id: 195, name: "Constitution", link: "/Constitution" },
+        { id: 195, title: "Constitution", link: "/Constitution" },
         {
           id: 196,
-          name: "Governance / team",
+          title: "Governance / team",
           link: "/Explore/#ExploreGovernance",
         },
-        { id: 197, name: "Collaboration and Networks", link: "/Explore" },
+        { id: 197, title: "Collaboration and Networks", link: "/Explore" },
       ],
     },
     {
       id: 21,
-      name: "Programmes",
+      title: "Programmes",
       children: [
         {
           id: 211,
-          name: "Podcast",
+          title: "Podcast",
           link: "/ComingSoon",
         },
         {
           id: 212,
-          name: "Clubs",
-          children: [
-            {
-              id: 2121,
-              name: "Software Development Club",
-              link: "/Programs/Clubs/software",
-            },
-            {
-              id: 2122,
-              name: "UI / UX Designing",
-              link: "/Programs/Clubs/ui",
-            },
-            {
-              id: 2123,
-              name: "Cybersecurity Club",
-              link: "/Programs/Clubs/cybersecurity",
-            },
-            {
-              id: 2124,
-              name: "Artificial Intelligence Club",
-              link: "/Programs/Clubs/artificialintelligence",
-            },
-            {
-              id: 2125,
-              name: "Networking Club",
-              link: "/Programs/Clubs/networking",
-            },
-            {
-              id: 2126,
-              name: "Data Science Club",
-              link: "/Programs/Clubs/datascience",
-            },
-          ],
+          title: "Clubs",
+          children: clubs
         },
-        { id: 213, name: "Initiatives", link: "/ComingSoon" },
+        { id: 213, title: "Initiatives", link: "/ComingSoon" },
       ],
     },
     {
       id: 22,
-      name: "Events",
+      title: "Events",
       children: [
-        { id: 221, name: "Annual Timetable", link: "/ComingSoon" },
-        { id: 222, name: "Upcoming Events", link: "/#UpcomingEvents" },
-        { id: 223, name: "Annual Highlights", link: "/ComingSoon" },
+        { id: 221, title: "Annual Timetable", link: "/ComingSoon" },
+        { id: 222, title: "Upcoming Events", link: "/#UpcomingEvents" },
+        { id: 223, title: "Annual Highlights", link: "/ComingSoon" },
       ],
     },
     {
       id: 23,
-      name: "News",
+      title: "News",
       children: [
-        { id: 232, name: "Updates", link: "/News" },
-        { id: 231, name: "Gallery", link: "/News/#Gallery" },
+        { id: 232, title: "Updates", link: "/News" },
+        { id: 231, title: "Gallery", link: "/News/#Gallery" },
       ],
     },
     {
       id: 24,
-      name: "Membership",
+      title: "Membership",
       children: [
-        { id: 241, name: "Benefits", link: "/Membership" },
-        { id: 242, name: "Sign Up", link: "/ComingSoon" },
+        { id: 241, title: "Benefits", link: "/Membership" },
+        { id: 242, title: "Sign Up", link: "/ComingSoon" },
       ],
     },
     {
       id: 25,
-      name: "Support Us",
+      title: "Support Us",
       link: "/ComingSoon",
     },
     {
       id: 26,
-      name: "Admin",
+      title: "Admin",
       link: "/AdminPanel",
     },
   ];
@@ -167,7 +147,7 @@ const NavBar = () => {
         </svg>
           <ul className="hidden list-none md:flex flex-col md:flex-row gap-x-6">
             {NavLinks.map((NavLink) => {
-              if (NavLink.name == "Support Us") {
+              if (NavLink.title == "Support Us") {
                 return (
                   <NavDropDown
                     NavDetail={NavLink}
