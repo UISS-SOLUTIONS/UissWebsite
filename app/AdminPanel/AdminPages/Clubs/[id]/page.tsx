@@ -5,21 +5,16 @@ import VisionMissionCard from "../components/visionMissionCard";
 import DescriptionCard from "../components/descriptionCard";
 import AddEvent from "../components/addEvent";
 import EventList from "../components/eventList";
+import { IClubDetail } from "@/app/AdminPanel/types";
+import { IClubUser } from "@/app/components/types";
 
 export default async function AdminClubDetails({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
-  let data: {
-    clubId: number;
-    clubName: string;
-    clubDescription: string;
-    vision: string;
-    mission: string;
-    visiondescription: string;
-  } = {
+  const { id } = await params;
+  let data: IClubDetail = {
     clubId: 0,
     clubName: "",
     clubDescription: "",
@@ -27,15 +22,10 @@ export default async function AdminClubDetails({
     mission: "",
     visiondescription: "",
   };
-  let users: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-  }[] = [];
+  let users: IClubUser[] = [];
   try {
-    const response = await fetchData(`http://localhost:3000/api/clubs/${id}`);
-    const userRes = await fetchData(`http://localhost:3000/api/users/clubUsers/${id}`);
+    const response = await fetchData<IClubDetail>(`http://localhost:3000/api/clubs/${id}`);
+    const userRes = await fetchData<IClubUser[]>(`http://localhost:3000/api/users/clubUsers/${id}`);
     if (response.success) {
       data = response.data;
     }

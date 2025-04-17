@@ -1,11 +1,12 @@
 import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
+import { ICoreValue } from "@/app/(pages)/types";
 
 const CoreValues = async () => {
-  let data: any[] = [];
+  let data : ICoreValue[] = [];
   try {
-    const response = await fetchData("http://localhost:3000/api/coreValues");
+    const response = await fetchData<ICoreValue[]>("http://localhost:3000/api/coreValues");
     if (response.success) {
       data = response.data;
     }

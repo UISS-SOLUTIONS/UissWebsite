@@ -1,12 +1,24 @@
 import { submitForm } from "@/app/actions";
 import FormWrapper from "@/app/components/formWrapper";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
 const AddClub = () => {
+  const [error, setError] = useState("");
   const handleSubmit = async (
     values: Record<string, FormDataEntryValue | null>
   ) => {
+    if (
+      typeof values.introVidId === "string" &&
+      values.introVidId.includes("youtu.be/")
+    ) {
+      values = {
+        ...values,
+        introVidId: values.introVidId.split("youtu.be/")[1],
+      };
+    } else {
+      setError("Invalid URL Provided");
+    }
     toast.promise(submitForm(values, "http://localhost:3000/api/clubs"), {
       loading: "Submitting data...",
       success: (result) => result.message || "Form submitted successfully!",
@@ -27,8 +39,23 @@ const AddClub = () => {
             type="text"
             name="title"
             id=""
+            required
             className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
           />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="introVidId" className="text-xl font-bold">
+            Introduction Video Link:
+          </label>
+          <input
+            type="text"
+            name="introVidId"
+            id=""
+            required
+            placeholder="https://youtu.be/kVQSdLgd1rM?si=-zvR9ammHmx7Iqk7"
+            className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+          />
+          {error !== "" && <span className="text-xl font-bold text-red-700">{error}</span>}
         </div>
         <div className="flex flex-col">
           <label htmlFor="description" className="text-xl font-bold pt-1">
@@ -37,6 +64,7 @@ const AddClub = () => {
           <textarea
             name="description"
             id=""
+            required
             className="p-2 text-base resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
             rows={4}
           />
@@ -49,6 +77,7 @@ const AddClub = () => {
             <textarea
               name="mission"
               id=""
+              required
               className="p-2 text-base w-full resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
               rows={4}
             />
@@ -60,18 +89,23 @@ const AddClub = () => {
             <textarea
               name="vision"
               id=""
+              required
               className="p-2 text-base w-full resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
               rows={4}
             />
           </div>
         </div>
         <div className="flex flex-col">
-          <label htmlFor="missiondescription" className="text-xl font-bold pt-1">
+          <label
+            htmlFor="missiondescription"
+            className="text-xl font-bold pt-1"
+          >
             Mission & Vision Description:
           </label>
           <textarea
             name="missiondescription"
             id=""
+            required
             className="p-2 text-base resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
             rows={4}
           />

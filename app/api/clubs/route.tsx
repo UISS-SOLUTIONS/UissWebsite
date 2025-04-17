@@ -1,3 +1,4 @@
+import { INewClub } from "@/app/AdminPanel/types";
 import { db } from "@/app/db";
 import { clubs, visionMission } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
@@ -10,6 +11,7 @@ export async function GET() {
         id: clubs.id,
         title: clubs.title,
         description: clubs.description,
+        introVidId: clubs.introVidId,
         vision: visionMission.vision,
         mission: visionMission.mission,
         visiondescription: visionMission.description,
@@ -37,14 +39,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   try {
-    let newClub: any[] = []
+    let newClub: INewClub[] = []
     await db.transaction(async (trx) => {
       const [vision] = await trx
         .insert(visionMission)
         .values({
           vision: body.vision,
           mission: body.mission,
-          description: body.description,
+          description: body.missiondescription,
         })
         .returning();
 
@@ -52,14 +54,16 @@ export async function POST(request: NextRequest) {
         .insert(clubs)
         .values({
           title: body.title,
-          description: body.missiondescription,
+          description: body.description,
           visionMissionID: vision.id,
+          introVidId: body.introVidId,
         })
         .onConflictDoNothing()
-        .returning();
+        .returning()
+        
     });
 
-    return NextResponse.json(newClub[0], { status: 201 });
+    return NextResponse.json(newClub, { status: 201 });
   } catch (e) {
     return NextResponse.json(
       { message: (e as Error).message },

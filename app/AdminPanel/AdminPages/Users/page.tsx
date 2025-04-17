@@ -1,11 +1,14 @@
 import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
+import { IUser } from "@/app/components/types";
 
 const UserList = async () => {
-  let data = [];
+  let data: IUser[] = [];
   try {
-    const response = await fetchData("http://localhost:3000/api/users");
+    const response = await fetchData<IUser[]>(
+      "http://localhost:3000/api/users"
+    );
     if (response.success) {
       data = response.data;
     }

@@ -1,11 +1,12 @@
 import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
+import { IClubsData } from "@/app/components/types";
 
 const Clubs = async () => {
-  let data = [];
+  let data:IClubsData[] = [];
   try {
-    const response = await fetchData("http://localhost:3000/api/clubs");
+    const response = await fetchData<IClubsData[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/clubs`);
     if (response.success) {
       data = response.data;
     }

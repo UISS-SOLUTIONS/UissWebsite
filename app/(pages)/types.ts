@@ -17,18 +17,6 @@ export interface ITestmonyCard {
   description: string;
 }
 
-export interface IProgrammeDescription {
-  about: string;
-  mission: string;
-  vision: string;
-}
-
-export interface IProgramme {
-  id: number;
-  video: string;
-  description: IProgrammeDescription;
-}
-
 export interface IVisionCard {
   id: number;
   title: string;
@@ -97,3 +85,14 @@ export interface IHomePage {
   description:   string;
   backgroundImg: string;
 }
+
+export interface IClub {
+  id:                number;
+  title:             string;
+  description:       string;
+  introVidId:        string;
+  vision:            string;
+  mission:           string;
+  visiondescription: string;
+}
+

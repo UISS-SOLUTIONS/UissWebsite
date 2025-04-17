@@ -26,7 +26,7 @@ export async function submitForm(
   }
 }
 
-export async function fetchData<T = any>(endpoint: string): Promise<{ success: boolean; data: T }> {
+export async function fetchData<T = unknown>(endpoint: string): Promise<{ success: boolean; data: T }> {
   try {
     const response = await fetch(endpoint);
     const data = await response.json();

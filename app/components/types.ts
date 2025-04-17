@@ -49,6 +49,7 @@ export interface IClubsData {
   description:       string;
   vision:            string;
   mission:           string;
+  introVidId: string;
   visiondescription: string;
 }
 
@@ -59,4 +60,29 @@ export interface IClubData {
   vision:            string;
   mission:           string;
   visiondescription: string;
+}
+
+export interface IVisionMission {
+  id: number;
+  vision: string;
+  mission: string;
+  description: string;
+  name: string;
+}
+
+export interface IUser {
+  id:           number;
+  firstName:    string;
+  lastName:     string;
+  email:        string;
+  password:     string;
+  role:         string;
+  registeredAt: Date;
+}
+
+export interface IClubUser {
+  userId:    number;
+  firstName: string;
+  lastName:  string;
+  email:     string;
 }

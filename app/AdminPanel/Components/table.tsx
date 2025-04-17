@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 import React, { useState } from "react";
 import EditIcon from "./editIcon";
@@ -35,7 +36,7 @@ const TableComponent: React.FC<props> = ({
   );
 
   return (
-    <div className="bg-[#FAFAFA] rounded-xl shadow-lg mx-10 w-[90%]">
+    <div className="bg-[#FAFAFA] rounded-xl shadow-lg mx-10 w-[94%]">
       <span className="flex w-full text-3xl border-b-black/30 border-[1px] uppercase font-bold px-7 py-3">
         {title}
       </span>

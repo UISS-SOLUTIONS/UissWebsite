@@ -1,5 +1,5 @@
 "use client";
-import { fetchData, submitForm } from "@/app/actions";
+import { submitForm } from "@/app/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -45,7 +45,7 @@ const AddLeaderForm = () => {
         }),
       {
         loading: "Submitting data...",
-        success: (result) =>  "Form submitted successfully!",
+        success: "Form submitted successfully!",
         error: (error) => error.message || "Failed to submit form.",
       }
     );

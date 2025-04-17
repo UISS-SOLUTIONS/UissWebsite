@@ -1,14 +1,15 @@
 import { fetchData } from "@/app/actions";
 import React from "react";
 import UpcomingEventsCard from "./upcomingEventsCards";
+import { IEvents } from "@/app/AdminPanel/types";
 
 interface props {
   id: string;
 }
 const EventList: React.FC<props> = async ({ id }) => {
-  let events: any[] = [];
+  let events: IEvents[] = [];
   try {
-    const { data } = await fetchData(`http://localhost:3000/api/events/${id}`);
+    const { data } = await fetchData<IEvents[]>(`http://localhost:3000/api/events/${id}`);
     events = data;
   } catch (e) {
     throw new Error((e as Error).message);
@@ -22,6 +23,7 @@ const EventList: React.FC<props> = async ({ id }) => {
               key={event.id}
               title={event.title}
               date={event.date}
+              location={event.location}
             />
           );
         })
