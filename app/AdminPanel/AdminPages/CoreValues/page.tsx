@@ -1,22 +1,21 @@
 import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
-import { ICoreValue } from "@/app/(pages)/types";
+import { ICoreValue, IErrorFormat } from "@/app/(pages)/types";
+import NoResults from "@/app/components/noResults";
 
 const CoreValues = async () => {
-  let data : ICoreValue[] = [];
-  try {
-    const response = await fetchData<ICoreValue[]>("http://localhost:3000/api/coreValues");
-    if (response.success) {
-      data = response.data;
-    }
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  const { data } = await fetchData<ICoreValue[] | IErrorFormat>(
+    "http://localhost:3000/api/coreValues"
+  );
 
   return (
     <div className="my-[3vh]">
-      <TableComponent title="Core Values" values={data} action />
+      {Array.isArray(data) ? (
+        <TableComponent title="Core Values" values={data} action />
+      ) : (
+        <NoResults message={data.message} />
+      )}
     </div>
   );
 };
