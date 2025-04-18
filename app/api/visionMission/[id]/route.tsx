@@ -33,7 +33,7 @@ export async function PATCH(
       );
     }
     return NextResponse.json(
-      { success: true, data: updatedvisionMission[0] },
+      updatedvisionMission[0],
       { status: 200 }
     );
   } catch (e) {
@@ -60,7 +60,7 @@ export async function GET(
       .where(eq(visionMission.id, visionMissionID));
 
     if (result.length === 0) {
-      NextResponse.json({ Message: "Sorry!! No Data Found" }, { status: 404 });
+      return NextResponse.json({ Message: "Sorry!! No Data Found" }, { status: 404 });
     } else {
       return NextResponse.json(result, { status: 200 });
     }
