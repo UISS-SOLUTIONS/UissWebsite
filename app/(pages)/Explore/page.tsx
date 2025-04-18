@@ -8,21 +8,21 @@ import WelcomeNote from "./WelcomeNote";
 import { IVisionMission } from "@/app/components/types";
 
 const Explore = async () => {
-  const { data: VisionMission } = await fetchData<IVisionMission>(
+  const { success, data: VisionMission } = await fetchData<IVisionMission>(
     `${process.env.NEXT_PUBLIC_API_ROUTE}/visionMission/11`
   );
   return (
     <div>
       <WelcomeNote />
-      <VisionAndMission
+      {success && <VisionAndMission
         visionDescription={VisionMission.vision}
         missionDescription={VisionMission.mission}
         visionMissionDescription={VisionMission.description}
-      />
+      />}
       <CoreValues />
       <AwardAndArchivement />
       <Quote />
-      <Governance />
+      {/* <Governance /> */}
     </div>
   );
 };

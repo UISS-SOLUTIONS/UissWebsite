@@ -9,7 +9,7 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{titl
     const Heroes = await db.select().from(heroPage).where(eq(heroPage.section, title))
     if (Heroes.length === 0) {
       return NextResponse.json(
-        { message: "Sorry!! No hero page found" },
+        { message: "Sorry!! HeroPage Not Found" },
         { status: 404 }
       );
     } else {

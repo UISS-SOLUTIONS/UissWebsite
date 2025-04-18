@@ -84,6 +84,7 @@ export interface IHomePage {
   subheading:    string;
   description:   string;
   backgroundImg: string;
+  message: string;
 }
 
 export interface IClub {
@@ -96,3 +97,6 @@ export interface IClub {
   visiondescription: string;
 }
 
+export interface IErrorFormat {
+  message: string;
+}

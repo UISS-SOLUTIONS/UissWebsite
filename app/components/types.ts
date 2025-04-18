@@ -68,6 +68,7 @@ export interface IVisionMission {
   mission: string;
   description: string;
   name: string;
+  message:string;
 }
 
 export interface IUser {
