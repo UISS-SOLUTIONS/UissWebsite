@@ -6,7 +6,7 @@ export async function GET() {
     try {
         const allCoreValues = await db.select().from(coreValues);
         if (allCoreValues.length === 0) {
-            return NextResponse.json({ message: "Sorry!! No coreValues found" }, { status: 404 });
+            return NextResponse.json({ message: "Sorry!! No Core Values Found" }, { status: 404 });
         } else {
             return NextResponse.json(allCoreValues, { status: 200 });
         }

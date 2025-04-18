@@ -9,41 +9,52 @@ import Link from "next/link";
 import { fetchData } from "@/app/actions";
 import { IHomePage } from "../types";
 import { IEvents } from "@/app/AdminPanel/types";
+import HomepageError from "@/app/components/homepageError";
 
 const Index = async () => {
-  const {data} = await fetchData<IHomePage>(`${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage/homepage`)
-  const {data: events} = await fetchData<IEvents[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`)
+  const { success, data } = await fetchData<IHomePage>(
+    `${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage/homepage`
+  );
+  const { data: events } = await fetchData<IEvents[]>(
+    `${process.env.NEXT_PUBLIC_API_ROUTE}/events`
+  );
 
   return (
     <>
       <div className="w-full h-[100vh] relative -mt-[10vh]">
-        <img
-          src={data.backgroundImg}
-          alt="coict pic"
-          className="w-full h-full object-cover"
-        />
-        <div className="bg-black/80 absolute w-full h-[100vh] top-0 " />
-        <div className="text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-[90%] md:w-fit">
-          <h1 className="text-4xl font-bold md:text-7xl ">
-            {data.heading}
-            <span className="flex justify-center text-[#efb631]">
-              {data.subheading}
-            </span>
-          </h1>
-          <p className="text-center text-xl opacity-80 py-8">
-            {data.description}
-          </p>
-          <Link href={"#HomeProgrammes"}>
-            <button className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg">
-              View Programmes
-            </button>
-          </Link>
-        </div>
+        {!success ? (
+          <HomepageError message={data.message}/>
+        ) : (
+          <>
+            <img
+              src={data.backgroundImg}
+              alt="coict pic"
+              className="w-full h-full object-cover"
+            />
+            <div className="bg-black/80 absolute w-full h-[100vh] top-0 " />
+            <div className="text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-[90%] md:w-fit">
+              <h1 className="text-4xl font-bold md:text-7xl ">
+                {data.heading}
+                <span className="flex justify-center text-[#efb631]">
+                  {data.subheading}
+                </span>
+              </h1>
+              <p className="text-center text-xl opacity-80 py-8">
+                {data.description}
+              </p>
+              <Link href={"#HomeProgrammes"}>
+                <button className="text-xl px-4 py-2 bg-[#efb631] text-black font-bold rounded-lg">
+                  View Programmes
+                </button>
+              </Link>
+            </div>
+          </>
+        )}
       </div>
       <ItStartsWithYou />
       <Programmes />
       <Quote />
-      <Events Events={events} />
+      {Array.isArray(events) && <Events Events={events} />}
       <Testimonials />
       <Sponsors />
     </>
