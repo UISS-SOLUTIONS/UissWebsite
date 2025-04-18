@@ -7,14 +7,24 @@ import UdsmLogo from "@/public/Udsm.png";
 import NavDropDown from "./NavDropDown";
 import { IClubsData, INavDropDown } from "./types";
 import { fetchData } from "../actions";
+import { IErrorFormat } from "../(pages)/types";
 
 const NavBar = () => {
-  const [clubs, setclubs] = useState<IClubsData[]>([])
+  const [clubs, setclubs] = useState<IClubsData[] | IErrorFormat>([]);
   useEffect(() => {
     const fetchClubsData = async () => {
-      const { data } = await fetchData<IClubsData[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/clubs`);
-      const clubs = data.map((club)=> ({...club, link: `/Programs/Clubs/${club.id}`}))
-      setclubs(clubs)
+      const { data } = await fetchData<IClubsData[] | IErrorFormat>(
+        `${process.env.NEXT_PUBLIC_API_ROUTE}/clubs`
+      );
+      if (Array.isArray(data)) {
+        const clubs = data.map((club) => ({
+          ...club,
+          link: `/Programs/Clubs/${club.id}`,
+        }));
+        setclubs(clubs);
+      } else {
+        setclubs(data);
+      }
     };
 
     fetchClubsData();
@@ -66,7 +76,9 @@ const NavBar = () => {
         {
           id: 212,
           title: "Clubs",
-          children: clubs
+          children: Array.isArray(clubs)
+            ? clubs
+            : [{ id: 1, title: clubs.message, link: "#" }],
         },
         { id: 213, title: "Initiatives", link: "/ComingSoon" },
       ],
@@ -142,9 +154,13 @@ const NavBar = () => {
           />
         </div>
         <div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="size-8 fill-secondary">
-          <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            className="size-8 fill-secondary"
+          >
+            <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
+          </svg>
           <ul className="hidden list-none md:flex flex-col md:flex-row gap-x-6">
             {NavLinks.map((NavLink) => {
               if (NavLink.title == "Support Us") {

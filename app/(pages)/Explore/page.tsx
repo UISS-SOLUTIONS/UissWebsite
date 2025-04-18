@@ -22,7 +22,7 @@ const Explore = async () => {
       <CoreValues />
       <AwardAndArchivement />
       <Quote />
-      {/* <Governance /> */}
+      <Governance />
     </div>
   );
 };
