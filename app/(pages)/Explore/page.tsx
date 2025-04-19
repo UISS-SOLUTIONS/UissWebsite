@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchData } from "@/app/actions";
 import Quote from "../Home/Quote/Quote";
 import AwardAndArchivement from "./Award&Archivements";
