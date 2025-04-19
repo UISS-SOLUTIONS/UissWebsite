@@ -8,7 +8,7 @@ const HomePageForm = () => {
     const handleFormSubmit = async (
         values: Record<string, FormDataEntryValue | null>
       ) => {
-        toast.promise(submitForm(values, "http://localhost:3000/api/heroPage"), {
+        toast.promise(submitForm(values, `${process.env.NEXT_API_PUBLIC_ROUTE}/heroPage`), {
           loading: "Submitting data...",
           success: (result) => result.message || "Form submitted successfully!",
           error: (error) => error.message || "Failed to submit form.",

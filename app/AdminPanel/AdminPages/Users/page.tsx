@@ -2,22 +2,19 @@ import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
 import { IUser } from "@/app/components/types";
+import { IErrorFormat } from "@/app/(pages)/types";
 
 const UserList = async () => {
-  let data: IUser[] = [];
-  try {
-    const response = await fetchData<IUser[]>(
-      "http://localhost:3000/api/users"
-    );
-    if (response.success) {
-      data = response.data;
-    }
-  } catch (e) {
-    throw new Error((e as Error).message);
-  }
+  const { data } = await fetchData<IUser[] | IErrorFormat>(
+    `${process.env.NEXT_PUBLIC_API_ROUTE}/users`
+  );
   return (
     <div className="my-[3vh]">
-      <TableComponent title="Users" values={data} />;
+      {Array.isArray(data) ? (
+        <TableComponent title="Users" values={data} />
+      ) : (
+        <TableComponent title="Users" values={[]} />
+      )}
     </div>
   );
 };
