@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import TableComponent from "../../Components/table";
 import { fetchData } from "@/app/actions";
