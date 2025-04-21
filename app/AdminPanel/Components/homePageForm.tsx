@@ -8,7 +8,7 @@ const HomePageForm = () => {
     const handleFormSubmit = async (
         values: Record<string, FormDataEntryValue | null>
       ) => {
-        toast.promise(submitForm(values, `${process.env.NEXT_API_PUBLIC_ROUTE}/heroPage`), {
+        toast.promise(submitForm(values, `${process.env.NEXT_PUBLIC_API_ROUTE}/heroPage`), {
           loading: "Submitting data...",
           success: (result) => result.message || "Form submitted successfully!",
           error: (error) => error.message || "Failed to submit form.",
@@ -29,6 +29,7 @@ const HomePageForm = () => {
             id=""
             className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
             value={"homepage"}
+            readOnly
           />
           <label htmlFor="backgroundImg" className="text-xl font-bold">
             Background Image:
@@ -41,6 +42,7 @@ const HomePageForm = () => {
               "https://plus.unsplash.com/premium_photo-1681494379901-6dc30090cd1b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             }
             className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+            readOnly
           />
           <label htmlFor="heading" className="text-xl font-bold">
             Heading:
@@ -51,6 +53,18 @@ const HomePageForm = () => {
             id=""
             className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
             placeholder="Uiss club"
+            required
+          />
+          <label htmlFor="subheading" className="text-xl font-bold">
+            Sub Heading:
+          </label>
+          <input
+            type="text"
+            name="subheading"
+            id=""
+            className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+            placeholder="One Step at a Time."
+            required
           />
           <label htmlFor="description" className="text-xl font-bold pt-3">
             Description:
@@ -60,6 +74,7 @@ const HomePageForm = () => {
             id=""
             className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
             rows={6}
+            required
           />
         </div>
       </FormWrapper>
