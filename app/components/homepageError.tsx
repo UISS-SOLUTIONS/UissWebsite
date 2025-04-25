@@ -18,7 +18,7 @@ const HomepageError = ({message}:{message: string}) => {
             <img
               src="./plug.png"
               alt=""
-              className="h-[64px] w-[64px] object-cover"
+              className="h-[64px] w-[64px] object-cover hidden md:block"
             />
             {message}
           </p>
