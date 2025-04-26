@@ -104,7 +104,6 @@ const NavBar = () => {
       ],
     },
     { id: 25, title: "Support Us", link: "/ComingSoon" },
-    { id: 26, title: "Admin", link: "/AdminPanel" },
   ];
 
   return (
