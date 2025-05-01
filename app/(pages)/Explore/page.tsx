@@ -10,17 +10,20 @@ import WelcomeNote from "./WelcomeNote";
 import { IVisionMission } from "@/app/components/types";
 
 const Explore = async () => {
-  const { success, data: VisionMission } = await fetchData<IVisionMission>(
-    `${process.env.NEXT_PUBLIC_API_ROUTE}/visionMission/11`
+  const { success, data: VisionMission } = await fetchData<IVisionMission[]>(
+    `${process.env.NEXT_PUBLIC_API_ROUTE}/visionMission/1`
   );
   return (
     <div>
       <WelcomeNote />
-      {success && <VisionAndMission
-        visionDescription={VisionMission.vision}
-        missionDescription={VisionMission.mission}
-        visionMissionDescription={VisionMission.description}
-      />}
+      {success &&
+        VisionMission.map((visionmission) => (
+          <VisionAndMission
+            visionDescription={visionmission.vision}
+            missionDescription={visionmission.mission}
+            visionMissionDescription={visionmission.description}
+          />
+        ))}
       <CoreValues />
       <AwardAndArchivement />
       <Quote />

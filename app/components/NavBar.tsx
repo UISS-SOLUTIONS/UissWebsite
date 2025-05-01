@@ -60,14 +60,14 @@ const NavBar = () => {
         { id: 194, title: "Awards and Achievements", link: "/Explore/#ExploreAwardsAchivements" },
         { id: 195, title: "Constitution", link: "/Constitution" },
         { id: 196, title: "Governance / team", link: "/Explore/#ExploreGovernance" },
-        { id: 197, title: "Collaboration and Networks", link: "/Explore" },
+        // { id: 197, title: "Collaboration and Networks", link: "/Explore" },
       ],
     },
     {
       id: 21,
       title: "Programmes",
       children: [
-        { id: 211, title: "Podcast", link: "/ComingSoon" },
+        // { id: 211, title: "Podcast", link: "/ComingSoon" },
         {
           id: 212,
           title: "Clubs",
@@ -75,26 +75,26 @@ const NavBar = () => {
             ? clubs
             : [{ id: 1, title: clubs.message, link: "#" }],
         },
-        { id: 213, title: "Initiatives", link: "/ComingSoon" },
+        // { id: 213, title: "Initiatives", link: "/ComingSoon" },
       ],
     },
-    {
-      id: 22,
-      title: "Events",
-      children: [
-        { id: 221, title: "Annual Timetable", link: "/ComingSoon" },
-        { id: 222, title: "Upcoming Events", link: "/#UpcomingEvents" },
-        { id: 223, title: "Annual Highlights", link: "/ComingSoon" },
-      ],
-    },
-    {
-      id: 23,
-      title: "News",
-      children: [
-        { id: 232, title: "Updates", link: "/News" },
-        { id: 231, title: "Gallery", link: "/News/#Gallery" },
-      ],
-    },
+    // {
+    //   id: 22,
+    //   title: "Events",
+    //   children: [
+    //     { id: 221, title: "Annual Timetable", link: "/ComingSoon" },
+    //     { id: 222, title: "Upcoming Events", link: "/#UpcomingEvents" },
+    //     { id: 223, title: "Annual Highlights", link: "/ComingSoon" },
+    //   ],
+    // },
+    // {
+    //   id: 23,
+    //   title: "News",
+    //   children: [
+    //     { id: 232, title: "Updates", link: "/News" },
+    //     { id: 231, title: "Gallery", link: "/News/#Gallery" },
+    //   ],
+    // },
     {
       id: 24,
       title: "Membership",
@@ -104,7 +104,6 @@ const NavBar = () => {
       ],
     },
     { id: 25, title: "Support Us", link: "/ComingSoon" },
-    { id: 26, title: "Admin", link: "/AdminPanel" },
   ];
 
   return (
