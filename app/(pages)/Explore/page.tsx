@@ -18,7 +18,7 @@ const Explore = async () => {
       <WelcomeNote />
       {success &&
         VisionMission.map((visionmission) => (
-          <VisionAndMission
+          <VisionAndMission key={visionmission.id}
             visionDescription={visionmission.vision}
             missionDescription={visionmission.mission}
             visionMissionDescription={visionmission.description}
