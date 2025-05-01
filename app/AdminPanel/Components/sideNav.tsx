@@ -14,8 +14,12 @@ const SideNav = () => {
       </div>
       <ul className="flex flex-col items-center justify-between w-full h-full">
         <div className="flex flex-col gap-5 w-[70%] my-[3vh]">
-          <li className="cursor-pointer">Dashboard</li>
-          <li>Maintenance</li>
+          <Link href={"#"}>
+            <li className="cursor-pointer">Dashboard</li>
+          </Link>
+          <Link href={"/AdminPanel"}>
+            <li className="cursor-pointer">Maintenance</li>
+          </Link>
           {/* <Link href={"/AdminPanel/AdminPages/Explore"}>
             <li className="cursor-pointer">Explore</li>
           </Link> */}
@@ -32,7 +36,7 @@ const SideNav = () => {
             <li className="cursor-pointer">Leaders</li>
           </Link>
         </div>
-        <LogOut/>
+        <LogOut />
       </ul>
     </div>
   );

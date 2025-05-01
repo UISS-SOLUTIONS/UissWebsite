@@ -6,14 +6,13 @@ import { toast } from "sonner";
 interface props {
   add?: boolean;
   data?: {
-    id : number
+    id: number;
     value: string;
-    description: string;  
+    description: string;
   };
 }
 
 const CoreValueForm: React.FC<props> = ({ add, data }) => {
-
   const handleSubmit = async (
     values: Record<string, FormDataEntryValue | null>
   ) => {
@@ -37,8 +36,8 @@ const CoreValueForm: React.FC<props> = ({ add, data }) => {
           name="value"
           id=""
           className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          value={add ? "" : data?.value}
-          readOnly={add?false:true}
+          defaultValue={add ? "" : data?.value}
+          readOnly={add ? false : true}
         />
         <label htmlFor="description" className="text-xl font-bold">
           Description:
