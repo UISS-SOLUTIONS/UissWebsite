@@ -3,16 +3,18 @@ import { getToken } from "next-auth/jwt";
 
 
 export async function middleware(request: NextRequest) {
-
   const secret = process.env.AUTH_SECRET;
   const token = await getToken({ req: request, secret });
 
-  const protectedRoutes = ["/AdminPanel"];
+  const protectedRoutes = ["/admin"];
   const isProtectedRoute = protectedRoutes.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
 
-  if (isProtectedRoute && !token) {
+  // Edge check is defense-in-depth only: every mutation re-checks
+  // server-side via lib/requireAdmin.ts (red-team #53).
+  const role = typeof token?.role === "string" ? token.role : undefined;
+  if (isProtectedRoute && (!token || role !== "admin")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -20,5 +22,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/AdminPanel/:path*"],
+  matcher: ["/admin/:path*"],
 };

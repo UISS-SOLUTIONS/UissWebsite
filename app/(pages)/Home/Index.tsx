@@ -8,7 +8,7 @@ import Quote from "./Quote/Quote";
 import Link from "next/link";
 import { fetchData } from "@/app/actions";
 import { IHomePage } from "../types";
-import { IEvents } from "@/app/AdminPanel/types";
+import { IEvents } from "@/app/admin/types";
 import HomepageError from "@/app/components/homepageError";
 
 const Index = async () => {

@@ -1,7 +1,7 @@
 import { fetchData } from "@/app/actions";
 import React from "react";
 import UpcomingEventsCard from "./upcomingEventsCards";
-import { IEvents } from "@/app/AdminPanel/types";
+import { IEvents } from "@/app/admin/types";
 
 interface props {
   id: string;

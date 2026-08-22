@@ -1,5 +1,5 @@
 import React from "react";
-import { IEvents } from "@/app/AdminPanel/types";
+import { IEvents } from "@/app/admin/types";
 
 interface CardProp {
   Card: IEvents;

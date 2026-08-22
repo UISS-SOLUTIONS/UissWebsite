@@ -55,12 +55,12 @@ const TableComponent: React.FC<props> = ({
             placeholder="Search users..."
           />
           <AddIcon className="p-3 bg-ternary/90 cursor-pointer rounded-md">
-            {pathname === "/AdminPanel/AdminPages/Users" && <AddUserForm />}
-            {pathname === "/AdminPanel/AdminPages/CoreValues" && (
+            {pathname === "/admin/AdminPages/Users" && <AddUserForm />}
+            {pathname === "/admin/AdminPages/CoreValues" && (
               <CoreValueForm add />
             )}
-            {pathname === "/AdminPanel/AdminPages/Clubs" && <AddClub />}
-            {pathname === "/AdminPanel/AdminPages/Leaders" && <AddLeaderForm />}
+            {pathname === "/admin/AdminPages/Clubs" && <AddClub />}
+            {pathname === "/admin/AdminPages/Leaders" && <AddLeaderForm />}
           </AddIcon>
         </div>
       </div>
@@ -92,7 +92,7 @@ const TableComponent: React.FC<props> = ({
                     {action && (
                       <td className="py-3">
                         <EditIcon>
-                          {pathname === "/AdminPanel/AdminPages/CoreValues" && (
+                          {pathname === "/admin/AdminPages/CoreValues" && (
                             <CoreValueForm data={data} />
                           )}
                         </EditIcon>
@@ -102,7 +102,7 @@ const TableComponent: React.FC<props> = ({
                       <td className="py-3">
                         <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
                           <Link
-                            href={`/AdminPanel/AdminPages/Clubs/${data.id}`}
+                            href={`/admin/AdminPages/Clubs/${data.id}`}
                           >
                             View
                           </Link>

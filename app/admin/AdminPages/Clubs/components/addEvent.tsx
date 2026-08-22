@@ -1,6 +1,6 @@
 "use client";
 import { submitForm } from "@/app/actions";
-import AddIcon from "@/app/AdminPanel/Components/addIcon";
+import AddIcon from "@/app/admin/Components/addIcon";
 import FormWrapper from "@/app/components/formWrapper";
 import { useParams } from "next/navigation";
 import React from "react";

@@ -1,6 +1,6 @@
 import React from "react";
 import EventCard from "../HomeComponents/EventCard";
-import { IEvents } from "@/app/AdminPanel/types";
+import { IEvents } from "@/app/admin/types";
 
 interface props {
   Events?: IEvents[];

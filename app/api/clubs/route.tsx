@@ -1,4 +1,6 @@
-import { INewClub } from "@/app/AdminPanel/types";
+import { requireAdmin } from "@/lib/requireAdmin";
+
+import { INewClub } from "@/app/admin/types";
 import { db } from "@/app/db";
 import { clubs, visionMission } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
@@ -37,6 +39,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
   const body = await request.json();
   try {
     let newClub: INewClub[] = []

@@ -6,7 +6,7 @@ import Events from "@/app/(pages)/Home/HomeEvents/Events";
 import Quote from "@/app/(pages)/Home/Quote/Quote";
 import { fetchData } from "@/app/actions";
 import { IClubData } from "@/app/components/types";
-import { IEvents } from "@/app/AdminPanel/types";
+import { IEvents } from "@/app/admin/types";
 
 const ClubPage = async ({ params}: { params: Promise<{ id: string }> }) => {
   const { id } = await params;

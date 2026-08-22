@@ -39,7 +39,7 @@ export default function LoginPage() {
       }
     } else {
       toast.success("Login successful!");
-      window.location.href = "/AdminPanel";
+      window.location.href = "/admin";
     }
   };
 
