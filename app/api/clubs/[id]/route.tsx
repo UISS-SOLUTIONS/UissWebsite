@@ -1,3 +1,5 @@
+import { requireAdmin } from "@/lib/requireAdmin";
+
 import { db } from '@/app/db';
 import { clubs, userClub, visionMission } from '@/app/db/schema';
 import { eq } from 'drizzle-orm';
@@ -56,6 +58,9 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
   try {
     const { id } = await params;
     const clubId = parseInt(id);

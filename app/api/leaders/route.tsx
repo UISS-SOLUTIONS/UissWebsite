@@ -1,3 +1,5 @@
+import { requireAdmin } from "@/lib/requireAdmin";
+
 import { db } from "@/app/db";
 import { leaders, position } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
@@ -34,6 +36,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
   const body = await request.json();
 
   try {

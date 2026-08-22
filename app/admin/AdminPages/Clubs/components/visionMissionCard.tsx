@@ -1,4 +1,4 @@
-import EditIcon from "@/app/AdminPanel/Components/editIcon";
+import EditIcon from "@/app/admin/Components/editIcon";
 import React from "react";
 import UpdateVisionMission from "./updateVisionMission";
 interface props {

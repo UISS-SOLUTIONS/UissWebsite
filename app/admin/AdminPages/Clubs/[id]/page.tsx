@@ -1,11 +1,11 @@
 import React from "react";
 import { fetchData } from "@/app/actions";
-import TableComponent from "@/app/AdminPanel/Components/table";
+import TableComponent from "@/app/admin/Components/table";
 import VisionMissionCard from "../components/visionMissionCard";
 import DescriptionCard from "../components/descriptionCard";
 import AddEvent from "../components/addEvent";
 import EventList from "../components/eventList";
-import { IClubDetail } from "@/app/AdminPanel/types";
+import { IClubDetail } from "@/app/admin/types";
 import { IClubUser } from "@/app/components/types";
 
 export default async function AdminClubDetails({
