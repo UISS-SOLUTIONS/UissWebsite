@@ -12,12 +12,12 @@ export interface IPosition {
 
 export interface IEvents {
   id: number;
-  clubID: number;
+  clubId: number | null;
   title: string;
   description: string;
-  date: string;
-  location: string;
-  imageURL: string;
+  startsAt: string;
+  endsAt: string | null;
+  location: string | null;
   addedOn: Date;
 }
 
@@ -38,7 +38,6 @@ export interface IClubDetail {
 
 export interface INewClub {
   id: number | null;
-  visionMissionID: number | null;
   title: string | null;
   description: string | null;
   introVidId: string | null;

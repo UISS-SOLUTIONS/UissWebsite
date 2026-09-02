@@ -1,7 +1,7 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 
 import { db } from '@/app/db';
-import { clubs, userClub, visionMission } from '@/app/db/schema';
+import { clubs } from '@/app/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -22,13 +22,11 @@ export async function GET(
         clubId: clubs.id,
         clubName: clubs.title,
         clubDescription: clubs.description,
-        vision: visionMission.vision,
-        mission: visionMission.mission,
-        visiondescription: visionMission.description,
+        vision: clubs.vision,
+        mission: clubs.mission,
+        visiondescription: clubs.description,
       })
       .from(clubs)
-      .leftJoin(userClub, eq(userClub.clubID, clubs.id))
-      .leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id))
       .where(eq(clubs.id, clubId));
 
     if (clubDetails.length === 0) {
@@ -70,9 +68,27 @@ export async function PATCH(
     }
 
     const body = await request.json();
+    const changes = {
+      title: body.title,
+      summary: body.summary,
+      description: body.description,
+      vision: body.vision,
+      mission: body.mission,
+      disciplines: body.disciplines,
+      skillLevels: body.skillLevels,
+      schedule: body.schedule,
+      location: body.location,
+      eligibility: body.eligibility,
+      status: body.status,
+      introVidId: body.introVidId,
+      updatedAt: new Date(),
+    };
+    const values = Object.fromEntries(
+      Object.entries(changes).filter(([, value]) => value !== undefined)
+    );
     const updatedClub = await db
       .update(clubs)
-      .set(body)
+      .set(values)
       .where(eq(clubs.id, clubId))
       .returning();
 

@@ -2,8 +2,8 @@ import { requireAdmin } from "@/lib/requireAdmin";
 
 import { INewClub } from "@/app/admin/types";
 import { db } from "@/app/db";
-import { clubs, visionMission } from "@/app/db/schema";
-import { eq } from "drizzle-orm";
+import { clubs } from "@/app/db/schema";
+import { slugify } from "@/lib/slugify";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -14,12 +14,11 @@ export async function GET() {
         title: clubs.title,
         description: clubs.description,
         introVidId: clubs.introVidId,
-        vision: visionMission.vision,
-        mission: visionMission.mission,
-        visiondescription: visionMission.description,
+        vision: clubs.vision,
+        mission: clubs.mission,
+        visiondescription: clubs.description,
       })
       .from(clubs)
-      .leftJoin(visionMission, eq(clubs.visionMissionID, visionMission.id))
       .orderBy(clubs.id);
 
     if (allClubs.length === 0) {
@@ -44,29 +43,29 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
   try {
-    let newClub: INewClub[] = []
-    await db.transaction(async (trx) => {
-      const [vision] = await trx
-        .insert(visionMission)
-        .values({
-          vision: body.vision,
-          mission: body.mission,
-          description: body.missiondescription,
-        })
-        .returning();
+    const title = String(body.title ?? "").trim();
+    if (!title) {
+      return NextResponse.json({ message: "Title is required" }, { status: 400 });
+    }
 
-      newClub = await trx
-        .insert(clubs)
-        .values({
-          title: body.title,
-          description: body.description,
-          visionMissionID: vision.id,
-          introVidId: body.introVidId,
-        })
-        .onConflictDoNothing()
-        .returning()
-        
-    });
+    const newClub: INewClub[] = await db
+      .insert(clubs)
+      .values({
+        slug: slugify(String(body.slug || title)),
+        title,
+        summary: String(body.summary ?? body.description ?? ""),
+        description: body.description,
+        vision: body.vision,
+        mission: body.mission,
+        introVidId: body.introVidId,
+      })
+      .onConflictDoNothing()
+      .returning({
+        id: clubs.id,
+        title: clubs.title,
+        description: clubs.description,
+        introVidId: clubs.introVidId,
+      });
 
     return NextResponse.json(newClub, { status: 201 });
   } catch (e) {

@@ -10,7 +10,7 @@ const EventCard: React.FC<CardProp> = ({ Card }) => {
     <div className="flex flex-col items-center border-b-[3px] border-[#efb631] pt-5 pb-4">
       <div className="w-[90%] md:w-full h-[200px]">
         <img
-          src={Card.imageURL === "" ? `./ctfWinner.jpg` : Card.imageURL}
+          src="/ctfWinner.jpg"
           alt="event"
           className="w-full h-full object-cover"
         />
@@ -40,7 +40,7 @@ const EventCard: React.FC<CardProp> = ({ Card }) => {
               />
             </svg>
             <span className="flex font-bold text-base line-clamp-1 text-black/90">
-              {Card.location}Mlimani City
+              {Card.location ?? "Venue to be confirmed"}
             </span>
           </div>
           <div className="flex gap-4">
@@ -60,7 +60,7 @@ const EventCard: React.FC<CardProp> = ({ Card }) => {
                 />
               </svg>
               <span className="flex font-bold text-base line-clamp-1 text-black/90">
-                {Card.date.slice(0, 10)}
+                {Card.startsAt.slice(0, 10)}
               </span>
             </div>
             <div className="flex gap-2 items-center">
@@ -79,7 +79,7 @@ const EventCard: React.FC<CardProp> = ({ Card }) => {
                 />
               </svg>
               <span className="flex font-bold text-base line-clamp-1 text-black/90">
-                {Card.date.slice(11, 16)}
+                {Card.startsAt.slice(11, 16)}
               </span>
             </div>
           </div>

@@ -22,8 +22,8 @@ const EventList: React.FC<props> = async ({ id }) => {
             <UpcomingEventsCard
               key={event.id}
               title={event.title}
-              date={event.date}
-              location={event.location}
+              date={event.startsAt}
+              location={event.location ?? "Venue to be confirmed"}
             />
           );
         })

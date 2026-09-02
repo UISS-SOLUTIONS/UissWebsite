@@ -1,6 +1,6 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 import { db } from "@/app/db";
-import { users } from "@/app/db/schema";
+import { members } from "@/app/db/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -9,15 +9,15 @@ export async function GET() {
   try {
     const allUsers = await db
       .select({
-        id: users.id,
-        firstName: users.firstName,
-        lastName: users.lastName,
-        email: users.email,
-        role: users.role,
-        registeredAt: users.registeredAt,
+        id: members.id,
+        firstName: members.firstName,
+        lastName: members.lastName,
+        email: members.email,
+        status: members.status,
+        registeredAt: members.registeredAt,
       })
-      .from(users)
-      .orderBy(users.registeredAt);
+      .from(members)
+      .orderBy(members.registeredAt);
 
     if (allUsers.length === 0) {
       return NextResponse.json({ message: "No users found" }, { status: 404 });
