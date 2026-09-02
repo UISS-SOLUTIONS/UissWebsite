@@ -1,12 +1,18 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 
 import { db } from "@/app/db";
-import { visionMission} from "@/app/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { clubs } from "@/app/db/schema";
+import { NextResponse } from "next/server";
 
 export async function GET(){
     try {
-        const visionsMissions = await db.select().from(visionMission);
+        const visionsMissions = await db.select({
+          id: clubs.id,
+          name: clubs.title,
+          vision: clubs.vision,
+          mission: clubs.mission,
+          description: clubs.description,
+        }).from(clubs);
         if(visionsMissions.length === 0){
             return NextResponse.json({message: "Sorry!! No visionMission found"}, {status: 404});
         }else{
@@ -17,23 +23,12 @@ export async function GET(){
     }
 }
 
-export async function POST(request: NextRequest){
+export async function POST(){
   const denied = await requireAdmin();
   if (denied) return denied;
 
-    const body = await request.json()
-
-    try {
-        const [newVisionMission] = await db
-            .insert(visionMission)
-            .values({
-                vision: body.vision,
-                mission: body.mission,
-                description: body.description,
-            })
-            .returning();
-        return NextResponse.json(newVisionMission, {status: 201});
-    }catch(e){
-        return NextResponse.json({message: (e as Error).message}, {status: 400})
-    }
+    return NextResponse.json(
+      { message: "Vision and mission are now edited on a club" },
+      { status: 410 }
+    );
 }

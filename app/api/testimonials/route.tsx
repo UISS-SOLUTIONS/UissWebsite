@@ -1,12 +1,12 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 
 import { db } from "@/app/db";
-import { testimonies } from "@/app/db/schema";
+import { testimonials } from "@/app/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(){
     try {
-        const allTestimonies = await db.select().from(testimonies).orderBy(testimonies.postedOn);
+        const allTestimonies = await db.select().from(testimonials).orderBy(testimonials.postedOn);
 
         if(allTestimonies.length === 0){
             return NextResponse.json({message: "Sorry!! No testimonies found"}, {status: 404})
@@ -26,9 +26,9 @@ export async function POST(request: NextRequest){
 
     try {
         const [newTestimony] = await db
-            .insert(testimonies)
+            .insert(testimonials)
             .values({
-                userId: body.userId,
+                memberId: body.memberId ?? body.userId,
                 testimony: body.testimony,
             })
             .returning();

@@ -1,200 +1,285 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
+  bigint,
+  index,
   integer,
-  timestamp,
+  pgEnum,
+  pgSchema,
   pgTable,
-  text,
-  varchar,
   primaryKey,
+  text,
+  timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-// Defines the sponsors table with columns id, logo, and name
+const identity = (name: string) =>
+  bigint(name, { mode: "number" }).primaryKey().generatedAlwaysAsIdentity();
+
+export const clubStatus = pgEnum("club_status", ["active", "inactive"]);
+export const memberStatus = pgEnum("member_status", ["pending", "active", "inactive", "rejected"]);
+export const registrationStatus = pgEnum("registration_status", ["open", "closed", "full", "not_required"]);
+export const projectStatus = pgEnum("project_status", ["concept", "active", "completed"]);
+export const publicationStatus = pgEnum("publication_status", ["draft", "published"]);
+export const privateSchema = pgSchema("private");
+
+export const media = pgTable("media", {
+  id: identity("id"),
+  url: text("url").notNull(),
+  alt: text("alt").notNull(),
+  width: integer("width"),
+  height: integer("height"),
+  credit: text("credit"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const sponsors = pgTable("sponsors", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  logo: text(),
-  name: varchar({ length: 255 }).notNull(),
+  id: identity("id"),
+  logo: text("logo"),
+  name: text("name").notNull(),
 });
 
-// Defines the awards_and_achievements table with columns id, title, description, and awardDate
 export const awardsAndAchievements = pgTable("awards_and_achievements", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({ length: 255 }).notNull(),
-  description: text(),
-  awardDate: varchar({ length: 255 }).notNull(),
+  id: identity("id"),
+  title: text("title").notNull(),
+  description: text("description"),
+  awardDate: text("award_date").notNull(),
 });
 
-// Defines the core_values table with columns id, value, and description
 export const coreValues = pgTable("core_values", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  value: varchar({ length: 255 }).notNull().unique(),
-  description: text(),
+  id: identity("id"),
+  value: text("value").notNull().unique(),
+  description: text("description"),
 });
 
-// Defines the hero_page table with columns id, section, heading, description, and backgroundImg
 export const heroPage = pgTable("hero_page", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  section: varchar({ length: 25 }).notNull().unique(),
-  heading: varchar({ length: 100 }).notNull(),
-  subheading: varchar({length: 30}).notNull(),
-  description: text().notNull(),
-  backgroundImg: varchar({ length: 255 }).notNull(),
+  id: identity("id"),
+  section: text("section").notNull().unique(),
+  heading: text("heading").notNull(),
+  subheading: text("subheading").notNull(),
+  description: text("description").notNull(),
+  backgroundImg: text("background_img").notNull(),
 });
 
-// Defines the position table with columns id and title
 export const position = pgTable("position", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({ length: 255 }).notNull().unique(),
+  id: identity("id"),
+  title: text("title").notNull().unique(),
 });
 
-// Defines the leaders table with columns id, firstName, lastName, positionId, year, facebook, linkedIn, instagram, and twitter
-export const leaders = pgTable("leaders", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  firstName: varchar({ length: 255 }).notNull(),
-  lastName: varchar({ length: 255 }).notNull(),
-  positionId: integer()
-    .notNull()
-    .references(() => position.id),
-  year: varchar({ length: 255 }).notNull(),
-  facebook: varchar({ length: 255 }),
-  linkedIn: varchar({ length: 255 }),
-  instagram: varchar({ length: 255 }),
-  twitter: varchar({ length: 255 }),
-  imageURL: varchar({length: 100}).default(""),
-});
-
-// Defines the users table with columns id, firstName, lastName, email, password, role, and registeredAt
-export const users = pgTable(
-  "users",
+export const leaders = pgTable(
+  "leaders",
   {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    firstName: varchar({ length: 255 }).notNull(),
-    lastName: varchar({ length: 255 }).notNull(),
-    email: varchar({ length: 255 }).notNull(),
-    password: varchar({ length: 255 }).notNull(),
-    role: varchar({ length: 255 }).notNull(),
-    registeredAt: timestamp().notNull().defaultNow(),
+    id: identity("id"),
+    firstName: text("first_name").notNull(),
+    lastName: text("last_name").notNull(),
+    positionId: bigint("position_id", { mode: "number" })
+      .notNull()
+      .references(() => position.id, { onDelete: "restrict" }),
+    year: text("year").notNull(),
+    facebook: text("facebook"),
+    linkedIn: text("linkedin"),
+    instagram: text("instagram"),
+    twitter: text("twitter"),
+    imageURL: text("image_url").notNull().default(""),
   },
-  (table) => [uniqueIndex().on(table.email)]
+  (table) => [index("leaders_position_id_idx").on(table.positionId)]
 );
 
-// Defines the testimonies table with columns id, userId, testimony, and postedOn
-export const testimonies = pgTable("testimonies", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer()
-    .notNull()
-    .references(() => users.id),
-  testimony: text(),
-  postedOn: timestamp().notNull().defaultNow(),
-});
-
-// Defines the events table with columns id, clubId, title, description, date, and addedOn
-export const events = pgTable("events", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  clubID: integer()
-    .notNull()
-    .references(() => clubs.id),
-  title: varchar({ length: 255 }).notNull(),
-  description: text(),
-  date: varchar({ length: 255 }).notNull(),
-  location: varchar({length: 255}).notNull().default(""),
-  imageURL: varchar({length: 255}).notNull().default(""),
-  addedOn: timestamp().notNull().defaultNow(),
-});
-
-// Defines the clubs table with columns id, visionMissionID, title, and description
-export const clubs = pgTable("clubs", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  visionMissionID: integer()
-    .notNull()
-    .unique()
-    .references(() => visionMission.id),
-  title: varchar({ length: 255 }).notNull(),
-  description: text(),
-  introVidId: varchar({ length: 100 }).notNull().default(""),
-});
-
-// Defines the user_club table with columns userID and clubID intersect of clubs and users table
-export const userClub = pgTable(
-  "user_club",
+export const clubs = pgTable(
+  "clubs",
   {
-    userID: integer()
-      .notNull()
-      .references(() => users.id),
-    clubID: integer()
-      .notNull()
-      .references(() => clubs.id),
+    id: identity("id"),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    summary: text("summary").notNull().default(""),
+    description: text("description"),
+    vision: text("vision"),
+    mission: text("mission"),
+    disciplines: text("disciplines").array().notNull().default(sql`'{}'::text[]`),
+    skillLevels: text("skill_levels").array().notNull().default(sql`'{}'::text[]`),
+    schedule: text("schedule"),
+    location: text("location"),
+    eligibility: text("eligibility"),
+    status: clubStatus("status").notNull().default("active"),
+    introVidId: text("intro_video_id").notNull().default(""),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [primaryKey({ columns: [t.userID, t.clubID] })]
+  (table) => [
+    uniqueIndex("clubs_slug_uidx").on(table.slug),
+    index("clubs_cover_media_id_idx").on(table.coverMediaId),
+  ]
 );
 
-// Defines the vision_mission table with columns id, vision, mission, and description
-export const visionMission = pgTable("vision_mission", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 10 }).notNull().default(""),
-  vision: text(),
-  mission: text(),
-  description: text(),
+export const members = pgTable(
+  "members",
+  {
+    id: identity("id"),
+    firstName: text("first_name").notNull(),
+    lastName: text("last_name").notNull(),
+    email: text("email").notNull(),
+    clubInterest: text("club_interest").notNull(),
+    message: text("message"),
+    status: memberStatus("status").notNull().default("pending"),
+    registeredAt: timestamp("registered_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex("members_email_uidx").on(table.email)]
+);
+
+export const membershipRateLimits = privateSchema.table("membership_rate_limits", {
+  keyHash: text("key_hash").primaryKey(),
+  windowStartedAt: timestamp("window_started_at", { withTimezone: true }).notNull().defaultNow(),
+  attempts: integer("attempts").notNull().default(1),
 });
 
-// Defines the relations for the users table, specifying that a user can belong to many clubs
-export const userClubRelations = relations(userClub, ({ one }) => ({
-  users: one(users, {
-    fields: [userClub.userID],
-    references: [users.id],
-  }),
-  clubs: one(clubs, {
-    fields: [userClub.clubID],
-    references: [clubs.id],
-  }),
-}));
+export const memberClub = pgTable(
+  "member_club",
+  {
+    memberId: bigint("member_id", { mode: "number" }).notNull().references(() => members.id, { onDelete: "cascade" }),
+    clubId: bigint("club_id", { mode: "number" }).notNull().references(() => clubs.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.memberId, table.clubId] }),
+    index("member_club_club_id_idx").on(table.clubId),
+  ]
+);
 
-// Defines the relations for the position table, specifying that a position can have many leaders
-export const positionRelations = relations(position, ({ many }) => ({
-  leaders: many(leaders),
-}));
+export const testimonials = pgTable(
+  "testimonials",
+  {
+    id: identity("id"),
+    memberId: bigint("member_id", { mode: "number" }).notNull().references(() => members.id, { onDelete: "cascade" }),
+    testimony: text("testimony").notNull(),
+    postedOn: timestamp("posted_on", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("testimonials_member_id_idx").on(table.memberId)]
+);
 
-// Defines the relations for the leaders table, specifying that a leader has one position
+export const events = pgTable(
+  "events",
+  {
+    id: identity("id"),
+    slug: text("slug").notNull(),
+    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, { onDelete: "set null" }),
+    title: text("title").notNull(),
+    summary: text("summary").notNull().default(""),
+    description: text("description"),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }),
+    location: text("location"),
+    onlineUrl: text("online_url"),
+    registrationUrl: text("registration_url"),
+    registrationStatus: registrationStatus("registration_status").notNull().default("not_required"),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    addedOn: timestamp("added_on", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("events_slug_uidx").on(table.slug),
+    index("events_club_id_idx").on(table.clubId),
+    index("events_cover_media_id_idx").on(table.coverMediaId),
+    index("events_starts_at_idx").on(table.startsAt),
+  ]
+);
+
+export const projects = pgTable(
+  "projects",
+  {
+    id: identity("id"),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    summary: text("summary").notNull(),
+    problem: text("problem").notNull(),
+    solution: text("solution").notNull(),
+    impact: text("impact").notNull(),
+    year: integer("year").notNull(),
+    status: projectStatus("status").notNull().default("concept"),
+    publicationStatus: publicationStatus("publication_status").notNull().default("draft"),
+    techStack: text("tech_stack").array().notNull().default(sql`'{}'::text[]`),
+    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, { onDelete: "set null" }),
+    repositoryUrl: text("repository_url"),
+    demoUrl: text("demo_url"),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("projects_slug_uidx").on(table.slug),
+    index("projects_club_id_idx").on(table.clubId),
+    index("projects_cover_media_id_idx").on(table.coverMediaId),
+    index("projects_publication_status_idx").on(table.publicationStatus),
+  ]
+);
+
+export const projectMedia = pgTable(
+  "project_media",
+  {
+    projectId: bigint("project_id", { mode: "number" }).notNull().references(() => projects.id, { onDelete: "cascade" }),
+    mediaId: bigint("media_id", { mode: "number" }).notNull().references(() => media.id, { onDelete: "cascade" }),
+    sortOrder: integer("sort_order").notNull().default(0),
+  },
+  (table) => [
+    primaryKey({ columns: [table.projectId, table.mediaId] }),
+    index("project_media_media_id_idx").on(table.mediaId),
+  ]
+);
+
+export const news = pgTable(
+  "news",
+  {
+    id: identity("id"),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    summary: text("summary").notNull(),
+    body: text("body").notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    status: publicationStatus("status").notNull().default("draft"),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("news_slug_uidx").on(table.slug),
+    index("news_cover_media_id_idx").on(table.coverMediaId),
+    index("news_status_published_at_idx").on(table.status, table.publishedAt),
+  ]
+);
+
+export const positionRelations = relations(position, ({ many }) => ({ leaders: many(leaders) }));
 export const leadersRelations = relations(leaders, ({ one }) => ({
-  position: one(position, {
-    fields: [leaders.positionId],
-    references: [position.id],
-  }),
+  position: one(position, { fields: [leaders.positionId], references: [position.id] }),
 }));
-
-// Defines the relations for the users table, specifying that a user can have many testimonies and clubs
-export const userRelations = relations(users, ({ many }) => ({
-  testimonies: many(testimonies),
-  userClub: many(userClub),
-}));
-
-// Defines the relations for the testimonies table, specifying that a testimony belongs to one user
-export const testimoniesRelations = relations(testimonies, ({ one }) => ({
-  user: one(users, {
-    fields: [testimonies.userId],
-    references: [users.id],
-  }),
-}));
-
-// Defines the relations for the clubs table, specifying that a club has one vision and mission
 export const clubsRelations = relations(clubs, ({ one, many }) => ({
-  visionMission: one(visionMission, {
-    fields: [clubs.visionMissionID],
-    references: [visionMission.id],
-  }),
-  userClub: many(userClub),
+  coverMedia: one(media, { fields: [clubs.coverMediaId], references: [media.id] }),
+  memberClubs: many(memberClub),
   events: many(events),
+  projects: many(projects),
 }));
-
-// Defines the relations for the events table, specifying that an event belongs to one club
+export const membersRelations = relations(members, ({ many }) => ({
+  memberClubs: many(memberClub),
+  testimonials: many(testimonials),
+}));
+export const memberClubRelations = relations(memberClub, ({ one }) => ({
+  member: one(members, { fields: [memberClub.memberId], references: [members.id] }),
+  club: one(clubs, { fields: [memberClub.clubId], references: [clubs.id] }),
+}));
+export const testimonialsRelations = relations(testimonials, ({ one }) => ({
+  member: one(members, { fields: [testimonials.memberId], references: [members.id] }),
+}));
 export const eventsRelations = relations(events, ({ one }) => ({
-  clubs: one(clubs, {
-    fields: [events.clubID],
-    references: [clubs.id],
-  }),
+  club: one(clubs, { fields: [events.clubId], references: [clubs.id] }),
+  coverMedia: one(media, { fields: [events.coverMediaId], references: [media.id] }),
 }));
-
-// Defines the relations for the vision_mission table, specifying that a vision and mission can belong to one club
-export const visionMissionRelations = relations(visionMission, ({ one }) => ({
-  clubs: one(clubs),
+export const projectsRelations = relations(projects, ({ one, many }) => ({
+  club: one(clubs, { fields: [projects.clubId], references: [clubs.id] }),
+  coverMedia: one(media, { fields: [projects.coverMediaId], references: [media.id] }),
+  gallery: many(projectMedia),
+}));
+export const projectMediaRelations = relations(projectMedia, ({ one }) => ({
+  project: one(projects, { fields: [projectMedia.projectId], references: [projects.id] }),
+  media: one(media, { fields: [projectMedia.mediaId], references: [media.id] }),
+}));
+export const newsRelations = relations(news, ({ one }) => ({
+  coverMedia: one(media, { fields: [news.coverMediaId], references: [media.id] }),
 }));

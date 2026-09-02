@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788361044902,
+      "tag": "0000_uiss_clean_baseline",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788361276371,
+      "tag": "0001_rls_policy_cleanup",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788361695067,
+      "tag": "0002_membership_intake_support",
+      "breakpoints": true
+    }
+  ]
+}
