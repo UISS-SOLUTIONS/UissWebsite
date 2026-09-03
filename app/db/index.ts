@@ -3,8 +3,10 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "./schema"; // Your schema file
 
+export const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || undefined,
   max: 5,
   connectionTimeoutMillis: 5_000,
   idleTimeoutMillis: 10_000,

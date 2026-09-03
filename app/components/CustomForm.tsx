@@ -15,7 +15,7 @@ const initialMembershipActionState: MembershipActionState = {
   message: "",
 };
 
-export default function CustomForm() {
+export default function CustomForm({ initialClub }: { initialClub?: string }) {
   const [state, formAction, pending] = useActionState(
     submitMembershipApplication,
     initialMembershipActionState
@@ -72,7 +72,8 @@ export default function CustomForm() {
             maxLength={120}
             id="clubInterest"
             name="clubInterest"
-            placeholder="For example, cybersecurity or programming"
+              placeholder="For example, cybersecurity or programming"
+              defaultValue={initialClub}
           />
         </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import CustomForm from "@/app/components/CustomForm";
 import Footer from "@/components/footer-2";
 import { HeroHeader } from "@/components/header";
+import { getClub } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "Join UISS | Membership application",
@@ -18,7 +19,9 @@ const benefits = [
   "Access member events and society opportunities.",
 ];
 
-export default function MembershipPage() {
+export default async function MembershipPage({ searchParams }: { searchParams: Promise<{ club?: string }> }) {
+  const slug = (await searchParams).club;
+  const club = slug ? await getClub(slug) : null;
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <HeroHeader />
@@ -48,7 +51,7 @@ export default function MembershipPage() {
 
             <div className="lg:col-span-6 lg:col-start-7">
               <div className="rounded-lg border border-line bg-canvas p-6 shadow-soft sm:p-9">
-                <CustomForm />
+                <CustomForm initialClub={club?.title} />
               </div>
             </div>
           </div>

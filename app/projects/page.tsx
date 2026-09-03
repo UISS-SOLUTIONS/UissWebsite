@@ -1,16 +1,3 @@
-import type { Metadata } from 'next'
-import Footer from '@/components/footer-2'
-import { HeroHeader } from '@/components/header'
-import { Projects5 } from '@/components/projects5'
-
-export const metadata: Metadata = { title: 'Projects | UISS', description: 'Explore projects built by UISS students.' }
-
-export default function ProjectsPage() {
-    return (
-        <div className="min-h-screen bg-canvas text-ink">
-            <HeroHeader />
-            <main><Projects5 /></main>
-            <Footer />
-        </div>
-    )
-}
+import Link from 'next/link'; import Footer from '@/components/footer-2'; import { HeroHeader } from '@/components/header'; import { getProjects } from '@/lib/public-data'
+export const metadata = { title: 'Projects | UISS' }
+export default async function ProjectsPage(){const items=await getProjects(); return <div className="min-h-screen bg-canvas text-ink"><HeroHeader/><main className="mx-auto max-w-6xl px-6 py-20"><h1 className="text-5xl font-bold">Projects built by UISS students</h1><div className="mt-12 grid gap-5 md:grid-cols-2">{items.map(p=><Link className="rounded-lg border border-line p-6 hover:bg-surface" href={`/projects/${p.slug}`} key={p.id}><h2 className="text-2xl font-bold">{p.title}</h2><p className="mt-3 text-muted">{p.summary}</p><p className="mt-4 text-sm text-muted">{p.year} · {p.status}</p></Link>)}</div>{!items.length&&<p className="mt-12 rounded border border-dashed border-line p-10 text-muted">No published projects are available yet.</p>}</main><Footer/></div>}

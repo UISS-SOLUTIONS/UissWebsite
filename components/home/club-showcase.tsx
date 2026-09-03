@@ -18,6 +18,7 @@ type ClubShowcaseProps = {
 }
 
 export function ClubShowcase({ clubs, unavailable = false }: ClubShowcaseProps) {
+    if (clubs.length === 0) return null
     return (
         <section className="bg-surface py-24 sm:py-32">
             <div className="container mx-auto px-6">

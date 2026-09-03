@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { About3 } from '@/components/about3'
 import { Blog7, type Blog7Post } from '@/components/blog7'
-import { Community1 } from '@/components/community1'
 import { Cta4 } from '@/components/cta4'
 import Footer from '@/components/footer-2'
 import { HeroHeader } from '@/components/header'
@@ -9,6 +8,8 @@ import { ClubShowcase, type ClubPreview } from '@/components/home/club-showcase'
 import { EventShowcase, type EventPreview } from '@/components/home/event-showcase'
 import { Hero12 } from '@/components/hero12'
 import { Projects5, type ProjectPreview } from '@/components/projects5'
+import { LogoCloud } from '@/components/logo-cloud'
+import { TestimonialsGrid } from '@/components/testimonials-grid'
 import { Team1, type TeamMember } from '@/components/team1'
 import { getHomepageData } from '@/lib/homepage-data'
 
@@ -35,7 +36,7 @@ export default async function Home() {
         title: club.title,
         summary: club.summary,
         disciplines: club.disciplines,
-        url: '/clubs',
+        url: `/clubs/${club.slug}`,
     }))
 
     const eventPreviews: EventPreview[] = data.events.data.map((event) => ({
@@ -45,7 +46,7 @@ export default async function Home() {
         date: dateFormatter.format(event.startsAt),
         location: event.location ?? undefined,
         registrationStatus: event.registrationStatus,
-        url: '/events',
+        url: `/events/${event.slug}`,
     }))
 
     const projectPreviews: ProjectPreview[] = data.projects.data.map((project) => ({
@@ -54,7 +55,7 @@ export default async function Home() {
         image: project.coverMedia?.url,
         status: project.status,
         type: project.techStack.slice(0, 2).join(' · ') || `UISS project · ${project.year}`,
-        url: '/projects',
+        url: `/projects/${project.slug}`,
     }))
 
     const teamMembers: TeamMember[] = data.leaders.data.map((leader) => ({
@@ -98,20 +99,21 @@ export default async function Home() {
                         { title: 'Our community', content: 'Students can discover clubs, take part in events, share useful ideas, and turn classroom knowledge into practical work.' },
                     ]}
                 />
+                <LogoCloud />
                 <ClubShowcase clubs={clubPreviews} unavailable={data.clubs.unavailable} />
-                <Projects5
+                <EventShowcase events={eventPreviews} unavailable={data.events.unavailable} />
+                {projectPreviews.length > 0 ? <Projects5
                     heading="Work built by UISS students."
                     description="Explore practical projects created by students across the UISS community."
                     projects={projectPreviews}
                     emptyMessage={data.projects.unavailable ? 'Project information could not be loaded right now. Please try again later.' : undefined}
-                />
-                <EventShowcase events={eventPreviews} unavailable={data.events.unavailable} />
-                <Team1
+                /> : null}
+                {teamMembers.length > 0 ? <Team1
                     heading="Meet the UISS leadership team."
                     description="The student leaders coordinating the society, its programs, and its community."
                     members={teamMembers}
                     emptyMessage={data.leaders.unavailable ? 'Leadership information could not be loaded right now. Please try again later.' : undefined}
-                />
+                /> : null}
                 <Blog7
                     headingLevel="h2"
                     heading="Ideas and stories from our community."
@@ -119,7 +121,7 @@ export default async function Home() {
                     emptyMessage={blogEmptyMessage}
                     className="bg-surface"
                 />
-                <Community1 />
+                <TestimonialsGrid items={data.testimonials.data.filter((x) => x.text.trim().length >= 40 && x.text.trim().length <= 400)} />
                 <Cta4 />
             </main>
             <Footer />

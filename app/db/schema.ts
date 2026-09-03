@@ -152,6 +152,10 @@ export const testimonials = pgTable(
     memberId: bigint("member_id", { mode: "number" }).notNull().references(() => members.id, { onDelete: "cascade" }),
     testimony: text("testimony").notNull(),
     postedOn: timestamp("posted_on", { withTimezone: true }).notNull().defaultNow(),
+    status: publicationStatus("status").notNull().default("draft"),
+    consentRecordedAt: timestamp("consent_recorded_at", { withTimezone: true }),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [index("testimonials_member_id_idx").on(table.memberId)]
 );

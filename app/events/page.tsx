@@ -1,8 +1,3 @@
-import type { Metadata } from 'next'
-import { PlannedPage } from '@/components/planned-page'
-
-export const metadata: Metadata = { title: 'Events | UISS', description: 'Explore upcoming UISS events.' }
-
-export default function EventsPage() {
-    return <PlannedPage kind="events" />
-}
+import Link from 'next/link'; import Footer from '@/components/footer-2'; import { HeroHeader } from '@/components/header'; import { getEvents } from '@/lib/public-data'
+export const metadata = { title: 'Events | UISS' }
+export default async function EventsPage(){const items=await getEvents(); return <div className="min-h-screen bg-canvas text-ink"><HeroHeader/><main className="mx-auto max-w-6xl px-6 py-20"><h1 className="text-5xl font-bold">UISS events</h1><div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{items.map(e=><Link className="rounded-lg border border-line p-6 hover:bg-surface" href={`/events/${e.slug}`} key={e.id}><p className="text-sm text-muted">{new Date(e.startsAt).toLocaleString('en-TZ')}</p><h2 className="mt-2 text-2xl font-bold">{e.title}</h2><p className="mt-3 text-muted">{e.summary}</p></Link>)}</div>{!items.length&&<p className="mt-12 rounded border border-dashed border-line p-10 text-muted">No events have been published yet.</p>}</main><Footer/></div>}

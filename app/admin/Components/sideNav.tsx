@@ -35,6 +35,7 @@ const SideNav = () => {
           <Link href={"/admin/AdminPages/Leaders"}>
             <li className="cursor-pointer">Leaders</li>
           </Link>
+          <Link href={"/admin/AdminPages/Testimonials"}><li className="cursor-pointer">Testimonials</li></Link>
         </div>
         <LogOut />
       </ul>

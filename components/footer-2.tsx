@@ -3,7 +3,7 @@ import { Logo } from '@/components/logo'
 
 const links = [
     { title: 'Explore', items: [{ label: 'Clubs', href: '/clubs' }, { label: 'Blog', href: '/blog' }, { label: 'Events', href: '/events' }, { label: 'Projects', href: '/projects' }] },
-    { title: 'Society', items: [{ label: 'Constitution', href: '/Constitution' }, { label: 'Contact', href: 'mailto:udsmict1@gmail.com' }, { label: 'Admin', href: '/admin' }] },
+    { title: 'Society', items: [{ label: 'About', href: '/about' }, { label: 'Constitution', href: '/Constitution' }, { label: 'Contact', href: 'mailto:udsmict1@gmail.com' }, { label: 'Admin', href: '/admin' }] },
 ]
 
 export default function Footer() {

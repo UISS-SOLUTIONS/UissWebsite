@@ -8,6 +8,7 @@ const menuItems = [
     { name: 'Blog', href: '/blog' },
     { name: 'Events', href: '/events' },
     { name: 'Projects', href: '/projects' },
+    { name: 'About', href: '/about' },
 ]
 
 export const HeroHeader = () => (

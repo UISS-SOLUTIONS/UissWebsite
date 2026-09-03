@@ -15,12 +15,6 @@ export type ProjectPreview = {
     url: string
 }
 
-const placeholderProjects: ProjectPreview[] = [
-    { id: 'project-directory', title: 'Student project directory', image: '/welcomeBg.jpg', status: 'Planning', type: 'Project showcase', url: '/projects' },
-    { id: 'club-collaborations', title: 'Club collaborations', image: '/ctfWinner.jpg', status: 'Planning', type: 'Community work', url: '/clubs' },
-    { id: 'future-initiatives', title: 'Future initiatives', image: '/construction.png', status: 'Planning', type: 'Upcoming work', url: '/projects' },
-]
-
 interface Projects5Props {
     className?: string
     heading?: string
@@ -33,7 +27,7 @@ const Projects5 = ({
     className,
     heading = 'Projects',
     description = 'The project catalogue is ready for verified student work. Project details and outcomes will be planned in a later ticket.',
-    projects = placeholderProjects,
+    projects = [],
     emptyMessage = 'Approved student projects will appear here as they are published by the UISS team.',
 }: Projects5Props) => (
     <section className={cn('py-24 sm:py-32', className)}>

@@ -9,11 +9,6 @@ export type TeamMember = {
     avatar?: string
 }
 
-const placeholderMembers: TeamMember[] = Array.from({ length: 11 }, (_, index) => ({
-    id: `leader-${index + 1}`,
-    name: `Leader ${String(index + 1).padStart(2, '0')}`,
-    role: 'Position to confirm',
-}))
 
 interface Team1Props {
     heading?: string
@@ -26,7 +21,7 @@ interface Team1Props {
 const Team1 = ({
     heading = 'Meet the eleven-person leadership team.',
     description = 'The structure is ready for the approved names, positions, portraits, and biographies.',
-    members = placeholderMembers,
+    members = [],
     className,
     emptyMessage = 'Approved leadership profiles will appear here once they have been added by the UISS team.',
 }: Team1Props) => (
