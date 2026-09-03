@@ -3,6 +3,10 @@ import { getToken } from "next-auth/jwt";
 
 
 export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === "/Membership") {
+    return NextResponse.redirect(new URL("/membership", request.url), 308);
+  }
+
   const secret = process.env.AUTH_SECRET;
   const token = await getToken({ req: request, secret });
 
@@ -22,5 +26,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/Membership"],
 };

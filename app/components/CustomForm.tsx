@@ -2,9 +2,18 @@
 
 import { useActionState } from "react";
 import {
-  initialMembershipActionState,
   submitMembershipApplication,
-} from "@/app/(pages)/Membership/actions";
+  type MembershipActionState,
+} from "@/app/membership/actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
+const initialMembershipActionState: MembershipActionState = {
+  status: "idle",
+  message: "",
+};
 
 export default function CustomForm() {
   const [state, formAction, pending] = useActionState(
@@ -14,38 +23,65 @@ export default function CustomForm() {
 
   return (
     <>
-      <div className="flex flex-col pb-4">
-        <span className="text-4xl font-bold">Join UISS</span>
-        <span className="pt-3 opacity-70">
-          Applications are open year-round and reviewed weekly.
-        </span>
+      <div className="border-b border-line pb-6">
+        <h2 className="text-3xl font-bold tracking-tight">Apply for membership</h2>
+        <p className="mt-2 leading-7 text-muted">
+          All fields except the message are required. We will reply by email.
+        </p>
       </div>
-      <form action={formAction} className="space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="flex flex-col gap-y-1 font-bold">
-            First name
-            <input required maxLength={100} name="firstName" autoComplete="given-name" className="rounded-md border border-black/20 px-3 py-2 font-normal focus:outline-none" />
-          </label>
-          <label className="flex flex-col gap-y-1 font-bold">
-            Last name
-            <input required maxLength={100} name="lastName" autoComplete="family-name" className="rounded-md border border-black/20 px-3 py-2 font-normal focus:outline-none" />
-          </label>
+      <form action={formAction} className="mt-7 space-y-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="firstName">First name</Label>
+            <Input
+              required
+              maxLength={100}
+              id="firstName"
+              name="firstName"
+              autoComplete="given-name"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last name</Label>
+            <Input
+              required
+              maxLength={100}
+              id="lastName"
+              name="lastName"
+              autoComplete="family-name"
+            />
+          </div>
         </div>
 
-        <label className="flex flex-col gap-y-1 font-bold">
-          University email
-          <input required type="email" maxLength={254} name="email" autoComplete="email" className="rounded-md border border-black/20 px-3 py-2 font-normal focus:outline-none" />
-        </label>
+        <div className="space-y-2">
+          <Label htmlFor="email">University email</Label>
+          <Input
+            required
+            type="email"
+            maxLength={254}
+            id="email"
+            name="email"
+            autoComplete="email"
+          />
+        </div>
 
-        <label className="flex flex-col gap-y-1 font-bold">
-          Club interest
-          <input required maxLength={120} name="clubInterest" placeholder="For example, cybersecurity or programming" className="rounded-md border border-black/20 px-3 py-2 font-normal focus:outline-none" />
-        </label>
+        <div className="space-y-2">
+          <Label htmlFor="clubInterest">Club interest</Label>
+          <Input
+            required
+            maxLength={120}
+            id="clubInterest"
+            name="clubInterest"
+            placeholder="For example, cybersecurity or programming"
+          />
+        </div>
 
-        <label className="flex flex-col gap-y-1 font-bold">
-          Message <span className="font-normal opacity-60">Optional</span>
-          <textarea maxLength={1000} name="message" rows={4} className="resize-none rounded-md border border-black/20 px-3 py-2 font-normal focus:outline-none" />
-        </label>
+        <div className="space-y-2">
+          <Label htmlFor="message">
+            Message <span className="font-normal text-muted">Optional</span>
+          </Label>
+          <Textarea maxLength={1000} id="message" name="message" rows={4} />
+        </div>
 
         <label className="hidden" aria-hidden="true">
           Website
@@ -53,15 +89,29 @@ export default function CustomForm() {
         </label>
 
         {state.status !== "idle" && (
-          <p role="status" className={state.status === "success" ? "text-green-700" : "text-red-700"}>
+          <p
+            role="status"
+            aria-live="polite"
+            className={
+              state.status === "success"
+                ? "rounded-md border border-success/30 bg-success/5 px-4 py-3 text-success"
+                : "rounded-md border border-danger/30 bg-danger/5 px-4 py-3 text-danger"
+            }
+          >
             {state.message}
           </p>
         )}
 
-        <div className="flex justify-end">
-          <button type="submit" disabled={pending} className="rounded-md bg-ternary px-4 py-2 text-lg font-bold disabled:cursor-not-allowed disabled:opacity-60">
+        <div className="flex justify-end pt-2">
+          <Button
+            type="submit"
+            disabled={pending}
+            variant="secondary"
+            size="lg"
+            className="w-full sm:w-auto"
+          >
             {pending ? "Submitting..." : "Submit application"}
-          </button>
+          </Button>
         </div>
       </form>
     </>

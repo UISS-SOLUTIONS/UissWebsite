@@ -16,7 +16,7 @@ const Cta4 = ({
     heading = 'Make your university experience count.',
     description = 'Join a student-led community built around learning, collaboration, and practical technology work.',
     buttonText = 'Join UISS',
-    buttonUrl = '/Membership',
+    buttonUrl = '/membership',
     features = ['Learn with peers', 'Build practical projects', 'Grow your professional network'],
     className,
 }: Cta4Props) => (

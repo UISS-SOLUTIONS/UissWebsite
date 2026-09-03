@@ -27,7 +27,7 @@ export const HeroHeader = () => (
             </ul>
             <div className="hidden md:block">
                 <Button asChild variant="secondary">
-                    <Link href="/Membership">Join UISS</Link>
+                    <Link href="/membership">Join UISS</Link>
                 </Button>
             </div>
             <details className="group relative md:hidden">
@@ -39,7 +39,7 @@ export const HeroHeader = () => (
                     {menuItems.map((item) => (
                         <Link key={item.name} href={item.href} className="block rounded-md px-4 py-3 font-semibold text-ink hover:bg-surface">{item.name}</Link>
                     ))}
-                    <Link href="/Membership" className="mt-2 block rounded-md bg-ink px-4 py-3 text-center font-semibold text-canvas">Join UISS</Link>
+                    <Link href="/membership" className="mt-2 block rounded-md bg-ink px-4 py-3 text-center font-semibold text-canvas">Join UISS</Link>
                 </div>
             </details>
         </nav>

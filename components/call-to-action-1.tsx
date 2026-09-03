@@ -12,7 +12,7 @@ export default function CallToAction() {
                         <h2 className="mt-3 max-w-2xl text-balance text-4xl font-bold tracking-tight sm:text-5xl">Join the UISS student community.</h2>
                     </div>
                     <Button asChild size="lg" className="bg-[#111111] text-white hover:bg-[#111111]/85">
-                        <Link href="/Membership">Apply for membership <ArrowRight /></Link>
+                        <Link href="/membership">Apply for membership <ArrowRight /></Link>
                     </Button>
                 </div>
             </div>

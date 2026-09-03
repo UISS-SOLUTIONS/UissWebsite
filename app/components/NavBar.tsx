@@ -99,7 +99,7 @@ const NavBar = () => {
       id: 24,
       title: "Membership",
       children: [
-        { id: 241, title: "Benefits", link: "/Membership" },
+        { id: 241, title: "Benefits", link: "/membership" },
         { id: 242, title: "Sign Up", link: "/ComingSoon" },
       ],
     },

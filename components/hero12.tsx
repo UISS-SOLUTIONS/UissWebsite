@@ -50,7 +50,7 @@ const Hero12 = ({
                     </p>
                     <div className="mt-8 flex flex-wrap justify-center gap-3">
                         <Button asChild size="lg" variant="secondary">
-                            <Link href="/Membership">Become a member <ArrowRight data-icon="inline-end" /></Link>
+                            <Link href="/membership">Become a member <ArrowRight data-icon="inline-end" /></Link>
                         </Button>
                         <Button asChild size="lg" variant="outline">
                             <Link href="/projects">Explore projects</Link>

@@ -23,7 +23,7 @@ export default function HeroSection({ preview = false }: { preview?: boolean }) 
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <Button asChild size="lg" variant="secondary">
-                                    <Link href="/Membership">Become a member <ArrowRight /></Link>
+                                    <Link href="/membership">Become a member <ArrowRight /></Link>
                                 </Button>
                                 <Button asChild size="lg" variant="outline">
                                     <Link href="/Explore">Explore UISS</Link>

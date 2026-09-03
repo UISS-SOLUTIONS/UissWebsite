@@ -12,11 +12,6 @@ export type MembershipActionState = {
   message: string;
 };
 
-export const initialMembershipActionState: MembershipActionState = {
-  status: "idle",
-  message: "",
-};
-
 class RateLimitError extends Error {}
 
 function field(formData: FormData, name: string, maxLength: number): string {
@@ -88,7 +83,10 @@ export async function submitMembershipApplication(
     });
 
     if (!created) {
-      return { status: "success", message: "We already have an application for this email." };
+      return {
+        status: "success",
+        message: "We already have an application for this email.",
+      };
     }
 
     const from = process.env.RESEND_FROM_EMAIL;
@@ -109,12 +107,18 @@ export async function submitMembershipApplication(
       }
     }
 
-    return { status: "success", message: "Application received. The UISS team reviews applications weekly." };
+    return {
+      status: "success",
+      message: "Application received. The UISS team reviews applications weekly.",
+    };
   } catch (error) {
     if (error instanceof RateLimitError) {
       return { status: "error", message: "Too many attempts. Try again in an hour." };
     }
     console.error("Membership application failed", error);
-    return { status: "error", message: "We could not save your application. Try again." };
+    return {
+      status: "error",
+      message: "We could not save your application. Try again.",
+    };
   }
 }
