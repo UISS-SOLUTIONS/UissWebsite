@@ -23,6 +23,7 @@ const partnerLogos: PartnerLogo[] = [
   { name: "Huawei", src: "/partners/huawei.svg", width: 84, height: 84, displayClassName: "size-20 sm:size-24" },
   { name: "Binance", src: "/partners/binance.png", width: 84, height: 84, displayClassName: "size-20 sm:size-24" },
   { name: "TEDI", src: "/partners/tedi.png", width: 84, height: 84, displayClassName: "size-20 sm:size-24" },
+  { name: "3D Robotics", src: "/partners/3d-robotics.png", width: 96, height: 96, displayClassName: "size-24 sm:size-28" },
 ];
 
 interface LogoCloudAnimatedProps {
