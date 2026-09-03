@@ -1,9 +1,12 @@
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(var(--uiss-canvas));
+  color: rgb(var(--uiss-ink));
 }
 
 @layer base {
@@ -12,6 +15,47 @@ body {
   }
 }
 
+@layer components {
+  .zenblog-content {
+    color: rgb(var(--uiss-ink));
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+
+  .zenblog-content > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .zenblog-content h2,
+  .zenblog-content h3 {
+    margin-top: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .zenblog-content h2 { font-size: 2rem; }
+  .zenblog-content h3 { font-size: 1.5rem; }
+  .zenblog-content a { font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
+  .zenblog-content ul { list-style: disc; padding-left: 1.5rem; }
+  .zenblog-content ol { list-style: decimal; padding-left: 1.5rem; }
+  .zenblog-content blockquote { border-left: 4px solid rgb(var(--uiss-brand)); padding-left: 1.25rem; color: rgb(var(--uiss-muted)); }
+  .zenblog-content img { width: 100%; border-radius: var(--uiss-radius-md); }
+  .zenblog-content pre { overflow-x: auto; border-radius: var(--uiss-radius-md); background: #111111; padding: 1.25rem; color: #ffffff; }
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+@layer base {
+  *:focus-visible {
+    outline: 3px solid rgb(var(--uiss-focus));
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(var(--uiss-brand));
+    color: #111111;
+  }
 }

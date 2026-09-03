@@ -11,16 +11,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        primary: "#000000",
-        secondary: "#FFFFFF",
-        ternary: "#efb631",
+        background: "rgb(var(--uiss-canvas) / <alpha-value>)",
+        foreground: "rgb(var(--uiss-ink) / <alpha-value>)",
+        primary: "rgb(var(--uiss-ink) / <alpha-value>)",
+        secondary: "rgb(var(--uiss-canvas) / <alpha-value>)",
+        ternary: "rgb(var(--uiss-brand) / <alpha-value>)",
+        canvas: "rgb(var(--uiss-canvas) / <alpha-value>)",
+        surface: "rgb(var(--uiss-surface) / <alpha-value>)",
+        ink: "rgb(var(--uiss-ink) / <alpha-value>)",
+        muted: "rgb(var(--uiss-muted) / <alpha-value>)",
+        line: "rgb(var(--uiss-line) / <alpha-value>)",
+        brand: "rgb(var(--uiss-brand) / <alpha-value>)",
+        "brand-ink": "rgb(var(--uiss-brand-ink) / <alpha-value>)",
+        "brand-mark": "rgb(var(--uiss-brand-mark) / <alpha-value>)",
+        focus: "rgb(var(--uiss-focus) / <alpha-value>)",
+        danger: "rgb(var(--uiss-danger) / <alpha-value>)",
+        success: "rgb(var(--uiss-success) / <alpha-value>)",
+      },
+      fontFamily: {
+        sans: ["var(--font-source-sans-3)", "Arial", "sans-serif"],
+        wordmark: ["var(--font-uiss-wordmark)", "Arial", "sans-serif"],
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--uiss-radius-lg)",
+        md: "var(--uiss-radius-md)",
+        sm: "var(--uiss-radius-sm)",
+      },
+      boxShadow: {
+        soft: "var(--uiss-shadow-soft)",
       },
       backgroundImage: {
         "custom-gradient": "linear-gradient(to bottom, #efb631, #c78b00)",
