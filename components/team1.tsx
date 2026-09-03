@@ -20,6 +20,7 @@ interface Team1Props {
     description?: string
     members?: TeamMember[]
     className?: string
+    emptyMessage?: string
 }
 
 const Team1 = ({
@@ -27,6 +28,7 @@ const Team1 = ({
     description = 'The structure is ready for the approved names, positions, portraits, and biographies.',
     members = placeholderMembers,
     className,
+    emptyMessage = 'Approved leadership profiles will appear here once they have been added by the UISS team.',
 }: Team1Props) => (
     <section id="team" className={cn('py-24 sm:py-32', className)}>
         <div className="container mx-auto px-6">
@@ -35,7 +37,7 @@ const Team1 = ({
                 <h2 className="mt-4 text-balance text-4xl font-bold tracking-tight text-ink sm:text-5xl">{heading}</h2>
                 <p className="mt-5 text-lg leading-8 text-muted">{description}</p>
             </div>
-            <Carousel className="mt-14" opts={{ align: 'start' }} aria-label="UISS leaders">
+            {members.length > 0 ? <Carousel className="mt-14" opts={{ align: 'start' }} aria-label="UISS leaders">
                 <CarouselContent>
                     {members.map((member) => (
                         <CarouselItem key={member.id} className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
@@ -54,7 +56,12 @@ const Team1 = ({
                     <CarouselPrevious className="static translate-y-0" />
                     <CarouselNext className="static translate-y-0" />
                 </div>
-            </Carousel>
+            </Carousel> : (
+                <div className="mt-14 rounded-lg border border-dashed border-line bg-surface p-10 text-center">
+                    <h3 className="text-2xl font-bold text-ink">Leadership profiles are being prepared.</h3>
+                    <p className="mx-auto mt-3 max-w-xl leading-7 text-muted">{emptyMessage}</p>
+                </div>
+            )}
         </div>
     </section>
 )

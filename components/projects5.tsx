@@ -1,15 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion } from 'motion/react'
+import { FolderKanban } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 export type ProjectPreview = {
     id: string
     title: string
-    image: string
+    image?: string
     status: string
     type: string
     url: string
@@ -26,6 +26,7 @@ interface Projects5Props {
     heading?: string
     description?: string
     projects?: ProjectPreview[]
+    emptyMessage?: string
 }
 
 const Projects5 = ({
@@ -33,6 +34,7 @@ const Projects5 = ({
     heading = 'Projects',
     description = 'The project catalogue is ready for verified student work. Project details and outcomes will be planned in a later ticket.',
     projects = placeholderProjects,
+    emptyMessage = 'Approved student projects will appear here as they are published by the UISS team.',
 }: Projects5Props) => (
     <section className={cn('py-24 sm:py-32', className)}>
         <div className="container mx-auto px-6">
@@ -41,7 +43,7 @@ const Projects5 = ({
                 <h2 className="mt-4 text-5xl font-bold tracking-tight text-ink sm:text-6xl">{heading}</h2>
                 <p className="mt-5 text-lg leading-8 text-muted">{description}</p>
             </div>
-            <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {projects.length > 0 ? <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
                 {projects.map((project, index) => (
                     <motion.article
                         key={project.id}
@@ -52,7 +54,12 @@ const Projects5 = ({
                         className="group overflow-hidden rounded-lg border border-line bg-canvas shadow-soft"
                     >
                         <Link href={project.url} className="block overflow-hidden">
-                            <Image src={project.image} alt="" width={1200} height={800} className="h-72 w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+                            {project.image ? (
+                                // eslint-disable-next-line @next/next/no-img-element -- administrator-selected media may use any approved host.
+                                <img src={project.image} alt="" className="h-72 w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+                            ) : (
+                                <span className="flex h-72 w-full items-center justify-center bg-surface text-muted"><FolderKanban className="size-12" aria-hidden /></span>
+                            )}
                         </Link>
                         <div className="flex items-center justify-between gap-5 p-5">
                             <div>
@@ -63,7 +70,13 @@ const Projects5 = ({
                         </div>
                     </motion.article>
                 ))}
-            </div>
+            </div> : (
+                <div className="mt-12 rounded-lg border border-dashed border-line bg-surface p-10 text-center">
+                    <FolderKanban className="mx-auto size-10 text-muted" aria-hidden />
+                    <h3 className="mt-5 text-2xl font-bold text-ink">Projects are being prepared.</h3>
+                    <p className="mx-auto mt-3 max-w-xl leading-7 text-muted">{emptyMessage}</p>
+                </div>
+            )}
         </div>
     </section>
 )

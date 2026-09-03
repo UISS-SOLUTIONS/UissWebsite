@@ -5,6 +5,9 @@ import * as schema from "./schema"; // Your schema file
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  max: 5,
+  connectionTimeoutMillis: 5_000,
+  idleTimeoutMillis: 10_000,
   // TLS verification on by default; set DATABASE_SSL_REJECT_UNAUTHORIZED=false
   // only for local development against pools with self-signed certs.
   ssl:
@@ -14,4 +17,3 @@ const pool = new Pool({
 });
 
 export const db = drizzle(pool, { schema });
-

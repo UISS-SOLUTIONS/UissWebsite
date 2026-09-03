@@ -7,6 +7,10 @@ import { cn } from '@/lib/utils'
 interface Hero12Props {
     className?: string
     preview?: boolean
+    eyebrow?: string
+    heading?: string
+    highlightedHeading?: string
+    description?: string
 }
 
 const destinations = [
@@ -16,7 +20,14 @@ const destinations = [
     { label: 'Blog', href: '/blog', icon: Newspaper },
 ]
 
-const Hero12 = ({ className, preview = false }: Hero12Props) => {
+const Hero12 = ({
+    className,
+    preview = false,
+    eyebrow = 'University of Dar es Salaam',
+    heading = 'Where ICT students',
+    highlightedHeading = 'learn, build, and lead.',
+    description = 'UISS connects students with practical programs, a growing technical community, and opportunities to turn ideas into useful work.',
+}: Hero12Props) => {
     const Heading = preview ? 'h2' : 'h1'
 
     return (
@@ -30,12 +41,12 @@ const Hero12 = ({ className, preview = false }: Hero12Props) => {
                     <div className="rounded-xl border border-line bg-canvas/80 p-4 shadow-soft backdrop-blur-sm">
                         <LogoIcon className="size-14" />
                     </div>
-                    <p className="mt-8 text-sm font-bold uppercase tracking-[0.18em] text-muted">University of Dar es Salaam</p>
+                    <p className="mt-8 text-sm font-bold uppercase tracking-[0.18em] text-muted">{eyebrow}</p>
                     <Heading className="mt-5 max-w-4xl text-balance text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
-                        Where ICT students <span className="text-brand-mark">learn, build, and lead.</span>
+                        {heading} {highlightedHeading ? <span className="text-brand-mark">{highlightedHeading}</span> : null}
                     </Heading>
                     <p className="mt-6 max-w-2xl text-pretty text-xl leading-8 text-muted">
-                        UISS connects students with practical programs, a growing technical community, and opportunities to turn ideas into useful work.
+                        {description}
                     </p>
                     <div className="mt-8 flex flex-wrap justify-center gap-3">
                         <Button asChild size="lg" variant="secondary">

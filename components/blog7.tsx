@@ -23,6 +23,7 @@ interface Blog7Props {
     posts?: Blog7Post[]
     emptyMessage?: string
     className?: string
+    headingLevel?: 'h1' | 'h2'
 }
 
 const previewPosts: Blog7Post[] = [
@@ -38,12 +39,17 @@ const Blog7 = ({
     posts = previewPosts,
     emptyMessage = 'The Zenblog publication is connected. Your first published article will appear here automatically, with new publications checked hourly.',
     className,
-}: Blog7Props) => (
+    headingLevel = 'h1',
+}: Blog7Props) => {
+    const Heading = headingLevel
+    const EmptyHeading = headingLevel === 'h1' ? 'h2' : 'h3'
+
+    return (
     <section className={cn('py-24 sm:py-32', className)}>
         <div className="container mx-auto flex flex-col items-center gap-10 px-6">
             <div className="max-w-3xl text-center">
                 <Badge variant="secondary">{tagline}</Badge>
-                <h1 className="mt-6 text-balance text-5xl font-bold tracking-tight text-ink sm:text-6xl">{heading}</h1>
+                <Heading className="mt-6 text-balance text-5xl font-bold tracking-tight text-ink sm:text-6xl">{heading}</Heading>
                 <p className="mt-5 text-lg leading-8 text-muted">{description}</p>
             </div>
             {posts.length > 0 ? (
@@ -66,12 +72,13 @@ const Blog7 = ({
             ) : (
                 <div className="flex w-full max-w-3xl flex-col items-center rounded-lg border border-dashed border-line bg-surface p-10 text-center">
                     <Newspaper className="size-10 text-muted" aria-hidden />
-                    <h2 className="mt-5 text-2xl font-bold text-ink">Stories are being prepared.</h2>
+                    <EmptyHeading className="mt-5 text-2xl font-bold text-ink">Stories are being prepared.</EmptyHeading>
                     <p className="mt-3 max-w-xl leading-7 text-muted">{emptyMessage}</p>
                 </div>
             )}
         </div>
     </section>
-)
+    )
+}
 
 export { Blog7 }

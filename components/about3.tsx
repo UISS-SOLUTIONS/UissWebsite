@@ -45,14 +45,16 @@ const About3 = ({
                     <Image src="/ctfWinner.jpg" alt="Students participating in a UISS activity" width={1200} height={900} className="aspect-[4/3] size-full rounded-lg object-cover" />
                 </div>
             </div>
-            <div className="mt-16 grid gap-5 md:grid-cols-3">
-                {stats.map((stat) => (
-                    <Card key={stat.label} variant="soft">
-                        <CardHeader><CardTitle className="text-4xl">{stat.value}</CardTitle><p className="font-bold text-ink">{stat.label}</p></CardHeader>
-                        <CardContent><p className="leading-7 text-muted">{stat.description}</p></CardContent>
-                    </Card>
-                ))}
-            </div>
+            {stats.length > 0 ? (
+                <div className="mt-16 grid gap-5 md:grid-cols-3">
+                    {stats.map((stat) => (
+                        <Card key={stat.label} variant="soft">
+                            <CardHeader><CardTitle className="text-4xl">{stat.value}</CardTitle><p className="font-bold text-ink">{stat.label}</p></CardHeader>
+                            <CardContent><p className="leading-7 text-muted">{stat.description}</p></CardContent>
+                        </Card>
+                    ))}
+                </div>
+            ) : null}
             <div className="mt-16 grid gap-10 border-t border-line pt-12 md:grid-cols-2">
                 {sections.map((section) => (
                     <div key={section.title}>
