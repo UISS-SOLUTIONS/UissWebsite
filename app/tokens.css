@@ -1,0 +1,30 @@
+:root {
+  --uiss-canvas: 255 255 255;
+  --uiss-surface: 248 248 247;
+  --uiss-ink: 17 17 17;
+  --uiss-muted: 95 99 104;
+  --uiss-line: 222 222 218;
+  --uiss-brand: 239 182 49;
+  --uiss-brand-mark: 216 161 58;
+  --uiss-focus: 29 78 216;
+  --uiss-danger: 185 28 28;
+  --uiss-success: 21 128 61;
+  --uiss-radius-sm: 0.5rem;
+  --uiss-radius-md: 0.75rem;
+  --uiss-radius-lg: 1.25rem;
+  --uiss-shadow-soft: 0 20px 60px -32px rgb(17 17 17 / 0.28);
+}
+
+.uiss-proof {
+  --uiss-canvas: 17 17 17;
+  --uiss-surface: 28 28 28;
+  --uiss-ink: 255 255 255;
+  --uiss-muted: 190 190 185;
+  --uiss-line: 62 62 59;
+}
+
+/* Gold is decorative or paired with dark text. It is never body text on white. */
+.uiss-focus-ring {
+  outline: 3px solid rgb(var(--uiss-focus));
+  outline-offset: 3px;
+}

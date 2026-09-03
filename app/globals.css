@@ -1,9 +1,12 @@
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(var(--uiss-canvas));
+  color: rgb(var(--uiss-ink));
 }
 
 @layer base {
@@ -14,4 +17,16 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+@layer base {
+  *:focus-visible {
+    outline: 3px solid rgb(var(--uiss-focus));
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(var(--uiss-brand));
+    color: #111111;
+  }
 }
