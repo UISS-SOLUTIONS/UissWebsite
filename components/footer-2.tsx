@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { Logo } from '@/components/logo'
 
 const links = [
-    { title: 'Explore', items: [{ label: 'Programs', href: '/Explore' }, { label: 'News', href: '/News' }, { label: 'Membership', href: '/Membership' }] },
-    { title: 'Society', items: [{ label: 'Constitution', href: '/Constitution' }, { label: 'Contact', href: '#contact' }, { label: 'Admin', href: '/admin' }] },
+    { title: 'Explore', items: [{ label: 'Clubs', href: '/clubs' }, { label: 'Blog', href: '/blog' }, { label: 'Events', href: '/events' }, { label: 'Projects', href: '/projects' }] },
+    { title: 'Society', items: [{ label: 'Constitution', href: '/Constitution' }, { label: 'Contact', href: 'mailto:udsmict1@gmail.com' }, { label: 'Admin', href: '/admin' }] },
 ]
 
 export default function Footer() {

@@ -22,6 +22,7 @@ export default {
         muted: "rgb(var(--uiss-muted) / <alpha-value>)",
         line: "rgb(var(--uiss-line) / <alpha-value>)",
         brand: "rgb(var(--uiss-brand) / <alpha-value>)",
+        "brand-ink": "rgb(var(--uiss-brand-ink) / <alpha-value>)",
         "brand-mark": "rgb(var(--uiss-brand-mark) / <alpha-value>)",
         focus: "rgb(var(--uiss-focus) / <alpha-value>)",
         danger: "rgb(var(--uiss-danger) / <alpha-value>)",

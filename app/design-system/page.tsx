@@ -1,15 +1,17 @@
 import type { Metadata } from 'next'
-import CallToAction from '@/components/call-to-action-1'
-import ContactSection from '@/components/contact-1'
-import ContentSection from '@/components/content-4'
+import { About3 } from '@/components/about3'
+import { Blog7 } from '@/components/blog7'
+import { Blogpost1 } from '@/components/blogpost1'
+import { Community1 } from '@/components/community1'
+import { Contact2 } from '@/components/contact2'
+import { Cta4 } from '@/components/cta4'
 import FAQs from '@/components/faqs-3'
-import Features from '@/components/features-5'
 import Footer from '@/components/footer-2'
-import HeroSection from '@/components/hero-section-4'
-import LogoCloud from '@/components/logo-cloud-1'
-import StatsSection from '@/components/stats-2'
-import TeamSection from '@/components/team-2'
-import TestimonialSection from '@/components/testimonials-2'
+import { Hero12 } from '@/components/hero12'
+import { HeroHeader } from '@/components/header'
+import { Projects5 } from '@/components/projects5'
+import { Team1 } from '@/components/team1'
+import TestimonialsColumnsDemo from '@/components/testimonials-columns-demo'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
@@ -32,7 +34,7 @@ const hierarchy = [
     { level: '01 · Primitives', items: 'Button, input, select, textarea, label, card, accordion, hover card' },
     { level: '02 · Layout', items: 'Container, grid, section spacing, light and selective-dark surfaces' },
     { level: '03 · Domain cards', items: 'Program, project, event, news, leader, member story, impact metric' },
-    { level: '04 · Sections', items: 'Hero, affiliations, features, content, stats, testimonials, CTA, FAQ, team, contact, footer' },
+    { level: '04 · Sections', items: 'Hero, about, projects, community, testimonials, team, blog, article, contact, CTA, FAQ, footer' },
 ]
 
 export default function DesignSystemPage() {
@@ -42,7 +44,7 @@ export default function DesignSystemPage() {
                 <div className="mx-auto max-w-6xl px-6">
                     <p className="text-sm font-bold uppercase tracking-[0.18em] text-muted">Internal review · not indexed</p>
                     <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">UISS design system gallery</h1>
-                    <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">A Tailark Mist–based direction adapted for this project’s Tailwind 3 setup. Placeholder names, figures, testimonials, and biographies are intentionally not presented as facts.</p>
+                    <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">A Shadcn Blocks–based direction adapted to UISS and this project’s Tailwind 3 setup. Placeholder names, projects, testimonials, and biographies are intentionally not presented as facts.</p>
                 </div>
             </section>
 
@@ -68,16 +70,32 @@ export default function DesignSystemPage() {
                 </div>
             </section>
 
-            <div className="border-b-8 border-brand"><HeroSection preview /></div>
-            <LogoCloud />
-            <Features />
-            <ContentSection />
-            <StatsSection />
-            <TestimonialSection />
-            <TeamSection />
+            <HeroHeader />
+            <div className="border-b-8 border-brand"><Hero12 preview /></div>
+            <About3 />
+            <Projects5 className="bg-surface" />
+            <Community1 className="bg-canvas" />
+            <TestimonialsColumnsDemo />
+            <Team1 className="bg-surface" />
+            <Blog7 />
+            <section className="border-y border-line bg-surface">
+                <Blogpost1
+                    title="Blog article layout preview"
+                    description="Zenblog supplies the final title, summary, author, date, cover image, and article body."
+                    category="Preview"
+                    authors={[{ name: 'UISS administrator' }]}
+                    image="/welcomeBg.jpg"
+                    published="Publication pending"
+                >
+                    <div className="zenblog-content">
+                        <h2>Article content from Zenblog</h2>
+                        <p>This area is a visual preview. The live article page will render the content written and published by the authorized UISS administrator.</p>
+                    </div>
+                </Blogpost1>
+            </section>
             <FAQs />
-            <ContactSection />
-            <CallToAction />
+            <Contact2 />
+            <Cta4 />
             <Footer />
         </div>
     )

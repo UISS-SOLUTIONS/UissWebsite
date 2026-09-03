@@ -19,6 +19,7 @@
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@tailark-oss": "https://oss.tailark.com/r/radix/{name}.json"
+    "@tailark-oss": "https://oss.tailark.com/r/radix/{name}.json",
+    "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json"
   }
 }

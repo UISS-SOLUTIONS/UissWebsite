@@ -3,10 +3,10 @@ import { Logo } from '@/components/logo'
 import { Button } from '@/components/ui/button'
 
 const menuItems = [
-    { name: 'About', href: '#about' },
-    { name: 'Programs', href: '#programs' },
-    { name: 'Impact', href: '#impact' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'Clubs', href: '/clubs' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Events', href: '/events' },
+    { name: 'Projects', href: '/projects' },
 ]
 
 export const HeroHeader = () => (
