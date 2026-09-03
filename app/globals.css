@@ -4,8 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
 body {
   background: rgb(var(--uiss-canvas));
   color: rgb(var(--uiss-ink));

@@ -20,6 +20,7 @@
   "iconLibrary": "lucide",
   "registries": {
     "@tailark-oss": "https://oss.tailark.com/r/radix/{name}.json",
-    "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json"
+    "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json",
+    "@smoothui": "https://smoothui.dev/r/{name}.json"
   }
 }

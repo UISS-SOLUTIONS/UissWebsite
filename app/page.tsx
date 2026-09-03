@@ -8,7 +8,7 @@ import { ClubShowcase, type ClubPreview } from '@/components/home/club-showcase'
 import { EventShowcase, type EventPreview } from '@/components/home/event-showcase'
 import { Hero12 } from '@/components/hero12'
 import { Projects5, type ProjectPreview } from '@/components/projects5'
-import { LogoCloud } from '@/components/logo-cloud'
+import { LogoCloudAnimated } from '@/components/smoothui/logo-cloud-2'
 import { TestimonialsGrid } from '@/components/testimonials-grid'
 import { Team1, type TeamMember } from '@/components/team1'
 import { getHomepageData } from '@/lib/homepage-data'
@@ -99,7 +99,7 @@ export default async function Home() {
                         { title: 'Our community', content: 'Students can discover clubs, take part in events, share useful ideas, and turn classroom knowledge into practical work.' },
                     ]}
                 />
-                <LogoCloud />
+                <LogoCloudAnimated />
                 <ClubShowcase clubs={clubPreviews} unavailable={data.clubs.unavailable} />
                 <EventShowcase events={eventPreviews} unavailable={data.events.unavailable} />
                 {projectPreviews.length > 0 ? <Projects5
