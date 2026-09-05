@@ -27,6 +27,16 @@ export default {
         focus: "rgb(var(--uiss-focus) / <alpha-value>)",
         danger: "rgb(var(--uiss-danger) / <alpha-value>)",
         success: "rgb(var(--uiss-success) / <alpha-value>)",
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       fontFamily: {
         sans: ["var(--font-source-sans-3)", "Arial", "sans-serif"],

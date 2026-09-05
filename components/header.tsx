@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Menu } from 'lucide-react'
-import { Logo } from '@/components/logo'
 import { Button } from '@/components/ui/button'
 
 const menuItems = [
@@ -12,10 +12,17 @@ const menuItems = [
 ]
 
 export const HeroHeader = () => (
-    <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 text-ink backdrop-blur">
         <nav className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-6 px-6" aria-label="Main navigation">
-            <Link href="/" aria-label="UISS home">
-                <Logo />
+            <Link href="/" aria-label="UISS home" className="flex items-center self-stretch py-2">
+                <Image
+                    src="/brand/uiss-legacy-logo.jpg"
+                    alt="UISS — Creativity, Innovation, Humanity"
+                    width={550}
+                    height={550}
+                    priority
+                    className="size-14 object-contain sm:size-16"
+                />
             </Link>
             <ul className="hidden items-center gap-1 md:flex">
                 {menuItems.map((item) => (
@@ -40,7 +47,7 @@ export const HeroHeader = () => (
                     {menuItems.map((item) => (
                         <Link key={item.name} href={item.href} className="block rounded-md px-4 py-3 font-semibold text-ink hover:bg-surface">{item.name}</Link>
                     ))}
-                    <Link href="/membership" className="mt-2 block rounded-md bg-ink px-4 py-3 text-center font-semibold text-canvas">Join UISS</Link>
+                    <Link href="/membership" className="mt-2 block rounded-md bg-brand px-4 py-3 text-center font-semibold text-ink">Join UISS</Link>
                 </div>
             </details>
         </nav>

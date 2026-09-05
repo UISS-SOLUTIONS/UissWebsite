@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Blogpost1 } from '@/components/blogpost1'
+import { BlogReadingProgress } from '@/components/blog-reading-progress'
 import { getZenblogPost } from '@/lib/zenblog'
 
 type BlogPostPageProps = { params: Promise<{ slug: string }> }
@@ -34,7 +35,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     if (!post) notFound()
 
     return (
-        <main>
+        <main id="article-introduction">
+            <BlogReadingProgress />
             <Blogpost1
                 title={post.title}
                 description={post.excerpt}
@@ -43,7 +45,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 image={post.cover_image}
                 published={dateFormatter.format(new Date(post.published_at))}
             >
-                <div className="zenblog-content" dangerouslySetInnerHTML={{ __html: post.html_content }} />
+                <div data-blog-article className="zenblog-content" dangerouslySetInnerHTML={{ __html: post.html_content }} />
             </Blogpost1>
         </main>
     )

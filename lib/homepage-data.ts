@@ -36,7 +36,7 @@ export async function getHomepageData() {
             db.query.clubs.findMany({
                 where: eq(clubs.status, 'active'),
                 orderBy: [asc(clubs.title)],
-                limit: 3,
+                limit: 6,
                 with: { coverMedia: true },
             }),
             [],

@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, CalendarDays, FolderKanban, Newspaper, UsersRound } from 'lucide-react'
-import { LogoIcon } from '@/components/logo'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -12,13 +12,6 @@ interface Hero12Props {
     highlightedHeading?: string
     description?: string
 }
-
-const destinations = [
-    { label: 'Clubs', href: '/clubs', icon: UsersRound },
-    { label: 'Events', href: '/events', icon: CalendarDays },
-    { label: 'Projects', href: '/projects', icon: FolderKanban },
-    { label: 'Blog', href: '/blog', icon: Newspaper },
-]
 
 const Hero12 = ({
     className,
@@ -38,8 +31,15 @@ const Hero12 = ({
             />
             <div className="container relative z-10 mx-auto px-6">
                 <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-                    <div className="rounded-xl border border-line bg-canvas/80 p-4 shadow-soft backdrop-blur-sm">
-                        <LogoIcon className="size-14" />
+                    <div className="flex size-32 items-center justify-center sm:size-36">
+                        <Image
+                            src="/brand/udsm-logo.jpg"
+                            alt="University of Dar es Salaam crest"
+                            width={440}
+                            height={454}
+                            priority
+                            className="size-full object-contain mix-blend-multiply"
+                        />
                     </div>
                     <p className="mt-8 text-sm font-bold uppercase tracking-[0.18em] text-muted">{eyebrow}</p>
                     <Heading className="mt-5 max-w-4xl text-balance text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
@@ -55,13 +55,6 @@ const Hero12 = ({
                         <Button asChild size="lg" variant="outline">
                             <Link href="/projects">Explore projects</Link>
                         </Button>
-                    </div>
-                    <div className="mt-16 flex flex-wrap justify-center gap-3" aria-label="Explore UISS">
-                        {destinations.map(({ label, href, icon: Icon }) => (
-                            <Button key={href} asChild variant="outline">
-                                <Link href={href}><Icon data-icon="inline-start" />{label}</Link>
-                            </Button>
-                        ))}
                     </div>
                 </div>
             </div>

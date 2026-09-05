@@ -7,11 +7,15 @@ import { HeroHeader } from '@/components/header'
 import { ClubShowcase, type ClubPreview } from '@/components/home/club-showcase'
 import { EventShowcase, type EventPreview } from '@/components/home/event-showcase'
 import { Hero12 } from '@/components/hero12'
+import FAQs from '@/components/faqs-3'
 import { Projects5, type ProjectPreview } from '@/components/projects5'
 import { LogoCloudAnimated } from '@/components/smoothui/logo-cloud-2'
 import { TestimonialsGrid } from '@/components/testimonials-grid'
 import { Team1, type TeamMember } from '@/components/team1'
+import { clubCatalog } from '@/lib/club-catalog'
+import { clubMediaBySlug } from '@/lib/club-media'
 import { getHomepageData } from '@/lib/homepage-data'
+import { leadershipCatalog } from '@/lib/leadership-catalog'
 
 export const metadata: Metadata = {
     title: 'UISS | Learn, build, and lead',
@@ -31,13 +35,21 @@ export default async function Home() {
     const data = await getHomepageData()
     const hero = data.hero.data
 
-    const clubPreviews: ClubPreview[] = data.clubs.data.map((club) => ({
-        id: String(club.id),
-        title: club.title,
-        summary: club.summary,
-        disciplines: club.disciplines,
-        url: `/clubs/${club.slug}`,
-    }))
+    const publishedClubsBySlug = new Map(data.clubs.data.map((club) => [club.slug, club]))
+    const clubPreviews: ClubPreview[] = clubCatalog.map((catalogClub) => {
+        const club = publishedClubsBySlug.get(catalogClub.slug)
+        const suppliedMedia = clubMediaBySlug[catalogClub.slug]
+
+        return {
+            id: club ? String(club.id) : catalogClub.id,
+            title: club?.title ?? catalogClub.title,
+            summary: club?.summary || catalogClub.summary,
+            disciplines: club?.disciplines.length ? club.disciplines : catalogClub.disciplines,
+            url: `/clubs/${catalogClub.slug}`,
+            image: suppliedMedia?.image ?? club?.coverMedia?.url ?? catalogClub.image,
+            imageAlt: suppliedMedia?.imageAlt ?? club?.coverMedia?.alt ?? catalogClub.imageAlt,
+        }
+    })
 
     const eventPreviews: EventPreview[] = data.events.data.map((event) => ({
         id: String(event.id),
@@ -58,12 +70,15 @@ export default async function Home() {
         url: `/projects/${project.slug}`,
     }))
 
-    const teamMembers: TeamMember[] = data.leaders.data.map((leader) => ({
+    const publishedTeamMembers: TeamMember[] = data.leaders.data.map((leader) => ({
         id: String(leader.id),
         name: `${leader.firstName} ${leader.lastName}`,
         role: leader.position.title,
         avatar: leader.imageURL || undefined,
     }))
+    const teamMembers: TeamMember[] = publishedTeamMembers.length > 0
+        ? publishedTeamMembers
+        : leadershipCatalog.map((leader) => ({ ...leader }))
 
     const blogPosts: Blog7Post[] = data.blog.posts.slice(0, 3).map((post) => ({
         id: post.slug,
@@ -108,12 +123,12 @@ export default async function Home() {
                     projects={projectPreviews}
                     emptyMessage={data.projects.unavailable ? 'Project information could not be loaded right now. Please try again later.' : undefined}
                 /> : null}
-                {teamMembers.length > 0 ? <Team1
+                <Team1
                     heading="Meet the UISS leadership team."
-                    description="The student leaders coordinating the society, its programs, and its community."
+                    description="The eleven student leaders serving the society during the 2026/2027 academic year. Club leads support this general leadership team within their individual communities."
                     members={teamMembers}
                     emptyMessage={data.leaders.unavailable ? 'Leadership information could not be loaded right now. Please try again later.' : undefined}
-                /> : null}
+                />
                 <Blog7
                     headingLevel="h2"
                     heading="Ideas and stories from our community."
@@ -122,6 +137,7 @@ export default async function Home() {
                     className="bg-surface"
                 />
                 <TestimonialsGrid items={data.testimonials.data.filter((x) => x.text.trim().length >= 40 && x.text.trim().length <= 400)} />
+                <FAQs />
                 <Cta4 />
             </main>
             <Footer />

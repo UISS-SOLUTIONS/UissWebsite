@@ -21,6 +21,7 @@
   "registries": {
     "@tailark-oss": "https://oss.tailark.com/r/radix/{name}.json",
     "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json",
-    "@smoothui": "https://smoothui.dev/r/{name}.json"
+    "@smoothui": "https://smoothui.dev/r/{name}.json",
+    "@unlumen-ui": "https://ui.unlumen.com/r/{name}.json"
   }
 }
