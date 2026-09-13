@@ -30,6 +30,27 @@ test("reduced motion disables smooth scrolling", async ({ page }) => {
   expect(await page.locator("html").evaluate((element) => getComputedStyle(element).scrollBehavior)).toBe("auto");
 });
 
+test("mobile navigation opens with an actionable close control", async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const trigger = page.getByRole("button", { name: "Open navigation menu" });
+  await trigger.click();
+  await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("button", { name: "Close navigation menu" })).toBeVisible();
+  await page.getByRole("button", { name: "Close navigation menu" }).click();
+  await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
+});
+
+test("FAQ controls expose expanded state", async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto("/");
+  const question = page.getByRole("button", { name: "Who can join UISS?" });
+  await expect(question).toHaveAttribute("aria-expanded", "false");
+  await question.click();
+  await expect(question).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator(`#${await question.getAttribute("aria-controls")}`)).toBeVisible();
+});
+
 test("the local leadership portrait manifest maps every supplied portrait", () => {
   const expectedPortraits = {
     "Winifrida Masalu": "/leaders/2026-2027/winifrida-masalu.webp?v=2",

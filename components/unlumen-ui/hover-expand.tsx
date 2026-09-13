@@ -53,20 +53,13 @@ export function HoverExpand({
 
         const row = (
           <motion.div
-            className="relative w-full overflow-hidden text-left"
-            animate={{
-              height: isActive ? expandedHeight : collapsedHeight,
-              opacity: isOtherActive ? 0.58 : 1,
-            }}
-            transition={shouldReduceMotion ? { duration: 0 } : {
-              height: {
-                type: "spring",
-                stiffness: 280,
-                damping: 32,
-                mass: 0.9,
-              },
-              opacity: { duration: 0.22, ease: "easeOut" },
-            }}
+            className={cn(
+              "relative w-full overflow-hidden text-left transition-[height,opacity] ease-out",
+              shouldReduceMotion && "transition-none",
+            )}
+            style={{ height: isActive ? expandedHeight : collapsedHeight }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: [0.23, 1, 0.32, 1] }}
+            animate={{ opacity: isOtherActive ? 0.58 : 1 }}
             onHoverStart={() => setActiveIndex(i)}
             onHoverEnd={() => setActiveIndex(null)}
             onFocusCapture={() => setActiveIndex(i)}

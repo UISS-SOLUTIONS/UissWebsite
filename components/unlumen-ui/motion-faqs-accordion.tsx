@@ -45,12 +45,8 @@ function AccordionItem({
 
   return (
     <motion.div
-      layout
       className="overflow-hidden rounded-xl border border-line bg-surface text-ink shadow-soft"
-      transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 280, damping: 28, mass: 0.9 }}
-      animate={{ scale: shouldReduceMotion || isOpen ? 1 : 0.985 }}
       initial={false}
-      style={{ originX: 0.5, originY: 0 }}
     >
       <button
         id={itemId}

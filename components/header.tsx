@@ -233,7 +233,7 @@ export const HeroHeader = () => {
       >
         <div
           className={cn(
-            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[width,max-width,height,border-radius,box-shadow,transform] ease-out lg:absolute lg:left-0 lg:right-0 lg:top-0",
+            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] ease-out lg:absolute lg:left-0 lg:right-0 lg:top-0",
             shouldReduceMotion ? "duration-0" : "[transition-duration:240ms]",
             desktopCompact
               ? "lg:h-16 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:translate-y-3 lg:rounded-xl lg:border lg:shadow-soft"
@@ -244,11 +244,7 @@ export const HeroHeader = () => {
           <nav aria-label="Main navigation">
           <div
             className={cn(
-              "mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-6 px-6 transition-[min-height] ease-out",
-              shouldReduceMotion
-                ? "duration-0"
-                : "[transition-duration:240ms]",
-              desktopCompact && "lg:min-h-16",
+              "mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-6 px-6",
             )}
           >
             <Link
@@ -263,10 +259,7 @@ export const HeroHeader = () => {
                 height={220}
                 priority
                 className={cn(
-                  "h-12 w-auto object-contain transition-[height] ease-out sm:h-14",
-                  shouldReduceMotion
-                    ? "duration-0"
-                    : "[transition-duration:240ms]",
+                  "h-12 w-auto object-contain sm:h-14",
                   desktopCompact && "lg:h-10",
                 )}
               />
@@ -368,7 +361,12 @@ export const HeroHeader = () => {
 
           <CollapsibleContent
             id="mobile-navigation"
-            className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line lg:hidden data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out data-[state=open]:fade-in"
+            forceMount
+            className={cn(
+              "max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line transition-[transform,opacity] ease-out lg:hidden",
+              shouldReduceMotion ? "duration-0" : "[transition-duration:180ms]",
+              "data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.97] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
+            )}
           >
             <div className="mx-auto flex max-w-6xl flex-col px-6 pb-6">
               <Collapsible

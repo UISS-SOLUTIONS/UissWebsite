@@ -161,12 +161,12 @@ export function BlogGridTwo({ posts, emptyMessage }: BlogGridTwoProps) {
                             <div className="absolute left-0 right-0 z-10 flex h-10 items-center gap-2 rounded-md border border-line bg-canvas px-3 shadow-soft md:static md:w-60">
                                 <Search aria-hidden="true" className="size-4 shrink-0 text-muted" strokeWidth={1.75} />
                                 <input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search articles" aria-label="Search articles" className="min-w-0 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-muted" />
-                                <button type="button" onClick={closeSearch} className="rounded-md p-1 text-muted hover:bg-surface hover:text-ink" aria-label="Close search"><X aria-hidden="true" className="size-4" /></button>
+                                <button type="button" onClick={closeSearch} className="uiss-pressable rounded-md p-1 text-muted hover:bg-surface hover:text-ink" aria-label="Close search"><X aria-hidden="true" className="size-4" /></button>
                             </div>
                         ) : (
-                            <button type="button" onClick={openSearch} className="inline-flex size-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-ink" aria-label="Search articles" title="Search articles (Cmd/Ctrl+K)"><Search aria-hidden="true" className="size-[18px]" strokeWidth={1.75} /></button>
+                            <button type="button" onClick={openSearch} className="uiss-pressable inline-flex size-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-ink" aria-label="Search articles" title="Search articles (Cmd/Ctrl+K)"><Search aria-hidden="true" className="size-[18px]" strokeWidth={1.75} /></button>
                         )}
-                        <Link href="/rss.xml" className="inline-flex size-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-ink" aria-label="RSS feed"><Rss aria-hidden="true" className="size-[18px]" strokeWidth={1.75} /></Link>
+                        <Link href="/rss.xml" className="uiss-pressable inline-flex size-9 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-ink" aria-label="RSS feed"><Rss aria-hidden="true" className="size-[18px]" strokeWidth={1.75} /></Link>
                     </div>
                 </div>
 
