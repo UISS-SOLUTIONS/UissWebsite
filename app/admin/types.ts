@@ -42,3 +42,20 @@ export interface INewClub {
   description: string | null;
   introVidId: string | null;
 }
+
+export interface IErrorFormat {
+  message: string;
+}
+
+export interface ILeader {
+  id: number;
+  firstName: string;
+  lastName: string;
+  position: string;
+  year: string;
+  facebook: string;
+  linkedIn: string;
+  instagram: string;
+  twitter: string;
+  imageURL: string;
+}

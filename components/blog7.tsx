@@ -26,17 +26,11 @@ interface Blog7Props {
     headingLevel?: 'h1' | 'h2'
 }
 
-const previewPosts: Blog7Post[] = [
-    { id: 'preview-1', title: 'First UISS story', summary: 'A visual placeholder for an article published through the connected Zenblog account.', label: 'Preview', author: 'UISS administrator', published: 'Publication pending', url: '/blog', image: '/welcomeBg.jpg' },
-    { id: 'preview-2', title: 'Community update', summary: 'This card will receive its title, excerpt, author, date, and image directly from Zenblog.', label: 'Preview', author: 'UISS administrator', published: 'Publication pending', url: '/blog', image: '/ctfWinner.jpg' },
-    { id: 'preview-3', title: 'Project spotlight', summary: 'Newly published articles are checked and refreshed on the website every hour.', label: 'Preview', author: 'UISS administrator', published: 'Publication pending', url: '/blog', image: '/construction.png' },
-]
-
 const Blog7 = ({
     tagline = 'Latest updates',
     heading = 'UISS blog',
     description = 'Ideas, updates, and stories written by the authorized UISS administrator and published through Zenblog.',
-    posts = previewPosts,
+    posts = [],
     emptyMessage = 'The Zenblog publication is connected. Your first published article will appear here automatically, with new publications checked hourly.',
     className,
     headingLevel = 'h1',
@@ -56,7 +50,7 @@ const Blog7 = ({
                 <div className="grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {posts.map((post) => (
                         <Card key={post.id} className="grid overflow-hidden">
-                            {post.image ? <Link href={post.url} className="block aspect-video overflow-hidden"><img src={post.image} alt="" className="size-full object-cover transition duration-300 hover:scale-105" /></Link> : null}
+                            {post.image ? <Link href={post.url} className="block aspect-video overflow-hidden"><img src={post.image} alt="" className="size-full object-cover transition-transform duration-200 ease-out hover:scale-[1.015]" /></Link> : null}
                             <CardHeader>
                                 <Badge variant="outline" className="w-fit">{post.label}</Badge>
                                 <CardTitle className="mt-4 text-2xl leading-tight"><Link href={post.url} className="hover:underline">{post.title}</Link></CardTitle>

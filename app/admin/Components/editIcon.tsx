@@ -10,7 +10,9 @@ const EditIcon = ({ children }: props) => {
   return (
     <>
       <button
-        className="bg-ternary/90 p-2 rounded-md cursor-pointer w-fit"
+        type="button"
+        aria-label="Edit record"
+        className="uiss-pressable grid size-9 place-items-center rounded-md border border-line bg-canvas"
         onClick={() => setOpenModal(true)}
       >
         <svg

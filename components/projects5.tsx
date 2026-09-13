@@ -26,7 +26,7 @@ interface Projects5Props {
 const Projects5 = ({
     className,
     heading = 'Projects',
-    description = 'The project catalogue is ready for verified student work. Project details and outcomes will be planned in a later ticket.',
+    description = 'Explore practical projects created by students across the UISS community.',
     projects = [],
     emptyMessage = 'Approved student projects will appear here as they are published by the UISS team.',
 }: Projects5Props) => (
@@ -50,7 +50,7 @@ const Projects5 = ({
                         <Link href={project.url} className="block overflow-hidden">
                             {project.image ? (
                                 // eslint-disable-next-line @next/next/no-img-element -- administrator-selected media may use any approved host.
-                                <img src={project.image} alt="" className="h-72 w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+                                <img src={project.image} alt="" className="h-72 w-full object-cover grayscale transition-[filter,transform] duration-200 ease-out group-hover:scale-[1.015] group-hover:grayscale-0" />
                             ) : (
                                 <span className="flex h-72 w-full items-center justify-center bg-surface text-muted"><FolderKanban className="size-12" aria-hidden /></span>
                             )}

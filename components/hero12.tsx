@@ -33,7 +33,7 @@ const Hero12 = ({
                 <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
                     <div className="flex size-32 items-center justify-center sm:size-36">
                         <Image
-                            src="/brand/udsm-logo.jpg"
+                            src="/brand/udsm-logo.avif"
                             alt="University of Dar es Salaam crest"
                             width={440}
                             height={454}

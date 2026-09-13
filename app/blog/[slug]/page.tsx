@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Blogpost1 } from '@/components/blogpost1'
+import { BlogArticleTwo } from '@/components/blog-article-two'
 import { BlogReadingProgress } from '@/components/blog-reading-progress'
 import { getZenblogPost } from '@/lib/zenblog'
 
@@ -35,18 +35,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     if (!post) notFound()
 
     return (
-        <main id="article-introduction">
+        <main id="article-introduction" className="bg-canvas">
             <BlogReadingProgress />
-            <Blogpost1
+            <BlogArticleTwo
                 title={post.title}
                 description={post.excerpt}
                 category={post.category?.name}
-                authors={post.authors.map((author) => ({ name: author.name, image: author.image_url }))}
+                authors={post.authors.length ? post.authors.map((author) => ({ name: author.name, image: author.image_url })) : [{ name: 'UISS' }]}
                 image={post.cover_image}
                 published={dateFormatter.format(new Date(post.published_at))}
             >
-                <div data-blog-article className="zenblog-content" dangerouslySetInnerHTML={{ __html: post.html_content }} />
-            </Blogpost1>
+                <div dangerouslySetInnerHTML={{ __html: post.html_content }} />
+            </BlogArticleTwo>
         </main>
     )
 }

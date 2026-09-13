@@ -10,10 +10,34 @@
   --uiss-focus: 29 78 216;
   --uiss-danger: 185 28 28;
   --uiss-success: 21 128 61;
-  --uiss-radius-sm: 0.5rem;
+  --uiss-warning: 180 109 0;
+
+  --uiss-space-1: 0.25rem;
+  --uiss-space-2: 0.5rem;
+  --uiss-space-3: 0.75rem;
+  --uiss-space-4: 1rem;
+  --uiss-space-5: 1.5rem;
+  --uiss-space-6: 2rem;
+  --uiss-space-7: 3rem;
+  --uiss-space-8: 4rem;
+  --uiss-section-space: clamp(4.5rem, 8vw, 7rem);
+  --uiss-page-gutter: clamp(1.25rem, 4vw, 2rem);
+  --uiss-content: 72rem;
+  --uiss-content-wide: 80rem;
+  --uiss-reading: 44rem;
+
+  --uiss-radius-sm: 0.375rem;
   --uiss-radius-md: 0.75rem;
-  --uiss-radius-lg: 1.25rem;
-  --uiss-shadow-soft: 0 20px 60px -32px rgb(17 17 17 / 0.28);
+  --uiss-radius-lg: 1rem;
+  --uiss-radius-xl: 1.5rem;
+  --uiss-shadow-soft: 0 20px 60px -32px rgb(17 17 17 / 0.24);
+  --uiss-shadow-raised: 0 18px 45px -24px rgb(17 17 17 / 0.3);
+
+  --uiss-duration-press: 140ms;
+  --uiss-duration-control: 180ms;
+  --uiss-duration-section: 260ms;
+  --uiss-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --uiss-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .uiss-proof {
@@ -22,6 +46,11 @@
   --uiss-ink: 255 255 255;
   --uiss-muted: 190 190 185;
   --uiss-line: 62 62 59;
+}
+
+.uiss-density-admin {
+  --uiss-section-space: clamp(2rem, 4vw, 3.5rem);
+  --uiss-page-gutter: clamp(1rem, 3vw, 2rem);
 }
 
 /* Gold is decorative or paired with dark text. It is never body text on white. */

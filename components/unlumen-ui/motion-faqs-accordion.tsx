@@ -46,7 +46,7 @@ function AccordionItem({
   return (
     <motion.div
       layout
-      className="overflow-hidden rounded-[30px] border border-line bg-surface text-ink shadow-soft"
+      className="overflow-hidden rounded-xl border border-line bg-surface text-ink shadow-soft"
       transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 280, damping: 28, mass: 0.9 }}
       animate={{ scale: shouldReduceMotion || isOpen ? 1 : 0.985 }}
       initial={false}
@@ -158,7 +158,7 @@ export function MotionAccordion({
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex flex-col rounded-[34px] p-3" style={{ gap }}>
+      <div className="flex flex-col rounded-xl p-3" style={{ gap }}>
         {items.map((item, i) => (
           <AccordionItem
             key={i}

@@ -43,7 +43,7 @@ const ExplorePageForm = () => {
           type="text"
           name="backgroundImg"
           id=""
-          value={"./welcomeBg.jpg"}
+          value={"./welcomeBg.avif"}
           className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
         />
         <label htmlFor="heading" className="text-xl font-bold">

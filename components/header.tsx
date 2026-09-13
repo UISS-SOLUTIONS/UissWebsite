@@ -1,55 +1,454 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+"use client";
 
-const menuItems = [
-    { name: 'Clubs', href: '/clubs' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Events', href: '/events' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'About', href: '/about' },
-]
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "motion/react";
+import {
+  ArrowRight,
+  Blocks,
+  BrainCircuit,
+  CalendarDays,
+  ChartNoAxesCombined,
+  ChevronDown,
+  Code2,
+  FolderKanban,
+  Menu,
+  Network,
+  Palette,
+  type LucideIcon,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
-export const HeroHeader = () => (
-    <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 text-ink backdrop-blur">
-        <nav className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-6 px-6" aria-label="Main navigation">
-            <Link href="/" aria-label="UISS home" className="flex items-center self-stretch py-2">
-                <Image
-                    src="/brand/uiss-legacy-logo.jpg"
-                    alt="UISS — Creativity, Innovation, Humanity"
-                    width={550}
-                    height={550}
-                    priority
-                    className="size-14 object-contain sm:size-16"
-                />
+type NavigationCard = {
+  title: string;
+  href: string;
+  description: string;
+  icon: LucideIcon;
+};
+
+const clubItems: NavigationCard[] = [
+  {
+    title: "Artificial Intelligence",
+    href: "/clubs/artificial-intelligence",
+    description: "Build practical AI and machine-learning systems.",
+    icon: BrainCircuit,
+  },
+  {
+    title: "Blockchain",
+    href: "/clubs/blockchain",
+    description: "Explore smart contracts, Web3, and cryptography.",
+    icon: Blocks,
+  },
+  {
+    title: "Data Science",
+    href: "/clubs/data-science",
+    description: "Turn real data into useful evidence and insights.",
+    icon: ChartNoAxesCombined,
+  },
+  {
+    title: "Networking",
+    href: "/clubs/networking",
+    description: "Configure, secure, and troubleshoot connected systems.",
+    icon: Network,
+  },
+  {
+    title: "Software Development",
+    href: "/clubs/software-development",
+    description: "Build reliable web, mobile, and open-source software.",
+    icon: Code2,
+  },
+  {
+    title: "UI/UX & Graphic Design",
+    href: "/clubs/ui-ux-graphic-design",
+    description: "Research and craft inclusive digital experiences.",
+    icon: Palette,
+  },
+];
+
+const exploreItems: NavigationCard[] = [
+  {
+    title: "Events",
+    href: "/events",
+    description: "Join workshops, meetups, and student-led experiences.",
+    icon: CalendarDays,
+  },
+  {
+    title: "Projects",
+    href: "/projects",
+    description: "Discover practical work built by UISS students.",
+    icon: FolderKanban,
+  },
+];
+
+const directItems = [
+  { title: "Blog", href: "/blog" },
+  { title: "About", href: "/about" },
+];
+
+function DesktopNavigationCard({ item }: { item: NavigationCard }) {
+  const Icon = item.icon;
+
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link
+          href={item.href}
+          className="group flex h-full gap-3 rounded-md p-3 text-left transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-line bg-canvas text-ink [&_svg]:size-4">
+            <Icon aria-hidden="true" />
+          </span>
+          <span className="min-w-0">
+            <span className="block font-semibold text-ink">{item.title}</span>
+            <span className="mt-1 block text-sm leading-snug text-muted">
+              {item.description}
+            </span>
+          </span>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
+function MobileNavigationLink({
+  item,
+  onNavigate,
+}: {
+  item: Pick<NavigationCard, "title" | "href" | "icon">;
+  onNavigate: () => void;
+}) {
+  const Icon = item.icon;
+
+  return (
+    <li>
+      <Link
+        href={item.href}
+        onClick={onNavigate}
+        aria-label={item.title}
+        className="flex min-h-10 items-center gap-3 rounded-md px-1 py-1.5 text-sm font-medium text-ink transition-colors hover:bg-surface focus-visible:bg-surface"
+      >
+        <span className="flex size-8 shrink-0 items-center justify-center text-ink [&_svg]:size-4">
+          <Icon aria-hidden="true" />
+        </span>
+        {item.title}
+      </Link>
+    </li>
+  );
+}
+
+export const HeroHeader = () => {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileClubsOpen, setMobileClubsOpen] = useState(false);
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const syncDesktop = () => setIsDesktop(desktopQuery.matches);
+
+    syncDesktop();
+    desktopQuery.addEventListener("change", syncDesktop);
+
+    return () => desktopQuery.removeEventListener("change", syncDesktop);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsCompact((compact) => {
+      if (compact) return latest > 8;
+      return latest >= 24;
+    });
+  });
+
+  const desktopCompact = isDesktop && isCompact;
+
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setMobileClubsOpen(false);
+    setMobileExploreOpen(false);
+  };
+
+  const handleMobileOpenChange = (open: boolean) => {
+    setMobileOpen(open);
+    if (!open) {
+      setMobileClubsOpen(false);
+      setMobileExploreOpen(false);
+    }
+  };
+
+  const handleMobileClubsChange = (open: boolean) => {
+    setMobileClubsOpen(open);
+    if (open) setMobileExploreOpen(false);
+  };
+
+  const handleMobileExploreChange = (open: boolean) => {
+    setMobileExploreOpen(open);
+    if (open) setMobileClubsOpen(false);
+  };
+
+  const handleEscape = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== "Escape" || !mobileOpen) return;
+
+    closeMobileMenu();
+    mobileTriggerRef.current?.focus();
+  };
+
+  return (
+    <Collapsible open={mobileOpen} onOpenChange={handleMobileOpenChange} asChild>
+      <header
+        className="sticky top-0 z-40 text-ink lg:h-20"
+        onKeyDown={handleEscape}
+      >
+        <div
+          className={cn(
+            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[width,max-width,height,border-radius,box-shadow,transform] ease-out lg:absolute lg:left-0 lg:right-0 lg:top-0",
+            shouldReduceMotion ? "duration-0" : "[transition-duration:240ms]",
+            desktopCompact
+              ? "lg:h-16 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:translate-y-3 lg:rounded-xl lg:border lg:shadow-soft"
+              : "lg:h-20 lg:max-w-none",
+          )}
+          data-compact={desktopCompact || undefined}
+        >
+          <nav aria-label="Main navigation">
+          <div
+            className={cn(
+              "mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-6 px-6 transition-[min-height] ease-out",
+              shouldReduceMotion
+                ? "duration-0"
+                : "[transition-duration:240ms]",
+              desktopCompact && "lg:min-h-16",
+            )}
+          >
+            <Link
+              href="/"
+              aria-label="UISS home"
+              className="flex items-center self-stretch py-2"
+            >
+              <Image
+                src="/brand/uiss-mark.avif"
+                alt=""
+                width={256}
+                height={220}
+                priority
+                className={cn(
+                  "h-12 w-auto object-contain transition-[height] ease-out sm:h-14",
+                  shouldReduceMotion
+                    ? "duration-0"
+                    : "[transition-duration:240ms]",
+                  desktopCompact && "lg:h-10",
+                )}
+              />
             </Link>
-            <ul className="hidden items-center gap-1 md:flex">
-                {menuItems.map((item) => (
-                    <li key={item.name}>
-                        <Button asChild variant="ghost" size="sm">
-                            <Link href={item.href}>{item.name}</Link>
-                        </Button>
-                    </li>
-                ))}
-            </ul>
-            <div className="hidden md:block">
-                <Button asChild variant="secondary">
-                    <Link href="/membership">Join UISS</Link>
-                </Button>
+
+            <div className="hidden flex-1 justify-center lg:flex">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Clubs</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-[44rem] p-3">
+                        <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-muted">
+                          Technical communities
+                        </p>
+                        <ul className="grid grid-cols-2 gap-1">
+                          {clubItems.map((item) => (
+                            <DesktopNavigationCard
+                              key={item.href}
+                              item={item}
+                            />
+                          ))}
+                        </ul>
+                        <Separator className="my-2" />
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href="/clubs"
+                            className="flex items-center justify-between rounded-md px-3 py-2 text-sm font-semibold text-ink transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none [&_svg]:size-4"
+                          >
+                            View all clubs
+                            <ArrowRight aria-hidden="true" />
+                          </Link>
+                        </NavigationMenuLink>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-96 p-3">
+                        <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-muted">
+                          Explore UISS
+                        </p>
+                        <ul className="grid gap-1">
+                          {exploreItems.map((item) => (
+                            <DesktopNavigationCard
+                              key={item.href}
+                              item={item}
+                            />
+                          ))}
+                        </ul>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  {directItems.map((item) => (
+                    <NavigationMenuItem key={item.href}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          className={navigationMenuTriggerStyle()}
+                          href={item.href}
+                          aria-current={pathname === item.href ? "page" : undefined}
+                        >
+                          {item.title}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
-            <details className="group relative md:hidden">
-                <summary className="flex size-10 cursor-pointer list-none items-center justify-center rounded-lg border border-line bg-canvas text-ink [&::-webkit-details-marker]:hidden">
-                    <Menu aria-hidden />
-                    <span className="sr-only">Open navigation menu</span>
-                </summary>
-                <div className="absolute right-0 top-12 z-50 w-56 rounded-lg border border-line bg-canvas p-2 shadow-soft">
-                    {menuItems.map((item) => (
-                        <Link key={item.name} href={item.href} className="block rounded-md px-4 py-3 font-semibold text-ink hover:bg-surface">{item.name}</Link>
+
+            <div className="hidden lg:block">
+              <Button asChild variant="secondary" size="sm">
+                <Link href="/membership">Join UISS</Link>
+              </Button>
+            </div>
+
+            <CollapsibleTrigger asChild>
+              <Button
+                ref={mobileTriggerRef}
+                variant="outline"
+                size="icon"
+                className="lg:hidden"
+                aria-label={
+                  mobileOpen ? "Close navigation menu" : "Open navigation menu"
+                }
+                aria-controls="mobile-navigation"
+              >
+                {mobileOpen ? (
+                  <X aria-hidden="true" />
+                ) : (
+                  <Menu aria-hidden="true" />
+                )}
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+
+          <CollapsibleContent
+            id="mobile-navigation"
+            className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-line lg:hidden data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out data-[state=open]:fade-in"
+          >
+            <div className="mx-auto flex max-w-6xl flex-col px-6 pb-6">
+              <Collapsible
+                open={mobileClubsOpen}
+                onOpenChange={handleMobileClubsChange}
+              >
+                <CollapsibleTrigger className="group flex min-h-14 w-full items-center justify-between border-b border-line text-left text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 [&_svg]:size-4">
+                  Clubs
+                  <ChevronDown
+                    className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+                    aria-hidden="true"
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ul className="grid gap-0.5 py-2 sm:grid-cols-2">
+                    {clubItems.map((item) => (
+                      <MobileNavigationLink
+                        key={item.href}
+                        item={item}
+                        onNavigate={closeMobileMenu}
+                      />
                     ))}
-                    <Link href="/membership" className="mt-2 block rounded-md bg-brand px-4 py-3 text-center font-semibold text-ink">Join UISS</Link>
-                </div>
-            </details>
-        </nav>
-    </header>
-)
+                  </ul>
+                  <Link
+                    href="/clubs"
+                    onClick={closeMobileMenu}
+                    className="mb-2 flex min-h-10 items-center justify-between rounded-md px-1 text-sm font-semibold text-ink transition-colors hover:bg-surface focus-visible:bg-surface [&_svg]:size-4"
+                  >
+                    View all clubs
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </CollapsibleContent>
+              </Collapsible>
+
+              <Collapsible
+                open={mobileExploreOpen}
+                onOpenChange={handleMobileExploreChange}
+              >
+                <CollapsibleTrigger className="group flex min-h-14 w-full items-center justify-between border-b border-line text-left text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 [&_svg]:size-4">
+                  Explore
+                  <ChevronDown
+                    className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+                    aria-hidden="true"
+                  />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ul className="grid gap-0.5 py-2 sm:grid-cols-2">
+                    {exploreItems.map((item) => (
+                      <MobileNavigationLink
+                        key={item.href}
+                        item={item}
+                        onNavigate={closeMobileMenu}
+                      />
+                    ))}
+                  </ul>
+                </CollapsibleContent>
+              </Collapsible>
+
+              {directItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMobileMenu}
+                  aria-current={pathname === item.href ? "page" : undefined}
+                  className="flex min-h-14 items-center border-b border-line text-lg font-semibold text-ink transition-colors hover:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2"
+                >
+                  {item.title}
+                </Link>
+              ))}
+
+              <Button asChild variant="secondary" size="lg" className="mt-6">
+                <Link href="/membership" onClick={closeMobileMenu}>
+                  Join UISS
+                </Link>
+              </Button>
+            </div>
+          </CollapsibleContent>
+          </nav>
+        </div>
+      </header>
+    </Collapsible>
+  );
+};

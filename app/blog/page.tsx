@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { Blog7, type Blog7Post } from '@/components/blog7'
+
+import { BlogGridTwo, type BlogIndexPost } from '@/components/blog-grid-two'
 import { listZenblogPosts } from '@/lib/zenblog'
 
 export const metadata: Metadata = {
@@ -18,15 +19,16 @@ const dateFormatter = new Intl.DateTimeFormat('en-TZ', {
 
 export default async function BlogPage() {
     const result = await listZenblogPosts()
-    const posts: Blog7Post[] = result.posts.map((post) => ({
-        id: post.slug,
+    const posts: BlogIndexPost[] = result.posts.map((post) => ({
+        slug: post.slug,
         title: post.title,
-        summary: post.excerpt,
-        label: post.category?.name ?? 'UISS',
-        author: post.authors.map((author) => author.name).join(', ') || 'UISS',
+        excerpt: post.excerpt,
+        category: post.category?.name,
         published: dateFormatter.format(new Date(post.published_at)),
-        url: `/blog/${post.slug}`,
-        image: post.cover_image,
+        coverImage: post.cover_image,
+        authors: post.authors.length
+            ? post.authors.map((author) => ({ name: author.name, image: author.image_url }))
+            : [{ name: 'UISS' }],
     }))
 
     const emptyMessage = result.unavailable
@@ -35,13 +37,5 @@ export default async function BlogPage() {
             ? 'The Zenblog publication is connected. Your first published article will appear here automatically, with new publications checked hourly.'
             : 'The blog route is ready and will display published Zenblog articles after the blog ID is connected.'
 
-    return (
-        <main>
-            <Blog7
-                heading="Ideas and stories from our community."
-                posts={posts}
-                emptyMessage={emptyMessage}
-            />
-        </main>
-    )
+    return <BlogGridTwo posts={posts} emptyMessage={emptyMessage} />
 }

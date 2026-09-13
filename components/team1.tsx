@@ -1,12 +1,12 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
+import { LeaderPortrait } from '@/components/leader-portrait'
 import { cn } from '@/lib/utils'
 
 export type TeamMember = {
     id: string
     name: string
     role: string
-    avatar?: string
+    avatar?: string | null
 }
 
 
@@ -20,7 +20,7 @@ interface Team1Props {
 
 const Team1 = ({
     heading = 'Meet the eleven-person leadership team.',
-    description = 'The structure is ready for the approved names, positions, portraits, and biographies.',
+    description = 'Meet the student leaders serving the UISS community.',
     members = [],
     className,
     emptyMessage = 'Approved leadership profiles will appear here once they have been added by the UISS team.',
@@ -37,10 +37,7 @@ const Team1 = ({
                     {members.map((member) => (
                         <CarouselItem key={member.id} className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                             <article className="flex min-h-72 flex-col items-center justify-center rounded-lg border border-line bg-canvas p-6 text-center shadow-soft">
-                                <Avatar className="size-24 border border-line">
-                                    {member.avatar ? <AvatarImage src={member.avatar} alt="" /> : null}
-                                    <AvatarFallback>{member.name.split(' ').map((part) => part[0]).join('').slice(0, 2)}</AvatarFallback>
-                                </Avatar>
+                                <LeaderPortrait name={member.name} databaseImage={member.avatar} variant="avatar" />
                                 <h3 className="mt-6 text-xl font-bold text-ink">{member.name}</h3>
                                 <p className="mt-1 text-muted">{member.role}</p>
                             </article>

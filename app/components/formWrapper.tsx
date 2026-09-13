@@ -26,10 +26,10 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children, className
       onSubmit={handleSubmit}
     >
       {children}
-      <div className="w-[90%]">
+      <div className="w-full">
         <button
           type="submit"
-          className="text-xl px-4 py-1 bg-[#efb631] text-black font-bold rounded-lg w-fit mt-2 mb-3"
+          className="uiss-pressable mt-4 min-h-11 rounded-md bg-brand px-5 py-2 font-semibold text-brand-ink"
         >
           Submit
         </button>

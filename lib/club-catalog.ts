@@ -25,7 +25,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['Machine learning', 'Computer vision', 'Responsible AI'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/artificial-intelligence.jpg',
+        image: '/clubs/artificial-intelligence.avif',
         imageAlt: 'A three-dimensional neural network forming the shape of a human brain',
     },
     {
@@ -37,7 +37,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['Smart contracts', 'Web3', 'Cryptography'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/blockchain.jpg',
+        image: '/clubs/blockchain.avif',
         imageAlt: 'Bitcoin and Ethereum coins in front of a digital market chart',
     },
     {
@@ -49,7 +49,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['Analytics', 'Visualization', 'Statistics'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/data-science.jpg',
+        image: '/clubs/data-science.avif',
         imageAlt: 'A green data chart displayed on a laptop screen',
     },
     {
@@ -61,7 +61,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['Infrastructure', 'Security', 'Cloud'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/networking.jpg',
+        image: '/clubs/networking.avif',
         imageAlt: 'Ethernet cables connected to a network patch panel',
     },
     {
@@ -73,7 +73,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['Web development', 'Mobile', 'Open source'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/software-development.jpg',
+        image: '/clubs/software-development.avif',
         imageAlt: 'Source code open on a laptop at a software development workspace',
     },
     {
@@ -85,7 +85,7 @@ export const clubCatalog: ClubCatalogItem[] = [
         disciplines: ['UX research', 'Interfaces', 'Visual design'],
         skillLevels: ['Beginner', 'Intermediate', 'Advanced'],
         eligibility: 'Open to interested UISS members at every experience level.',
-        image: '/clubs/ui-ux-graphic-design.jpg',
+        image: '/clubs/ui-ux-graphic-design.avif',
         imageAlt: 'A designer sketching mobile interface wireframes on paper',
     },
 ]

@@ -32,7 +32,7 @@ export default async function MembershipPage({ searchParams }: { searchParams: P
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-muted">
                 UISS membership
               </p>
-              <h1 className="mt-4 text-balance text-5xl font-bold leading-[1.02] tracking-[-0.04em] sm:text-6xl">
+              <h1 className="uiss-page-title mt-4">
                 Find your place in the UISS community.
               </h1>
               <p className="mt-6 max-w-xl text-pretty text-lg leading-8 text-muted">

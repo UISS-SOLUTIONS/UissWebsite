@@ -2,105 +2,66 @@
 
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { ArrowLeft, LoaderCircle } from "lucide-react";
 import UissLogo from "@/public/logoUISS.png";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { PageShell } from "@/components/ui/layout";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    toast.loading("Logging in...")
-    const loginPromise = signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    const response = await loginPromise;
-    toast.dismiss();
-
-    if (response?.error) {
-      switch (response.error) {
-        case "CredentialsSignin":
-          toast.error("Invalid email or password");
-          setError("Invalid email or password");
-          break;
-        case "Configuration":
-          toast.error("Internal server error occurred");
-          setError("Internal server error occurred");
-          break;
-        default:
-          toast.error("Something went wrong. Please try again.");
-          setError("Something went wrong. Please try again.");
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setPending(true);
+    try {
+      const response = await signIn("credentials", { email, password, redirect: false });
+      if (response?.error) {
+        setError(response.error === "CredentialsSignin" ? "Email or password is incorrect." : "We could not sign you in. Try again.");
+        return;
       }
-    } else {
-      toast.success("Login successful!");
-      window.location.href = "/admin";
+      window.location.assign("/admin");
+    } catch {
+      setError("We could not sign you in. Check your connection and try again.");
+    } finally {
+      setPending(false);
     }
-  };
+  }
 
   return (
-    <div className="w-full h-screen relative flex items-center justify-center">
-      <div className="w-full h-full absolute top-0">
-        <img
-          src="https://img.freepik.com/free-photo/study-group-african-people_23-2149156431.jpg?t=st=1745401943~exp=1745405543~hmac=e4b69db0e83d5a3808d41ea6d08eb1891a1dcf1f4f7707c1af7b605c89a4b30b&w=826"
-          alt=""
-          className="w-full h-full object-cover"
-        />
-        <div className="bg-black/80 w-full h-full absolute top-0" />
-      </div>
-      <div className="z-10 bg-slate-200 flex flex-col items-center justify-center gap-5 py-5 w-[30%] rounded-lg">
-        <Image src={UissLogo} height={80} width={85} alt="Uiss Logo" />
-        <div className="flex flex-col items-center justify-center font-semibold italic text-black/80 text-lg">
-          <h1>Great systems are built with quiet precision.</h1>
-          <h2>Continue the mission.</h2>
+    <PageShell className="grid min-h-dvh lg:grid-cols-2">
+      <section className="relative hidden min-h-dvh overflow-hidden bg-ink text-canvas lg:flex lg:flex-col lg:justify-between lg:p-12">
+        <Image src="/welcomeBg.avif" alt="UISS students learning together" fill priority className="object-cover opacity-45" sizes="50vw" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/20" />
+        <Image src={UissLogo} width={76} height={76} alt="UISS" className="relative z-10" />
+        <div className="relative z-10 max-w-xl">
+          <p className="uiss-eyebrow text-canvas/70">UISS administration</p>
+          <p className="mt-4 font-display text-5xl font-semibold leading-none tracking-[-0.04em]">Maintain the work students rely on.</p>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col items-center justify-center gap-5 w-full pb-5"
-        >
-          <div className="flex flex-col gap-2 w-[90%]">
-            <label htmlFor="email" className="text-xl font-bold">
-              E-mail
-            </label>
-            <input
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-              placeholder="Email"
-            />
+      </section>
+      <main className="flex min-h-dvh items-center bg-surface px-5 py-12 sm:px-10">
+        <div className="mx-auto w-full max-w-md">
+          <Link href="/" className="uiss-pressable mb-10 inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink"><ArrowLeft aria-hidden="true" className="size-4" /> Back to UISS</Link>
+          <div className="uiss-admin-panel p-6 sm:p-9">
+            <Image src={UissLogo} width={60} height={60} alt="UISS" className="mb-8 lg:hidden" />
+            <p className="uiss-eyebrow">Secure access</p>
+            <h1 className="mt-3 font-display text-4xl font-semibold tracking-[-0.035em]">Welcome back.</h1>
+            <p className="mt-3 text-muted">Sign in to manage UISS content and community information.</p>
+            <form onSubmit={handleSubmit} className="mt-8 space-y-5" aria-describedby={error ? "login-error" : undefined}>
+              <div className="space-y-2"><label htmlFor="email" className="text-sm font-semibold">Email address</label><Input id="email" name="email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} aria-invalid={Boolean(error)} /></div>
+              <div className="space-y-2"><label htmlFor="password" className="text-sm font-semibold">Password</label><Input id="password" name="password" type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} aria-invalid={Boolean(error)} /></div>
+              {error && <div id="login-error" role="alert" className="rounded-md border border-danger/25 bg-danger/5 px-4 py-3 text-sm font-medium text-danger">{error}</div>}
+              <Button type="submit" size="lg" className="w-full" disabled={pending} aria-busy={pending}>{pending && <LoaderCircle aria-hidden="true" className="animate-spin" />}{pending ? "Signing in…" : "Sign in"}</Button>
+            </form>
           </div>
-          <div className="flex flex-col gap-2 w-[90%]">
-            <label htmlFor="password" className="text-xl font-bold">
-              Password
-            </label>
-            <input
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-              type="password"
-              placeholder="Password"
-            />
-          </div>
-          {error && (
-            <div className="flex flex-col gap-2 w-[90%]">
-              <span className="text-xl font-bold text-red-600">{error}</span>
-            </div>
-          )}
-          <button
-            type="submit"
-            className="bg-ternary font-bold text-xl w-[90%] rounded-lg py-2"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
+        </div>
+      </main>
+    </PageShell>
   );
 }

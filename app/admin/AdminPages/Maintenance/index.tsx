@@ -4,12 +4,9 @@ import ExplorePageForm from "../../Components/explorePageForm";
 
 const WebMaintenance = () => {
   return (
-    <div className="my-[3vh]">
-      <div className="bg-[#FAFAFA] rounded-md shadow-lg mx-10 py-3 px-8 text-3xl font-bold mb-7">
-       <span className="text-ternary">Forms / </span><span>Pages</span>
-
-      </div>
-      <div className="grid grid-cols-2 gap-7 mx-10">
+    <div className="uiss-admin-page">
+      <header className="mb-8"><p className="uiss-eyebrow">Website management</p><h1 className="mt-2 font-display text-4xl font-semibold tracking-tight">Maintenance</h1><p className="mt-2 max-w-2xl text-muted">Update public content and keep core information current.</p></header>
+      <div className="grid gap-6 xl:grid-cols-2">
         <HomePageForm />
         <ExplorePageForm />
       </div>

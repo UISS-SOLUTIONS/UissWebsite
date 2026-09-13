@@ -1,145 +1,49 @@
-/* eslint-disable */
 "use client";
-import React, { useState } from "react";
-import EditIcon from "./editIcon";
-import AddIcon from "./addIcon";
-import CoreValueForm from "./coreValueForm";
-import AddUserForm from "./addUserForm";
-import { usePathname } from "next/navigation";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import AddClub from "../AdminPages/Clubs/components/addClub";
 import AddLeaderForm from "./addLeaderForm";
+import AddUserForm from "./addUserForm";
+import CoreValueForm from "./coreValueForm";
+import AddIcon from "./addIcon";
+import EditIcon from "./editIcon";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-interface props {
-  title: string;
-  endpoint?: string;
-  action?: boolean;
-  view?: boolean;
-  values: any[];
-}
+interface Props { title: string; endpoint?: string; action?: boolean; view?: boolean; values: object[]; }
+const PAGE_SIZE = 10;
+const displayValue = (value: unknown) => value == null ? "—" : typeof value === "object" ? (Array.isArray(value) ? value.join(", ") : "Structured data") : String(value);
 
-const TableComponent: React.FC<props> = ({
-  title,
-  action = false,
-  view = false,
-  values = [],
-}) => {
+export default function TableComponent({ title, action = false, view = false, values = [] }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
   const pathname = usePathname();
-
-  const tableHeaders = values.length > 0 ? Object.keys(values[0]) : [];
-
-  const filteredData = values.filter((item) =>
-    tableHeaders.some((key) =>
-      String(item[key]).toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+  const records = useMemo(() => values as Record<string, unknown>[], [values]);
+  const headers = useMemo(() => records[0] ? Object.keys(records[0]) : [], [records]);
+  const filtered = useMemo(() => records.filter((item) => headers.some((key) => displayValue(item[key]).toLowerCase().includes(searchQuery.toLowerCase()))), [headers, searchQuery, records]);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const rows = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const hasCreateAction = ["/admin/AdminPages/Users", "/admin/AdminPages/CoreValues", "/admin/AdminPages/Clubs", "/admin/AdminPages/Leaders"].includes(pathname);
 
   return (
-    <div className="bg-[#FAFAFA] rounded-xl shadow-lg mx-10 w-[94%]">
-      <span className="flex w-full text-3xl border-b-black/30 border-[1px] uppercase font-bold px-7 py-3">
-        {title}
-      </span>
-      <div className="flex justify-end w-[97.5%]">
-        <div className="flex items-center gap-3 my-[2vh]">
-          <label htmlFor="section" className="text-xl font-bold">
-            Search:
-          </label>
-          <input
-            type="text"
-            name="section"
-            id=""
-            className="py-1 px-3 text-base focus:outline-none bg-transparent border-black/20 border-[1px] rounded-md"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search users..."
-          />
-          <AddIcon className="p-3 bg-ternary/90 cursor-pointer rounded-md">
-            {pathname === "/admin/AdminPages/Users" && <AddUserForm />}
-            {pathname === "/admin/AdminPages/CoreValues" && (
-              <CoreValueForm add />
-            )}
-            {pathname === "/admin/AdminPages/Clubs" && <AddClub />}
-            {pathname === "/admin/AdminPages/Leaders" && <AddLeaderForm />}
-          </AddIcon>
-        </div>
+    <section className="uiss-admin-panel overflow-hidden">
+      <div className="flex flex-col gap-5 border-b border-line p-5 sm:flex-row sm:items-end sm:justify-between">
+        <div><p className="uiss-eyebrow">Records</p><h1 className="mt-1 font-display text-3xl font-semibold">{title}</h1></div>
+        <div className="flex items-end gap-2"><div className="min-w-0 sm:w-64"><label htmlFor={`${title}-search`} className="mb-1.5 block text-sm font-semibold">Search {title.toLowerCase()}</label><Input id={`${title}-search`} type="search" value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value); setPage(1); }} placeholder={`Search ${title.toLowerCase()}…`} /></div>{hasCreateAction && <AddIcon className="uiss-pressable grid size-11 shrink-0 place-items-center rounded-md bg-brand text-brand-ink" aria-label={`Add ${title.toLowerCase()}`}><CreateForm pathname={pathname} /></AddIcon>}</div>
       </div>
-      <div className="w-full flex flex-col items-center pb-5">
-        <div className="overflow-x-auto w-full px-6">
-          <table className="w-full">
-            <thead className="font-bold text-lg">
-              <tr>
-                {tableHeaders.map((header) => (
-                  <td key={header} className="py-3">
-                    {header.charAt(0).toUpperCase() + header.slice(1)}
-                  </td>
-                ))}
-                {(action || view) && <td className="py-3">Action</td>}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((data, index) => (
-                  <tr
-                    key={index}
-                    className="text-lg odd:bg-slate-100 border-y-[1px] border-black/10 text-black/80"
-                  >
-                    {tableHeaders.map((header) => (
-                      <td key={header} className="py-3">
-                        <p className="line-clamp-1 pr-5">{data[header]}</p>
-                      </td>
-                    ))}
-                    {action && (
-                      <td className="py-3">
-                        <EditIcon>
-                          {pathname === "/admin/AdminPages/CoreValues" && (
-                            <CoreValueForm data={data} />
-                          )}
-                        </EditIcon>
-                      </td>
-                    )}
-                    {view && (
-                      <td className="py-3">
-                        <span className="font-bold text-lg border-ternary border-[1px] rounded-md px-3 py-1 bg-ternary cursor-pointer">
-                          <Link
-                            href={`/admin/AdminPages/Clubs/${data.id}`}
-                          >
-                            View
-                          </Link>
-                        </span>
-                      </td>
-                    )}
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={tableHeaders.length} className="text-center">
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex justify-between items-center w-[95%] py-5">
-          <span className="col-span-3 font-bold text-lg">
-            Showing 1 to 10 of 57 entries
-          </span>
-          <div className="flex gap-2">
-            <span className="flex justify-center items-center py-2 px-4 rounded-lg bg-slate-300 font-bold w-fit cursor-pointer">
-              1
-            </span>
-            <span className="flex justify-center items-center py-2 px-4 rounded-lg bg-slate-300/40 font-bold w-fit cursor-pointer">
-              2
-            </span>
-            <span className="flex justify-center items-center py-2 px-4 rounded-lg bg-slate-300/40 font-bold w-fit cursor-pointer">
-              3
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <div className="overflow-x-auto"><table className="w-full min-w-[680px] border-collapse text-left text-sm"><caption className="sr-only">{title} records</caption><thead className="border-b border-line bg-surface"><tr>{headers.map((header) => <th key={header} scope="col" className="px-5 py-3 font-semibold text-muted">{header.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase())}</th>)}{(action || view) && <th scope="col" className="px-5 py-3 font-semibold text-muted">Actions</th>}</tr></thead><tbody>{rows.length ? rows.map((data, index) => <tr key={String(data.id ?? `${safePage}-${index}`)} className="border-b border-line last:border-0">{headers.map((header) => <td key={header} className="max-w-xs px-5 py-3"><span className="line-clamp-2">{displayValue(data[header])}</span></td>)}{action && <td className="px-5 py-3"><EditIcon>{pathname === "/admin/AdminPages/CoreValues" && <CoreValueForm data={data} />}</EditIcon></td>}{view && <td className="px-5 py-3"><Button asChild variant="outline" size="sm"><Link href={`/admin/AdminPages/Clubs/${String(data.id)}`}>View</Link></Button></td>}</tr>) : <tr><td colSpan={Math.max(1, headers.length + Number(action || view))} className="px-5 py-14 text-center text-muted">{searchQuery ? "No records match this search." : "No records available."}</td></tr>}</tbody></table></div>
+      <footer className="flex flex-col gap-3 border-t border-line px-5 py-4 text-sm sm:flex-row sm:items-center sm:justify-between"><p className="text-muted">{filtered.length ? `Showing ${(safePage - 1) * PAGE_SIZE + 1}–${Math.min(safePage * PAGE_SIZE, filtered.length)} of ${filtered.length}` : "0 records"}</p><div className="flex gap-2"><Button type="button" variant="outline" size="sm" disabled={safePage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Previous</Button><span className="flex min-h-9 items-center px-2 font-semibold">{safePage} / {pageCount}</span><Button type="button" variant="outline" size="sm" disabled={safePage === pageCount} onClick={() => setPage((value) => Math.min(pageCount, value + 1))}>Next</Button></div></footer>
+    </section>
   );
-};
+}
 
-export default TableComponent;
+function CreateForm({ pathname }: { pathname: string }) {
+  if (pathname === "/admin/AdminPages/Users") return <AddUserForm />;
+  if (pathname === "/admin/AdminPages/CoreValues") return <CoreValueForm add />;
+  if (pathname === "/admin/AdminPages/Clubs") return <AddClub />;
+  if (pathname === "/admin/AdminPages/Leaders") return <AddLeaderForm />;
+  return null;
+}

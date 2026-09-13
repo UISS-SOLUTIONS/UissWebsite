@@ -1,39 +1,14 @@
 "use client";
+
+import { LogOut as LogOutIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
-import React from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 
-const LogOut = () => {
+export default function LogOut() {
+  const [pending, setPending] = useState(false);
   return (
-    <li
-      className=" bg-ternary py-2 w-[90%] text-center font-bold  my-8 rounded-md flex items-center justify-center gap-2 cursor-pointer text-black"
-      onClick={() => {
-        toast.promise(signOut({ redirect: true, redirectTo: "/login" }), {
-          loading: "Logging Out...",
-          success: "Logged Out Successful. Redirecting...",
-          error: "Sorry!! An Error Occured",
-        });
-      }}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-log-out-icon lucide-log-out"
-      >
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-        <polyline points="16 17 21 12 16 7" />
-        <line x1="21" x2="9" y1="12" y2="12" />
-      </svg>
-      Log Out
-    </li>
+    <button type="button" className="uiss-pressable flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-canvas/20 px-4 py-2.5 text-sm font-semibold hover:bg-canvas/10 disabled:opacity-60" disabled={pending} aria-busy={pending} onClick={async () => { setPending(true); await signOut({ redirect: true, redirectTo: "/login" }); }}>
+      <LogOutIcon className="size-4" aria-hidden="true" />{pending ? "Signing out…" : "Sign out"}
+    </button>
   );
-};
-
-export default LogOut;
+}

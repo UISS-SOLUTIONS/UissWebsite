@@ -5,11 +5,7 @@ import { toast } from "sonner";
 
 interface props {
   add?: boolean;
-  data?: {
-    id: number;
-    value: string;
-    description: string;
-  };
+  data?: Record<string, unknown>;
 }
 
 const CoreValueForm: React.FC<props> = ({ add, data }) => {
@@ -36,7 +32,7 @@ const CoreValueForm: React.FC<props> = ({ add, data }) => {
           name="value"
           id=""
           className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          defaultValue={add ? "" : data?.value}
+          defaultValue={add ? "" : typeof data?.value === "string" ? data.value : ""}
           readOnly={add ? false : true}
         />
         <label htmlFor="description" className="text-xl font-bold">
@@ -45,7 +41,7 @@ const CoreValueForm: React.FC<props> = ({ add, data }) => {
         <textarea
           name="description"
           id=""
-          defaultValue={add ? "" : data?.description}
+          defaultValue={add ? "" : typeof data?.description === "string" ? data.description : ""}
           className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
           rows={6}
         />

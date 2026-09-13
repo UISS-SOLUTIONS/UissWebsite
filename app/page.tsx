@@ -16,6 +16,7 @@ import { clubCatalog } from '@/lib/club-catalog'
 import { clubMediaBySlug } from '@/lib/club-media'
 import { getHomepageData } from '@/lib/homepage-data'
 import { leadershipCatalog } from '@/lib/leadership-catalog'
+import { getCanonicalLeaderName, isGuardianLeaderName } from '@/lib/leader-portraits'
 
 export const metadata: Metadata = {
     title: 'UISS | Learn, build, and lead',
@@ -70,12 +71,17 @@ export default async function Home() {
         url: `/projects/${project.slug}`,
     }))
 
-    const publishedTeamMembers: TeamMember[] = data.leaders.data.map((leader) => ({
-        id: String(leader.id),
-        name: `${leader.firstName} ${leader.lastName}`,
-        role: leader.position.title,
-        avatar: leader.imageURL || undefined,
-    }))
+    const publishedTeamMembers: TeamMember[] = data.leaders.data
+        .filter((leader) => !isGuardianLeaderName(`${leader.firstName} ${leader.lastName}`))
+        .map((leader) => {
+            const name = getCanonicalLeaderName(`${leader.firstName} ${leader.lastName}`)
+            return {
+                id: String(leader.id),
+                name,
+                role: leader.position.title,
+                avatar: leader.imageURL || undefined,
+            }
+        })
     const teamMembers: TeamMember[] = publishedTeamMembers.length > 0
         ? publishedTeamMembers
         : leadershipCatalog.map((leader) => ({ ...leader }))
@@ -107,13 +113,7 @@ export default async function Home() {
                     highlightedHeading={hero?.subheading}
                     description={hero?.description}
                 />
-                <About3
-                    stats={[]}
-                    sections={[
-                        { title: 'Our purpose', content: 'UISS brings ICT students together around practical learning, technical collaboration, leadership, and professional growth.' },
-                        { title: 'Our community', content: 'Students can discover clubs, take part in events, share useful ideas, and turn classroom knowledge into practical work.' },
-                    ]}
-                />
+                <About3 />
                 <LogoCloudAnimated />
                 <ClubShowcase clubs={clubPreviews} unavailable={data.clubs.unavailable} />
                 <EventShowcase events={eventPreviews} unavailable={data.events.unavailable} />

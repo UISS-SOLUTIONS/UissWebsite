@@ -5,13 +5,16 @@ import React, { useState } from "react";
 interface props {
   children?: React.ReactNode;
   className: string;
+  "aria-label"?: string;
 }
-const AddIcon = ({ children, className }: props) => {
+const AddIcon = ({ children, className, "aria-label": ariaLabel = "Add record" }: props) => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
       <button
+        type="button"
         className={className}
+        aria-label={ariaLabel}
         onClick={() => setOpenModal(true)}
       >
         <svg

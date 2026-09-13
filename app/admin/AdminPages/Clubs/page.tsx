@@ -16,8 +16,8 @@ const Clubs = async () => {
     throw new Error((e as Error).message);
   }
   return (
-    <div className="my-[3vh]">
-      <TableComponent title="Clubs" values={data} view />;
+    <div className="uiss-admin-page">
+      <TableComponent title="Clubs" values={data} view />
     </div>
   );
 };

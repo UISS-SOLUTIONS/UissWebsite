@@ -4,7 +4,7 @@ export const leadershipCatalog = [
     { id: 'alexander-marwa', name: 'Alexander Marwa', role: 'General Secretary' },
     { id: 'hefsibamakelle-mteri', name: 'Hefsibamakelle Mteri', role: 'Assistant General Secretary' },
     { id: 'noreen-mrema', name: 'Noreen Mrema', role: 'Treasurer' },
-    { id: 'sifa-ramendu', name: 'Sifa Ramendu', role: 'Projects Manager' },
+    { id: 'sifa-kamendu', name: 'Sifa Kamendu', role: 'Projects Manager' },
     { id: 'lutome-galila', name: 'Lutome Galila', role: 'Assistant Projects Manager' },
     { id: 'gadi-josephat', name: 'Gadi Josephat', role: 'IT Manager' },
     { id: 'abdon-musa', name: 'Abdon Musa', role: 'Graphics & Visual Design Manager' },

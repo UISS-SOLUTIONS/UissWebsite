@@ -199,7 +199,7 @@ const ScrollProgress = ({
         <motion.div
           data-slot="scroll-progress-surface"
           className={cn(
-            "absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden border border-border/60 bg-background/90 text-foreground shadow-lg backdrop-blur-md",
+            "absolute bottom-0 left-1/2 -translate-x-1/2 overflow-hidden border border-line/80 bg-canvas/95 text-ink shadow-soft backdrop-blur-md",
             squircle
           )}
           initial={false}
@@ -237,15 +237,15 @@ const ScrollProgress = ({
                           "relative flex w-full items-center gap-3 rounded-[14px] px-3 py-2 text-left text-sm font-medium leading-none transition-colors",
                           squircle,
                           isActive
-                            ? "text-foreground"
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "text-ink"
+                            : "text-muted hover:text-ink"
                         )}
                       >
                         {isActive && (
                           <motion.span
                             layoutId={`${layoutId}-active`}
                             className={cn(
-                              "absolute inset-0 rounded-[14px] bg-muted",
+                              "absolute inset-0 rounded-[14px] bg-surface",
                               squircle
                             )}
                             transition={
@@ -256,7 +256,7 @@ const ScrollProgress = ({
                         <motion.span
                           className={cn(
                             "relative size-1.5 shrink-0 rounded-full",
-                            isActive ? "bg-foreground" : "bg-muted-foreground/30"
+                            isActive ? "bg-ink" : "bg-muted/30"
                           )}
                           initial={
                             reduceMotion
@@ -319,7 +319,7 @@ const ScrollProgress = ({
                       r="10"
                       fill="none"
                       strokeWidth="2.5"
-                      className="stroke-foreground/15"
+                      className="stroke-ink/15"
                     />
                     <motion.circle
                       cx="12"
@@ -328,7 +328,7 @@ const ScrollProgress = ({
                       fill="none"
                       strokeWidth="2.5"
                       strokeLinecap="round"
-                      className="stroke-foreground"
+                      className="stroke-ink"
                       style={{ pathLength: progress }}
                     />
                   </svg>
@@ -343,7 +343,7 @@ const ScrollProgress = ({
                       <motion.span
                         key={labelVersion.current}
                         data-slot="scroll-progress-label"
-                        className="absolute inset-y-0 left-0 flex items-center whitespace-nowrap text-sm font-medium leading-none text-foreground"
+                        className="absolute inset-y-0 left-0 flex items-center whitespace-nowrap text-sm font-medium leading-none text-ink"
                         initial={
                           reduceMotion
                             ? { opacity: 0 }
