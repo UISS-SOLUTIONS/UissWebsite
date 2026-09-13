@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS impossible cube horizontal logo</title><desc id="desc">Gold impossible cube loop beside an outlined black UISS wordmark.</desc>
+  <defs><mask id="weave"><rect width="100" height="100" fill="white"/><path d="m44 16 11-6 5 9-11 6z"/><path d="m80 58 9 5-5 9-9-5z"/><path d="m20 58 9 5-5 9-9-5z"/></mask></defs>
+  <g transform="translate(5 5) scale(.9)" fill="currentColor" color="#EFB631" mask="url(#weave)"><path d="M50 8 89 30v44L50 96 11 74V30zm0 16L25 38v28l25 14 25-14V38z" fill-rule="evenodd"/><path d="M43 43h14v25H43z"/></g>
+  <g transform="translate(118 23) scale(.8)" color="#111111"><path d="M0 0h10v25c0 8 4 12 12 12s12-4 12-12V0h10v26c0 13-8 20-22 20S0 39 0 26Z" fill="currentColor"/><path d="M59 0h11v46H59z" fill="currentColor"/><path d="M123 6H91c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10H78M177 6h-32c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10h-30" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="square" stroke-linejoin="round"/></g>
+</svg>

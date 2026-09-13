@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS impossible cube loop</title>
+  <desc id="desc">An isometric cube loop with alternating woven crossings and a U-shaped interior.</desc>
+  <defs>
+    <mask id="cube-weave">
+      <rect width="100" height="100" fill="white"/>
+      <path d="m44 16 11-6 5 9-11 6z" fill="black"/>
+      <path d="m80 58 9 5-5 9-9-5z" fill="black"/>
+      <path d="m20 58 9 5-5 9-9-5z" fill="black"/>
+    </mask>
+  </defs>
+  <g fill="currentColor" mask="url(#cube-weave)">
+    <path d="M50 8 89 30v44L50 96 11 74V30zm0 16L25 38v28l25 14 25-14V38z" fill-rule="evenodd"/>
+    <path d="M43 43h14v25H43z"/>
+  </g>
+</svg>

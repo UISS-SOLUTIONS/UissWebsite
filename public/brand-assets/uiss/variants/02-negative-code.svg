@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS negative code mark</title>
+  <desc id="desc">A compact code symbol formed by two chevrons and a central slash.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35 26 17 50l18 24" stroke-width="8"/>
+    <path d="m65 26 18 24-18 24" stroke-width="8"/>
+    <path d="m56 20-12 60" stroke-width="9"/>
+  </g>
+  <path d="M28 50h44" stroke="currentColor" stroke-width="2" stroke-dasharray="2 6" opacity=".45"/>
+</svg>

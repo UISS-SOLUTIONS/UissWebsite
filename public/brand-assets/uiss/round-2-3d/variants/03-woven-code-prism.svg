@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS woven code prism</title>
+  <desc id="desc">Dimensional code brackets fold into a prism around a central I-shaped negative space.</desc>
+  <g fill="currentColor">
+    <path d="m35 15 11 9-19 26 19 26-11 9L9 50z"/>
+    <path d="m65 15-11 9 19 26-19 26 11 9 26-35z"/>
+    <path d="m41 25 10-12 8 9-10 13z"/>
+    <path d="m41 75 8-10 10 13-8 9z"/>
+    <path d="M46 37h9l-5 26h-9z"/>
+  </g>
+  <path d="m23 50 12-7 9 7-9 7zm54 0-12-7-9 7 9 7z" fill="currentColor" opacity=".56"/>
+</svg>

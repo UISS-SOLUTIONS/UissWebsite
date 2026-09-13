@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS tri-ribbon horizontal logo</title>
+  <desc id="desc">Gold interlocking triangular ribbon symbol beside an outlined black UISS wordmark.</desc>
+  <defs>
+    <mask id="weave"><rect width="100" height="100" fill="white"/><path d="M46 14h13l-5 9H41z"/><path d="m80 67 6 10H75l-5-8z"/><path d="M17 70h13l-5 9H12z"/></mask>
+  </defs>
+  <g transform="translate(5 5) scale(.9)" fill="currentColor" color="#EFB631" mask="url(#weave)"><path d="M49 13h15L91 60 79 81 52 34 32 69H17z"/><path d="M17 69h54l8 14H25z"/></g>
+  <path d="M49 42h10v27H49z" transform="translate(5 5) scale(.9)" fill="#EFB631"/>
+  <g transform="translate(118 23) scale(.8)" color="#111111">
+    <path d="M0 0h10v25c0 8 4 12 12 12s12-4 12-12V0h10v26c0 13-8 20-22 20S0 39 0 26Z" fill="currentColor"/><path d="M59 0h11v46H59z" fill="currentColor"/>
+    <path d="M123 6H91c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10H78M177 6h-32c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10h-30" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="square" stroke-linejoin="round"/>
+  </g>
+</svg>

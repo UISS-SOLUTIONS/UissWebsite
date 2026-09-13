@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS split chevron</title>
+  <desc id="desc">Two converging chevrons and a shared center line representing collaboration.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 27 16 50l22 23" stroke-width="8"/>
+    <path d="M62 27 84 50 62 73" stroke-width="8"/>
+    <path d="M50 30v40" stroke-width="6"/>
+    <path d="M27 50h46" stroke-width="2" stroke-dasharray="1 7" opacity=".55"/>
+  </g>
+</svg>

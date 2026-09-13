@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 180" role="img" aria-labelledby="title desc">
+  <title id="title">UISS woven code prism stacked logo</title><desc id="desc">Gold dimensional code-prism symbol above an outlined UISS wordmark.</desc>
+  <g transform="translate(20 8)" fill="currentColor" color="#EFB631"><path d="m35 15 11 9-19 26 19 26-11 9L9 50z"/><path d="m65 15-11 9 19 26-19 26 11 9 26-35z"/><path d="m41 25 10-12 8 9-10 13z"/><path d="m41 75 8-10 10 13-8 9z"/><path d="M46 37h9l-5 26h-9z"/><path d="m23 50 12-7 9 7-9 7zm54 0-12-7-9 7 9 7z" opacity=".56"/></g>
+  <g transform="translate(15 128) scale(.62)" color="#111111"><path d="M0 0h10v25c0 8 4 12 12 12s12-4 12-12V0h10v26c0 13-8 20-22 20S0 39 0 26Z" fill="currentColor"/><path d="M59 0h11v46H59z" fill="currentColor"/><path d="M123 6H91c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10H78M177 6h-32c-8 0-12 4-12 10s4 9 11 11l20 5c7 2 11 6 11 12s-5 10-13 10h-30" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="square" stroke-linejoin="round"/></g>
+</svg>

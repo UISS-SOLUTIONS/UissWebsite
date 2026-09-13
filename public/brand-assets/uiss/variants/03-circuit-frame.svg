@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">UISS circuit frame</title>
+  <desc id="desc">A rounded circuit frame with connected terminals around a central U.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25 18H18a5 5 0 0 0-5 5v54a5 5 0 0 0 5 5h7M75 18h7a5 5 0 0 1 5 5v54a5 5 0 0 1-5 5h-7" stroke-width="4"/>
+    <path d="M25 18h12M63 18h12M25 82h17M58 82h17" stroke-width="4"/>
+    <path d="M36 38v18c0 8 5 12 14 12s14-4 14-12V38" stroke-width="7"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="25" cy="18" r="3"/><circle cx="75" cy="18" r="3"/>
+    <circle cx="25" cy="82" r="3"/><circle cx="75" cy="82" r="3"/>
+  </g>
+</svg>
