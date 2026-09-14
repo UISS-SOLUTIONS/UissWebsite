@@ -19,6 +19,19 @@ test("section rendering does not create containment-driven layout shifts", async
   expect(sectionVisibility.every((value) => value === "visible")).toBe(true);
 });
 
+test("desktop navbar stays centered and dropdown transitions remain responsive", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium-desktop", "One deterministic desktop run covers navbar geometry.");
+  await page.goto("/");
+  const row = page.locator("header nav > div").first();
+  const before = await row.boundingBox();
+  await page.evaluate(() => window.scrollTo(0, 240));
+  await page.waitForTimeout(100);
+  const after = await row.boundingBox();
+  expect(before).not.toBeNull();
+  expect(after).not.toBeNull();
+  expect(Math.abs((before?.height ?? 0) - (after?.height ?? 0))).toBeLessThanOrEqual(1);
+});
+
 for (const route of ["/", "/clubs"]) {
   test(`${route} club preview is viewport-bound and restores focus`, async ({ page }) => {
     test.skip((test.info().project.name !== "chromium-desktop"), "One deterministic desktop run covers modal geometry and focus restoration.");

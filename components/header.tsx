@@ -159,8 +159,17 @@ export const HeroHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileClubsOpen, setMobileClubsOpen] = useState(false);
   const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
   const mobileTriggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const syncDesktop = () => setIsDesktop(desktopQuery.matches);
+    syncDesktop();
+    desktopQuery.addEventListener("change", syncDesktop);
+    return () => desktopQuery.removeEventListener("change", syncDesktop);
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -185,7 +194,7 @@ export const HeroHeader = () => {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const desktopCompact = isCompact;
+  const desktopCompact = isDesktop && isCompact;
 
   const closeMobileMenu = () => {
     setMobileOpen(false);
@@ -228,7 +237,7 @@ export const HeroHeader = () => {
           className={cn(
             "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] [transition-duration:240ms] ease-out motion-reduce:duration-0 lg:absolute lg:left-0 lg:right-0 lg:top-0",
             desktopCompact
-              ? "lg:h-16 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:translate-y-3 lg:rounded-xl lg:border lg:shadow-soft"
+              ? "lg:h-20 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:rounded-xl lg:border lg:shadow-soft"
               : "lg:h-20 lg:max-w-none",
           )}
           data-compact={desktopCompact || undefined}
