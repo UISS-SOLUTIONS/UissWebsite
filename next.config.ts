@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [60, 65, 70, 75],
-    minimumCacheTTL: 31_536_000,
+    minimumCacheTTL: 86_400,
     localPatterns: [
       {
         pathname: "/**",

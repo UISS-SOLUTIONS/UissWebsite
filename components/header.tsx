@@ -251,7 +251,6 @@ export const HeroHeader = () => {
                 height={220}
                 priority
                 sizes="56px"
-                quality={60}
                 className={cn(
                   "h-12 w-auto object-contain sm:h-14",
                   desktopCompact && "lg:h-10",
@@ -357,7 +356,7 @@ export const HeroHeader = () => {
             id="mobile-navigation"
             forceMount
             className={cn(
-              "absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line bg-canvas shadow-soft transition-[transform,opacity] [transition-duration:180ms] ease-out motion-reduce:duration-0 lg:hidden",
+              "max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line transition-[transform,opacity] [transition-duration:180ms] ease-out motion-reduce:duration-0 lg:hidden",
               "data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.97] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             )}
           >

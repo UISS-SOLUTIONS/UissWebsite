@@ -83,7 +83,6 @@ export default async function AboutPage() {
                 width={1672}
                 height={941}
                 sizes="(min-width: 834px) 786px, calc(100vw - 20px)"
-                quality={65}
                 className="size-full object-cover"
                 priority
               />

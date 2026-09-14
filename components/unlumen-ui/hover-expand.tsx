@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
 
+import { ManagedImage } from "@/components/managed-image";
 import { cn } from "@/lib/utils";
 
 export interface HoverExpandItem {
@@ -53,6 +54,8 @@ export function HoverExpand({
 
         const row = (
           <motion.div
+            data-active={isActive || undefined}
+            data-testid={`club-row-${item.id}`}
             className={cn(
               "relative w-full overflow-hidden text-left transition-[height,opacity] ease-out",
               shouldReduceMotion && "transition-none",
@@ -69,7 +72,6 @@ export function HoverExpand({
           >
             <motion.div
               className={cn("absolute inset-0 size-full bg-ink", !hasImage && "bg-ink")}
-              style={item.image ? { backgroundImage: `url(${item.image})`, backgroundPosition: "center", backgroundSize: "cover" } : undefined}
               initial={false}
               animate={{
                 opacity: isActive ? 1 : 0,
@@ -81,6 +83,7 @@ export function HoverExpand({
               }}
               aria-hidden="true"
             >
+              {item.image ? <ManagedImage src={item.image} alt="" fill sizes="(min-width: 1280px) 1152px, calc(100vw - 48px)" className="object-cover" /> : null}
               {hasImage ? <div className="absolute inset-0 bg-black/55" /> : null}
             </motion.div>
 
@@ -88,11 +91,12 @@ export function HoverExpand({
               <div className="flex w-full items-end justify-between gap-4">
                 <div className="flex min-w-0 items-baseline gap-3">
                   <motion.span
+                    aria-hidden="true"
                     className={cn(
                       "shrink-0 text-xs tabular-nums transition-colors duration-200 motion-reduce:transition-none",
                       isActive && "text-white",
                     )}
-                    animate={{ opacity: isActive ? 0.6 : 0.4 }}
+                    animate={{ opacity: isActive ? 0.75 : 0.7 }}
                     transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
                   >
                     {String(i + 1).padStart(2, "0")}

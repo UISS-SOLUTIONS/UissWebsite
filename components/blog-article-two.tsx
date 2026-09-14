@@ -85,7 +85,7 @@ export function BlogArticleTwo({ title, description, category, authors = [], ima
                 <div className="mx-auto max-w-2xl">
                     {image ? (
                         <div className="relative mb-12 overflow-hidden rounded-lg border border-line bg-surface">
-                            <ManagedImage src={image} alt={title} width={672} height={378} sizes="(min-width: 768px) 672px, 100vw" quality={70} className="aspect-video w-full object-cover" priority />
+                            <ManagedImage src={image} alt={title} width={672} height={378} sizes="(min-width: 768px) 672px, 100vw" className="aspect-video w-full object-cover" priority />
                         </div>
                     ) : (
                         <div className="mb-12 flex aspect-video items-center justify-center rounded-lg border border-line bg-canvas text-sm text-muted" role="img" aria-label={`${title} cover image unavailable`}>

@@ -19,7 +19,6 @@ export function BrandedPoster({ title, label, kind, media, className }: BrandedP
           alt={media.alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          quality={70}
           className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
         />
       </div>

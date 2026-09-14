@@ -11,11 +11,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-main > section:not(:first-child) {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
-}
-
 @layer base {
   :root {
     --radius: 0.5rem;
@@ -200,24 +195,4 @@ html {
     transition-duration: 0.01ms !important;
   }
   .uiss-pressable:hover, .uiss-pressable:active { transform: none; }
-}
-
-@keyframes uiss-logo-marquee {
-  to { transform: translate3d(-33.333333%, 0, 0); }
-}
-
-.uiss-logo-marquee {
-  animation: uiss-logo-marquee 25s linear infinite;
-  will-change: transform;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .uiss-logo-tile:hover { transform: scale(1.05); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .uiss-logo-marquee {
-    animation: none;
-    transform: none;
-  }
 }

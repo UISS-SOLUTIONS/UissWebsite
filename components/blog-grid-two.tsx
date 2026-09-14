@@ -39,7 +39,7 @@ function AuthorList({ post }: { post: BlogIndexPost }) {
 
 function CoverImage({ post }: { post: BlogIndexPost }) {
     return post.coverImage ? (
-        <ManagedImage src={post.coverImage} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" quality={65} className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015]" />
+        <ManagedImage src={post.coverImage} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015]" />
     ) : (
         <div className="flex size-full items-center justify-center bg-surface px-6 text-center text-sm text-muted" role="img" aria-label={`${post.title} cover image unavailable`}>
             Cover image unavailable

@@ -155,7 +155,7 @@ export default async function EventDetail({ params }: EventDetailProps) {
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {event.gallery.map((image) => (
                   <div key={image.src} className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                    <ManagedImage src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 50vw, 100vw" quality={70} className="object-cover" />
+                    <ManagedImage src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
                   </div>
                 ))}
               </div>

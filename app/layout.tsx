@@ -7,23 +7,18 @@ import "./globals.css";
 const sourceSans3 = Source_Sans_3({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  style: ['normal'],
-  display: 'optional',
+  style: ['normal', 'italic'],
   variable: '--font-source-sans-3',
 })
 
 const uissWordmark = Poppins({
   subsets: ['latin'],
   weight: ['800'],
-  display: 'optional',
-  preload: false,
   variable: '--font-uiss-wordmark',
 })
 
 const uissDisplay = localFont({
   src: "./fonts/GeistVF.woff",
-  display: 'optional',
-  preload: false,
   variable: "--font-uiss-display",
 })
 
@@ -40,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSans3.variable} ${uissWordmark.variable} ${uissDisplay.variable} antialiased`}
+        className={`${sourceSans3.className} ${sourceSans3.variable} ${uissWordmark.variable} ${uissDisplay.variable} antialiased`}
       >
         {children}
         <Toaster richColors position="top-right" />
