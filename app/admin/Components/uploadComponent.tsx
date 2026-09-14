@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const UploadForm = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -36,7 +37,7 @@ const UploadForm = () => {
       <input type="file" accept="image/*" onChange={handleFileInput} />
 
       {imagePreview && (
-        <img src={imagePreview} alt="Preview" className="w-48 h-48 object-cover rounded" />
+        <Image src={imagePreview} alt="Preview" width={192} height={192} unoptimized className="h-48 w-48 rounded object-cover" />
       )}
 
       <button type="submit" className="bg-blue-500 px-4 py-2 rounded text-white">

@@ -1,10 +1,9 @@
 'use client'
 
-/* eslint-disable @next/next/no-img-element -- Zenblog images are administrator-selected hosts. */
-
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Rss, Search, UserRound, X } from 'lucide-react'
+import { ManagedImage } from '@/components/managed-image'
 
 export type BlogIndexPost = {
     slug: string
@@ -29,7 +28,7 @@ function AuthorList({ post }: { post: BlogIndexPost }) {
             <div className="flex -space-x-2" aria-hidden="true">
                 {post.authors.slice(0, 3).map((author, index) => (
                     <span key={`${author.name}-${index}`} className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-canvas bg-surface">
-                        {author.image ? <img src={author.image} alt="" className="size-full object-cover" /> : <UserRound className="size-3.5 text-muted" strokeWidth={1.5} />}
+                        {author.image ? <ManagedImage src={author.image} alt="" width={28} height={28} sizes="28px" className="size-full object-cover" /> : <UserRound className="size-3.5 text-muted" strokeWidth={1.5} />}
                     </span>
                 ))}
             </div>
@@ -40,7 +39,7 @@ function AuthorList({ post }: { post: BlogIndexPost }) {
 
 function CoverImage({ post }: { post: BlogIndexPost }) {
     return post.coverImage ? (
-        <img src={post.coverImage} alt="" className="size-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015]" />
+        <ManagedImage src={post.coverImage} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" quality={65} className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015]" />
     ) : (
         <div className="flex size-full items-center justify-center bg-surface px-6 text-center text-sm text-muted" role="img" aria-label={`${post.title} cover image unavailable`}>
             Cover image unavailable
@@ -52,7 +51,7 @@ function FeaturedArticle({ post }: { post: BlogIndexPost }) {
     return (
         <article className="group min-w-0">
             <Link href={`/blog/${post.slug}`} className="block">
-                <div className="aspect-video overflow-hidden rounded-md border border-line bg-surface"><CoverImage post={post} /></div>
+                <div className="relative aspect-video overflow-hidden rounded-md border border-line bg-surface"><CoverImage post={post} /></div>
                 <div className="pt-5">
                     <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
                         <time>{post.published}</time>
@@ -71,7 +70,7 @@ function ArticleCard({ post }: { post: BlogIndexPost }) {
     return (
         <article className="group min-w-0">
             <Link href={`/blog/${post.slug}`} className="block">
-                <div className="aspect-video overflow-hidden rounded-md border border-line bg-surface"><CoverImage post={post} /></div>
+                <div className="relative aspect-video overflow-hidden rounded-md border border-line bg-surface"><CoverImage post={post} /></div>
                 <div className="pt-4">
                     <div className="mb-2.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-muted">
                         <time>{post.published}</time>

@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-img-element -- Zenblog media is selected by an authorized administrator. */
-
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ChevronRight, UserRound } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ManagedImage } from '@/components/managed-image'
 
 export interface BlogArticleTwoProps {
     title: string
@@ -35,7 +34,7 @@ function AuthorMark({ author }: { author: NonNullable<BlogArticleTwoProps['autho
                 role={author.image ? undefined : 'img'}
                 aria-label={author.image ? undefined : `${author.name} avatar unavailable`}
             >
-                {author.image ? <img src={author.image} alt={author.name} className="size-full object-cover" /> : <UserRound aria-hidden="true" className="size-3.5" strokeWidth={1.5} />}
+                {author.image ? <ManagedImage src={author.image} alt={author.name} width={24} height={24} sizes="24px" className="size-full object-cover" /> : <UserRound aria-hidden="true" className="size-3.5" strokeWidth={1.5} />}
             </span>
             <span className="line-clamp-1 text-ink">{author.name}</span>
         </span>
@@ -86,7 +85,7 @@ export function BlogArticleTwo({ title, description, category, authors = [], ima
                 <div className="mx-auto max-w-2xl">
                     {image ? (
                         <div className="relative mb-12 overflow-hidden rounded-lg border border-line bg-surface">
-                            <img src={image} alt={title} className="aspect-video w-full object-cover" />
+                            <ManagedImage src={image} alt={title} width={672} height={378} sizes="(min-width: 768px) 672px, 100vw" quality={70} className="aspect-video w-full object-cover" priority />
                         </div>
                     ) : (
                         <div className="mb-12 flex aspect-video items-center justify-center rounded-lg border border-line bg-canvas text-sm text-muted" role="img" aria-label={`${title} cover image unavailable`}>

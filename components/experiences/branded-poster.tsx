@@ -1,3 +1,4 @@
+import { ManagedImage } from '@/components/managed-image'
 import { cn } from '@/lib/utils'
 import type { ExperienceMedia } from '@/lib/experience-catalog'
 
@@ -13,13 +14,13 @@ export function BrandedPoster({ title, label, kind, media, className }: BrandedP
   if (media) {
     return (
       <div className={cn('relative overflow-hidden rounded-lg bg-surface', className)}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- database media may come from any approved host. */}
-        <img
+        <ManagedImage
           src={media.src}
           alt={media.alt}
-          width={media.width ?? undefined}
-          height={media.height ?? undefined}
-          className="h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015]"
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          quality={70}
+          className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
         />
       </div>
     )

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { fetchData } from "@/app/actions";
 import TableComponent from "@/app/admin/Components/table";
 import VisionMissionCard from "../components/visionMissionCard";
@@ -38,18 +39,24 @@ export default async function AdminClubDetails({
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="h-[18vh] bg-red-900 relative w-full">
-        <img
+        <Image
           src="https://img.freepik.com/free-vector/online-human-team-connecting-concept-template-business-marketing_1017-53279.jpg?t=st=1741758839~exp=1741762439~hmac=283c52cd3def5da82a52e74b20279bf449b20eeb1fe897658e0e2f9aa105a127&w=1060"
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          sizes="100vw"
+          quality={65}
+          className="object-cover"
         />
         <div className="bg-black/75 w-full h-full absolute top-0" />
         <div className="absolute top-[35%] left-5 z-10 flex gap-5">
-          <div className="w-[150px] h-[150px] bg-orange-600  rounded-full overflow-hidden border-[5px] border-[#E1ECE9]">
-            <img
+          <div className="relative w-[150px] h-[150px] bg-orange-600 rounded-full overflow-hidden border-[5px] border-[#E1ECE9]">
+            <Image
               src="https://img.freepik.com/premium-photo/engineer-working-big-cloud-computing-server_249974-14070.jpg?w=900"
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              sizes="150px"
+              quality={65}
+              className="object-cover"
             />
           </div>
           <div className="flex flex-col">

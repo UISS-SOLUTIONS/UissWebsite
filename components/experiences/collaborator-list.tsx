@@ -1,3 +1,4 @@
+import { ManagedImage } from '@/components/managed-image'
 import { cn } from '@/lib/utils'
 import type { Collaborator } from '@/lib/experience-catalog'
 
@@ -10,8 +11,7 @@ function CollaboratorContent({ collaborator }: { collaborator: Collaborator }) {
   return (
     <>
       {collaborator.logo ? (
-        // eslint-disable-next-line @next/next/no-img-element -- approved logos may be local or externally managed.
-        <img src={collaborator.logo} alt="" className="h-9 w-24 shrink-0 object-contain object-left" />
+        <ManagedImage src={collaborator.logo} alt="" width={96} height={36} sizes="96px" className="h-9 w-24 shrink-0 object-contain object-left" />
       ) : (
         <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-brand font-bold text-brand-ink" aria-hidden>
           {collaborator.name.charAt(0)}

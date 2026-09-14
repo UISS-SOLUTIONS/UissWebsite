@@ -5,11 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-} from "motion/react";
-import {
   ArrowRight,
   Blocks,
   BrainCircuit,
@@ -164,20 +159,25 @@ export const HeroHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileClubsOpen, setMobileClubsOpen] = useState(false);
   const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
   const mobileTriggerRef = useRef<HTMLButtonElement>(null);
-  const shouldReduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
 
   useEffect(() => {
-    const desktopQuery = window.matchMedia("(min-width: 1024px)");
-    const syncDesktop = () => setIsDesktop(desktopQuery.matches);
+    let frame = 0;
+    const syncCompactState = () => {
+      frame = 0;
+      setIsCompact((compact) => compact ? window.scrollY > 8 : window.scrollY >= 24);
+    };
+    const handleScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(syncCompactState);
+    };
 
-    syncDesktop();
-    desktopQuery.addEventListener("change", syncDesktop);
-
-    return () => desktopQuery.removeEventListener("change", syncDesktop);
+    syncCompactState();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -185,14 +185,7 @@ export const HeroHeader = () => {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsCompact((compact) => {
-      if (compact) return latest > 8;
-      return latest >= 24;
-    });
-  });
-
-  const desktopCompact = isDesktop && isCompact;
+  const desktopCompact = isCompact;
 
   const closeMobileMenu = () => {
     setMobileOpen(false);
@@ -233,8 +226,7 @@ export const HeroHeader = () => {
       >
         <div
           className={cn(
-            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] ease-out lg:absolute lg:left-0 lg:right-0 lg:top-0",
-            shouldReduceMotion ? "duration-0" : "[transition-duration:240ms]",
+            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] [transition-duration:240ms] ease-out motion-reduce:duration-0 lg:absolute lg:left-0 lg:right-0 lg:top-0",
             desktopCompact
               ? "lg:h-16 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:translate-y-3 lg:rounded-xl lg:border lg:shadow-soft"
               : "lg:h-20 lg:max-w-none",
@@ -258,6 +250,8 @@ export const HeroHeader = () => {
                 width={256}
                 height={220}
                 priority
+                sizes="56px"
+                quality={60}
                 className={cn(
                   "h-12 w-auto object-contain sm:h-14",
                   desktopCompact && "lg:h-10",
@@ -363,8 +357,7 @@ export const HeroHeader = () => {
             id="mobile-navigation"
             forceMount
             className={cn(
-              "max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line transition-[transform,opacity] ease-out lg:hidden",
-              shouldReduceMotion ? "duration-0" : "[transition-duration:180ms]",
+              "absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line bg-canvas shadow-soft transition-[transform,opacity] [transition-duration:180ms] ease-out motion-reduce:duration-0 lg:hidden",
               "data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.97] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             )}
           >

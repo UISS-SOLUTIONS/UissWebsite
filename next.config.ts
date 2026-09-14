@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { optimizedImageHosts } from "./lib/image-hosts";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
@@ -27,6 +28,9 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [60, 65, 70, 75],
+    minimumCacheTTL: 31_536_000,
     localPatterns: [
       {
         pathname: "/**",
@@ -37,16 +41,7 @@ const nextConfig: NextConfig = {
         search: "?v=2",
       },
     ],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
-    ],
+    remotePatterns: optimizedImageHosts.map((hostname) => ({ protocol: "https", hostname })),
   },
 };
 

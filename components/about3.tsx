@@ -119,7 +119,7 @@ export function About3({ className }: { className?: string }) {
                 <PointList items={storyPoints} />
               </ChapterCopy>
               <div className="relative min-h-[280px] overflow-hidden rounded-lg bg-surface md:col-span-3 md:aspect-[4/3]">
-                <Image alt="UISS students gathered together" className="object-cover" fill sizes="(min-width: 768px) 60vw, 100vw" src="/About.avif" />
+                <Image alt="UISS students gathered together" className="object-cover" fill sizes="(min-width: 1280px) 640px, (min-width: 768px) 60vw, calc(100vw - 68px)" quality={60} src="/About.avif" />
                 <div className="absolute inset-x-4 bottom-4 rounded-md bg-canvas/95 p-4 shadow-soft backdrop-blur-sm sm:inset-x-auto sm:left-4 sm:max-w-xs">
                   <p className="text-sm leading-6 text-muted">{aboutHistory[1]}</p>
                 </div>
@@ -135,7 +135,7 @@ export function About3({ className }: { className?: string }) {
                 <div aria-hidden="true" className="absolute -right-16 -top-16 size-56 rounded-full border-[40px] border-brand/80" />
                 <div aria-hidden="true" className="absolute -bottom-16 left-10 size-48 rotate-12 rounded-lg border-[32px] border-ink/10" />
                 <div className="relative mt-auto max-w-md">
-                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-brand-mark">Our purpose</p>
+                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-ink">Our purpose</p>
                   <p className="mt-4 text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">Turning student creativity and innovation into meaningful human development.</p>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export function About3({ className }: { className?: string }) {
                 </div>
               </ChapterCopy>
               <div className="relative min-h-[280px] overflow-hidden rounded-lg bg-surface md:col-span-3 md:aspect-[4/3]">
-                <Image alt="Students participating in a UISS activity" className="object-cover" fill sizes="(min-width: 768px) 60vw, 100vw" src="/ctfWinner.avif" />
+                <Image alt="Students participating in a UISS activity" className="object-cover" fill sizes="(min-width: 1280px) 640px, (min-width: 768px) 60vw, calc(100vw - 68px)" quality={60} src="/ctfWinner.avif" />
               </div>
             </article>
 

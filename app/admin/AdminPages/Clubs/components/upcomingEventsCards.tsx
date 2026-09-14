@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 interface props {
   title: string;
   date: string;
@@ -8,11 +9,14 @@ interface props {
 const UpcomingEventsCard: React.FC<props> = ({ title, date, location }) => {
   return (
     <div className="flex py-5 gap-3 w-full border-b-[1px] border-black/20">
-      <div className="w-[25%] rounded-md overflow-hidden">
-        <img
+      <div className="relative min-h-24 w-[25%] rounded-md overflow-hidden">
+        <Image
           src="https://media.istockphoto.com/id/2012746941/photo/cyber-security-black-man-and-code-reflection-in-eyewear-hacking-and-software-update-in-office.webp?a=1&b=1&s=612x612&w=0&k=20&c=QLjdGEHRLLbG5r5hlqd6XCRAflA7D5p61-kOydmcc04="
-          alt="image"
-          className="w-full h-full object-cover"
+          alt="Cybersecurity event"
+          fill
+          sizes="160px"
+          quality={65}
+          className="object-cover"
         />
       </div>
       <div className=" w-[75%] flex flex-col gap-1">

@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element -- Zenblog cover images may use administrator-selected hosts. */
 import Link from 'next/link'
 import { ArrowRight, Newspaper } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { ManagedImage } from '@/components/managed-image'
 
 export type Blog7Post = {
     id: string
@@ -50,7 +50,7 @@ const Blog7 = ({
                 <div className="grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {posts.map((post) => (
                         <Card key={post.id} className="grid overflow-hidden">
-                            {post.image ? <Link href={post.url} className="block aspect-video overflow-hidden"><img src={post.image} alt="" className="size-full object-cover transition-transform duration-200 ease-out hover:scale-[1.015]" /></Link> : null}
+                            {post.image ? <Link href={post.url} className="relative block aspect-video overflow-hidden"><ManagedImage src={post.image} alt={post.title} fill sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" quality={65} className="object-cover transition-transform duration-200 ease-out hover:scale-[1.015]" /></Link> : null}
                             <CardHeader>
                                 <Badge variant="outline" className="w-fit">{post.label}</Badge>
                                 <CardTitle className="mt-4 text-2xl leading-tight"><Link href={post.url} className="hover:underline">{post.title}</Link></CardTitle>
@@ -58,7 +58,7 @@ const Blog7 = ({
                             </CardHeader>
                             <CardContent>{post.summary ? <p className="leading-7 text-muted">{post.summary}</p> : null}</CardContent>
                             <CardFooter>
-                                <Link href={post.url} className="flex items-center gap-2 font-semibold text-ink hover:underline">Read more<ArrowRight aria-hidden /></Link>
+                                <Link href={post.url} className="flex items-center gap-2 font-semibold text-ink hover:underline">Read <span className="sr-only">{post.title}</span>more<ArrowRight aria-hidden /></Link>
                             </CardFooter>
                         </Card>
                     ))}

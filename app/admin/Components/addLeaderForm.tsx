@@ -2,6 +2,7 @@
 import { submitForm } from "@/app/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import React, { useState } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 import SelectOptions from "./selectOptions";
 
@@ -56,10 +57,13 @@ const AddLeaderForm = () => {
       <div className="flex w-full justify-center items-center ">
         <div className="w-[150px] h-[150px] flex justify-center items-center relative">
           {imagePreview !== null ? (
-            <img
+            <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-full object-cover rounded-full"
+              fill
+              sizes="150px"
+              unoptimized
+              className="object-cover rounded-full"
             />
           ) : (
             <div className="w-full h-full bg-slate-200 flex justify-center items-center rounded-full">

@@ -5,23 +5,27 @@ import { Toaster } from 'sonner';
 import "./globals.css";
 
 const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'], // Include the Latin subset
-  weight: ['400','500','600', '700'], // Add specific weights as needed
-  style: ['normal', 'italic'], // Optional: Include styles
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal'],
+  display: 'optional',
   variable: '--font-source-sans-3',
-});
+})
 
 const uissWordmark = Poppins({
   subsets: ['latin'],
   weight: ['800'],
+  display: 'optional',
+  preload: false,
   variable: '--font-uiss-wordmark',
-});
+})
 
 const uissDisplay = localFont({
   src: "./fonts/GeistVF.woff",
+  display: 'optional',
+  preload: false,
   variable: "--font-uiss-display",
-});
-
+})
 
 export const metadata: Metadata = {
   title: "UISS",
@@ -36,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSans3.className} ${sourceSans3.variable} ${uissWordmark.variable} ${uissDisplay.variable} antialiased`}
+        className={`${sourceSans3.variable} ${uissWordmark.variable} ${uissDisplay.variable} antialiased`}
       >
         {children}
         <Toaster richColors position="top-right" />

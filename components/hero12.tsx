@@ -38,6 +38,8 @@ const Hero12 = ({
                             width={440}
                             height={454}
                             priority
+                            sizes="(min-width: 640px) 144px, 128px"
+                            quality={70}
                             className="size-full object-contain mix-blend-multiply"
                         />
                     </div>

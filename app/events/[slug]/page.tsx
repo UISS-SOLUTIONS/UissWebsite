@@ -8,6 +8,7 @@ import { BrandedPoster } from '@/components/experiences/branded-poster'
 import { CollaboratorList } from '@/components/experiences/collaborator-list'
 import { EventCard } from '@/components/experiences/event-card'
 import { Button } from '@/components/ui/button'
+import { ManagedImage } from '@/components/managed-image'
 import { getEvent, getEvents, getRelatedEvents } from '@/lib/public-data'
 
 type EventDetailProps = {
@@ -153,8 +154,9 @@ export default async function EventDetail({ params }: EventDetailProps) {
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">Gallery</h2>
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {event.gallery.map((image) => (
-                  // eslint-disable-next-line @next/next/no-img-element -- database media may come from any approved host.
-                  <img key={image.src} src={image.src} alt={image.alt} width={image.width ?? undefined} height={image.height ?? undefined} className="aspect-[4/3] w-full rounded-lg object-cover" />
+                  <div key={image.src} className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                    <ManagedImage src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 50vw, 100vw" quality={70} className="object-cover" />
+                  </div>
                 ))}
               </div>
             </div>
