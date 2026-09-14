@@ -235,7 +235,7 @@ export const HeroHeader = () => {
       >
         <div
           className={cn(
-            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] [transition-duration:240ms] ease-out motion-reduce:duration-0 lg:absolute lg:left-0 lg:right-0 lg:top-0",
+            "mx-auto w-full border-b border-line bg-canvas/95 backdrop-blur transition-[transform,opacity] [transition-duration:180ms] ease-out motion-reduce:duration-0 lg:absolute lg:left-0 lg:right-0 lg:top-0",
             desktopCompact
               ? "lg:h-20 lg:w-[calc(100%_-_3rem)] lg:max-w-6xl lg:rounded-xl lg:border lg:shadow-soft"
               : "lg:h-20 lg:max-w-none",
@@ -365,7 +365,7 @@ export const HeroHeader = () => {
             id="mobile-navigation"
             forceMount
             className={cn(
-              "max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line transition-[transform,opacity] [transition-duration:180ms] ease-out motion-reduce:duration-0 lg:hidden",
+              "max-h-[calc(100dvh-5rem)] origin-top overflow-y-auto border-t border-line transition-[transform,opacity] [transition-duration:150ms] ease-out motion-reduce:duration-0 lg:hidden",
               "data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.97] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100",
             )}
           >
@@ -377,7 +377,7 @@ export const HeroHeader = () => {
                 <CollapsibleTrigger className="group flex min-h-14 w-full items-center justify-between border-b border-line text-left text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 [&_svg]:size-4">
                   Clubs
                   <ChevronDown
-                    className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+                    className="transition-transform duration-150 group-data-[state=open]:rotate-180"
                     aria-hidden="true"
                   />
                 </CollapsibleTrigger>
@@ -409,7 +409,7 @@ export const HeroHeader = () => {
                 <CollapsibleTrigger className="group flex min-h-14 w-full items-center justify-between border-b border-line text-left text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 [&_svg]:size-4">
                   Explore
                   <ChevronDown
-                    className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+                    className="transition-transform duration-150 group-data-[state=open]:rotate-180"
                     aria-hidden="true"
                   />
                 </CollapsibleTrigger>

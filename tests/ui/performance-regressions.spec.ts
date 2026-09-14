@@ -23,13 +23,24 @@ test("desktop navbar stays centered and dropdown transitions remain responsive",
   test.skip(testInfo.project.name !== "chromium-desktop", "One deterministic desktop run covers navbar geometry.");
   await page.goto("/");
   const row = page.locator("header nav > div").first();
+  const navigation = page.getByRole("navigation", { name: "Main navigation" });
   const before = await row.boundingBox();
+  const beforeLogo = await page.getByRole("link", { name: "UISS home" }).boundingBox();
+  const beforeJoin = await navigation.getByRole("link", { name: "Join UISS" }).boundingBox();
   await page.evaluate(() => window.scrollTo(0, 240));
-  await page.waitForTimeout(100);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
   const after = await row.boundingBox();
+  const afterLogo = await page.getByRole("link", { name: "UISS home" }).boundingBox();
+  const afterJoin = await navigation.getByRole("link", { name: "Join UISS" }).boundingBox();
   expect(before).not.toBeNull();
   expect(after).not.toBeNull();
   expect(Math.abs((before?.height ?? 0) - (after?.height ?? 0))).toBeLessThanOrEqual(1);
+  expect(Math.abs((beforeLogo!.y + beforeLogo!.height / 2) - (afterLogo!.y + afterLogo!.height / 2))).toBeLessThanOrEqual(1);
+  expect(Math.abs((beforeJoin!.y + beforeJoin!.height / 2) - (afterJoin!.y + afterJoin!.height / 2))).toBeLessThanOrEqual(1);
+  await page.getByRole("button", { name: "Clubs", exact: true }).first().hover();
+  await expect(navigation.getByText("Technical communities", { exact: true })).toBeVisible({ timeout: 500 });
+  await page.getByRole("button", { name: "Explore", exact: true }).hover();
+  await expect(navigation.getByText("Explore UISS", { exact: true })).toBeVisible({ timeout: 500 });
 });
 
 for (const route of ["/", "/clubs"]) {
