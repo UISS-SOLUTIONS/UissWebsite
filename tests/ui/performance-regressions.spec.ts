@@ -145,13 +145,93 @@ test("published project cards retain their reveal behavior", async ({ page }, te
   await expect(firstCard).toBeInViewport();
 });
 
-test("mobile navigation keeps its original in-flow presentation", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.includes("mobile"), "Mobile presentation only.");
+test("Header 3 shell removes closed mobile menu from layout", async ({ page }, testInfo) => {
+  test.skip(!/(mobile|tablet)/.test(testInfo.project.name), "Responsive shell geometry is covered on mobile and tablet.");
+  await page.goto("/");
+
+  const shell = page.locator("header > div > div");
+  const header = page.locator("header");
+  const closedShell = await shell.boundingBox();
+  const closedHeader = await header.boundingBox();
+  expect(closedShell).not.toBeNull();
+  expect(closedHeader).not.toBeNull();
+  expect(closedShell!.y).toBe(12);
+  expect(closedShell!.height).toBeGreaterThanOrEqual(testInfo.project.name === "chromium-tablet" ? 56 : 55);
+  expect(closedShell!.height).toBeLessThanOrEqual(testInfo.project.name === "chromium-tablet" ? 57 : 57);
+  expect(closedHeader!.height).toBeLessThanOrEqual(72);
+  const closedPanel = page.locator("#mobile-navigation");
+  await expect(closedPanel).toBeHidden();
+  expect(await closedPanel.boundingBox()).toBeNull();
+
+  const trigger = page.getByRole("button", { name: "Open navigation menu" });
+  await trigger.click();
+  const panel = page.locator("#mobile-navigation");
+  await expect(panel).toBeVisible();
+  await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
+  expect((await shell.boundingBox())?.height ?? 0).toBeGreaterThan(closedShell!.height);
+
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeFocused();
+  await expect(panel).toBeHidden();
+  expect(await panel.boundingBox()).toBeNull();
+  await expect(page.locator("body")).toHaveCSS("overflow", "visible");
+});
+
+test("Header 3 desktop shell remains centered and stable while scrolling", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.endsWith("desktop"), "Desktop shell geometry is covered in each browser engine.");
+  await page.goto("/");
+  const shell = page.locator("header > div > div");
+  const viewport = page.viewportSize();
+  const before = await shell.boundingBox();
+  expect(before).not.toBeNull();
+  expect(before!.width).toBeCloseTo(576, 0);
+  expect(viewport).not.toBeNull();
+  expect(before!.x).toBeCloseTo((viewport!.width - 576) / 2, 0);
+  expect(before!.height).toBeCloseTo(48, 0);
+
+  await page.evaluate(() => window.scrollTo(0, 240));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  const after = await shell.boundingBox();
+  expect(after).not.toBeNull();
+  expect(after!.x).toBeCloseTo(before!.x, 0);
+  expect(after!.y).toBeCloseTo(before!.y, 0);
+  expect(after!.height).toBeCloseTo(before!.height, 0);
+});
+
+test("reduced motion keeps Header 3 menu transitions static", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium-reduced-motion", "Reduced-motion navbar behavior has one deterministic project.");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open navigation menu" }).click();
+  await expect(page.locator("#mobile-navigation")).toBeVisible();
+  await expect.poll(() => page.locator("#mobile-navigation").evaluate((element) => Number.parseFloat(getComputedStyle(element).transitionDuration))).toBeLessThanOrEqual(0.001);
+});
+
+test("mobile Header 3 disclosures retain every UISS destination", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.includes("mobile"), "Mobile navigation destinations are covered on mobile.");
   await page.goto("/");
   await page.getByRole("button", { name: "Open navigation menu" }).click();
   const panel = page.locator("#mobile-navigation");
-  await expect(panel).toBeVisible();
-  await expect(panel).toHaveCSS("position", "static");
+
+  await panel.getByRole("button", { name: "Clubs", exact: true }).click();
+  for (const href of [
+    "/clubs/artificial-intelligence",
+    "/clubs/blockchain",
+    "/clubs/data-science",
+    "/clubs/networking",
+    "/clubs/software-development",
+    "/clubs/ui-ux-graphic-design",
+    "/clubs",
+  ]) {
+    await expect(panel.locator(`a[href="${href}"]`)).toHaveCount(1);
+  }
+
+  await panel.getByRole("button", { name: "Explore", exact: true }).click();
+  await expect(panel.locator('a[href="/events"]')).toHaveCount(1);
+  await expect(panel.locator('a[href="/projects"]')).toHaveCount(1);
+  await expect(panel.locator('a[href="/blog"]')).toHaveCount(1);
+  await expect(panel.locator('a[href="/about"]')).toHaveCount(1);
+  await expect(panel.locator('a[href="/membership"]')).toHaveCount(1);
 });
 
 test("the intended Source Sans typography loads", async ({ page }) => {

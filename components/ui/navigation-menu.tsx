@@ -11,7 +11,7 @@ const NavigationMenu = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Root
     ref={ref}
-    delayDuration={120}
+    delayDuration={0}
     skipDelayDuration={80}
     className={cn(
       "relative z-10 flex max-w-max flex-1 items-center justify-center",
@@ -93,7 +93,7 @@ const NavigationMenuViewport = React.forwardRef<
   >
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        "relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full origin-top overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-soft transition-[transform,opacity] [transition-duration:120ms] ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.99] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 md:w-[var(--radix-navigation-menu-viewport-width)]",
+        "relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full origin-top overflow-hidden rounded-2xl border border-border bg-popover text-popover-foreground shadow-soft transition-[transform,opacity] [transition-duration:120ms] ease-out data-[state=closed]:pointer-events-none data-[state=closed]:scale-[0.99] data-[state=closed]:opacity-0 data-[state=open]:scale-100 data-[state=open]:opacity-100 md:w-[var(--radix-navigation-menu-viewport-width)]",
         className,
       )}
       ref={ref}
