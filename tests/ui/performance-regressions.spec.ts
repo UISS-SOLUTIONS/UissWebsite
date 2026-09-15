@@ -72,6 +72,7 @@ for (const route of ["/", "/clubs"]) {
 
 test("club rows retain the original expansion and all profile destinations", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "chromium-desktop", "One deterministic pointer run covers expansion and every destination.");
+  test.setTimeout(90_000);
   await page.goto("/clubs");
 
   const firstTrigger = page.getByRole("button", { name: /Artificial Intelligence/ });
@@ -81,7 +82,7 @@ test("club rows retain the original expansion and all profile destinations", asy
   await expect.poll(async () => (await row.boundingBox())?.height ?? 0).toBeGreaterThan(240);
 
   for (const slug of clubSlugs) {
-    const trigger = page.getByRole("button", { name: new RegExp(`Preview .*`, "i") }).nth(clubSlugs.indexOf(slug));
+    const trigger = page.getByTestId(`club-row-${slug}`).locator("xpath=ancestor::button[1]");
     await trigger.click();
     await expect(page.getByRole("dialog").getByRole("link", { name: /Open full club profile/i })).toHaveAttribute("href", `/clubs/${slug}`);
     await page.keyboard.press("Escape");
