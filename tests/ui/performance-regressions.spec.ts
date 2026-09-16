@@ -97,6 +97,8 @@ test("partner marquee moves continuously in normal motion mode", async ({ page }
   await marquee.scrollIntoViewIfNeeded();
   const track = marquee.locator(":scope > div");
   await expect(track).toBeVisible();
+  await expect(marquee.getByRole("img", { name: "UDICTI" })).toHaveCount(1);
+  await expect(marquee.locator('[aria-hidden="true"] [aria-label="UDICTI"]')).toHaveCount(0);
   const firstTransform = await track.evaluate((element) => getComputedStyle(element).transform);
   await page.waitForTimeout(300);
   const secondTransform = await track.evaluate((element) => getComputedStyle(element).transform);
@@ -108,7 +110,8 @@ test("reduced motion presents every partner without a clipped marquee", async ({
   await page.goto("/");
   const staticLogos = page.getByTestId("partner-logo-static");
   await expect(staticLogos).toBeVisible();
-  await expect(staticLogos.getByRole("img")).toHaveCount(5);
+  await expect(staticLogos.getByRole("img")).toHaveCount(6);
+  await expect(staticLogos.getByRole("img", { name: "UDICTI" })).toHaveCount(1);
   await expect(page.getByTestId("partner-logo-marquee")).toHaveCount(0);
 });
 
@@ -124,9 +127,9 @@ test("leadership remains a one-row accessible carousel", async ({ page }, testIn
 });
 
 test("FAQ uses the restored animated SVG control", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/#faq");
   const question = page.getByRole("button", { name: "Who can join UISS?" });
-  await question.scrollIntoViewIfNeeded();
+  await expect(question).toBeVisible();
   await expect(question.locator("svg")).toHaveCount(1);
   await question.click();
   await expect(question).toHaveAttribute("aria-expanded", "true");

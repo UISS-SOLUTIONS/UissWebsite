@@ -36,10 +36,6 @@ const nextConfig: NextConfig = {
         pathname: "/**",
         search: "",
       },
-      {
-        pathname: "/leaders/2026-2027/**",
-        search: "?v=2",
-      },
     ],
     remotePatterns: optimizedImageHosts.map((hostname) => ({ protocol: "https", hostname })),
   },

@@ -1,12 +1,15 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-import { resolveLeaderPortrait } from '@/lib/leader-portraits'
+import {
+  getActiveLeaderPortraitCandidate,
+  getLeaderPortraitCandidates,
+  resolveLeaderPortrait,
+  type LeaderPortraitVariant,
+} from '@/lib/leader-portraits'
 import { cn } from '@/lib/utils'
-
-type LeaderPortraitVariant = 'avatar' | 'card' | 'advisor'
 
 type LeaderPortraitProps = {
   name: string
@@ -45,17 +48,10 @@ export function LeaderPortrait({
   className,
   priority = false,
 }: LeaderPortraitProps) {
-  const resolvedPortrait = resolveLeaderPortrait(name, databaseImage)
-  const candidates = useMemo(
-    () => Array.from(new Set([resolvedPortrait.src, resolvedPortrait.fallbackSrc].filter((src): src is string => Boolean(src)))),
-    [resolvedPortrait.fallbackSrc, resolvedPortrait.src],
-  )
+  const resolvedPortrait = resolveLeaderPortrait(name, databaseImage, variant)
+  const candidates = getLeaderPortraitCandidates(resolvedPortrait)
   const [failedSources, setFailedSources] = useState<string[]>([])
-  const activeSource = candidates.find((candidate) => !failedSources.includes(candidate))
-  const isLocalFallback = activeSource === resolvedPortrait.fallbackSrc
-  const objectPosition = isLocalFallback
-    ? resolvedPortrait.fallbackObjectPosition
-    : resolvedPortrait.objectPosition
+  const activeCandidate = getActiveLeaderPortraitCandidate(candidates, failedSources)
 
   return (
     <div
@@ -65,18 +61,18 @@ export function LeaderPortrait({
         className,
       )}
     >
-      {activeSource ? (
+      {activeCandidate ? (
         <Image
-          key={activeSource}
-          src={activeSource}
+          key={activeCandidate.src}
+          src={activeCandidate.src}
           alt={`Portrait of ${name}`}
           fill
           sizes={imageSizes[variant]}
           className="object-cover"
-          style={{ objectPosition }}
+          style={{ objectPosition: activeCandidate.objectPosition }}
           priority={priority}
           onError={() => {
-            setFailedSources((current) => current.includes(activeSource) ? current : [...current, activeSource])
+            setFailedSources((current) => current.includes(activeCandidate.src) ? current : [...current, activeCandidate.src])
           }}
         />
       ) : (

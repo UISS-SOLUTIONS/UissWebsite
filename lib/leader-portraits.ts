@@ -1,6 +1,8 @@
+export type LeaderPortraitVariant = 'avatar' | 'card' | 'advisor'
+
 export type LocalLeaderPortrait = {
   src: string
-  objectPosition: string
+  objectPositions: Record<LeaderPortraitVariant, string>
 }
 
 export type ResolvedLeaderPortrait = {
@@ -10,12 +12,41 @@ export type ResolvedLeaderPortrait = {
   fallbackObjectPosition: string
 }
 
-const portrait = (fileName: string, objectPosition = '50% 50%'): LocalLeaderPortrait => ({
-  src: `/leaders/2026-2027/${fileName}`,
-  objectPosition,
-})
+export type LeaderPortraitCandidate = {
+  src: string
+  objectPosition: string
+}
 
-const correctedPortrait = (fileName: string) => portrait(`${fileName}?v=2`)
+export function getLeaderPortraitCandidates(portrait: ResolvedLeaderPortrait) {
+  const candidates: LeaderPortraitCandidate[] = []
+
+  if (portrait.src) {
+    candidates.push({ src: portrait.src, objectPosition: portrait.objectPosition })
+  }
+
+  if (portrait.fallbackSrc && portrait.fallbackSrc !== portrait.src) {
+    candidates.push({ src: portrait.fallbackSrc, objectPosition: portrait.fallbackObjectPosition })
+  }
+
+  return candidates
+}
+
+export function getActiveLeaderPortraitCandidate(candidates: LeaderPortraitCandidate[], failedSources: string[]) {
+  return candidates.find((candidate) => !failedSources.includes(candidate.src))
+}
+
+const portrait = (
+  fileName: string,
+  avatarPosition = '50% 50%',
+  portraitPosition = avatarPosition,
+): LocalLeaderPortrait => ({
+  src: `/leaders/2026-2027/${fileName}`,
+  objectPositions: {
+    avatar: avatarPosition,
+    card: portraitPosition,
+    advisor: portraitPosition,
+  },
+})
 
 export function normalizeLeaderName(name: string) {
   return name
@@ -31,18 +62,20 @@ export function getCanonicalLeaderName(name: string) {
   return normalizeLeaderName(trimmedName) === 'sifa ramendu' ? 'Sifa Kamendu' : trimmedName
 }
 
-const professorPortrait = portrait('prof-baraka-maiseli.webp')
+const professorPortrait = portrait('prof-baraka-maiseli.avif', '50% 34%', '50% 38%')
 
 export const localLeaderPortraits: Readonly<Record<string, LocalLeaderPortrait>> = {
-  [normalizeLeaderName('Winifrida Masalu')]: correctedPortrait('winifrida-masalu.webp'),
-  [normalizeLeaderName('Lutome Galila')]: correctedPortrait('lutome-galila.webp'),
-  [normalizeLeaderName('Hefsibamakelle Mteri')]: correctedPortrait('hefsibamakelle-mteri.webp'),
-  [normalizeLeaderName('Sifa Kamendu')]: correctedPortrait('sifa-kamendu.webp'),
-  [normalizeLeaderName('Abdon Musa')]: correctedPortrait('abdon-musa.webp'),
-  [normalizeLeaderName('Alexander Marwa')]: correctedPortrait('alexander-marwa.webp'),
-  [normalizeLeaderName('Noreen Mrema')]: correctedPortrait('noreen-mrema.webp'),
-  [normalizeLeaderName('Dorcas Laiser')]: correctedPortrait('dorcas-laiser.webp'),
-  [normalizeLeaderName('Gadi Josephat')]: correctedPortrait('gadi-josephat.webp'),
+  [normalizeLeaderName('Collince Sanare')]: portrait('collince-sanare.avif', '50% 30%', '50% 32%'),
+  [normalizeLeaderName('Baraka Alex')]: portrait('baraka-alex.avif', '50% 24%', '50% 28%'),
+  [normalizeLeaderName('Alexander Marwa')]: portrait('alexander-marwa.avif', '50% 24%', '50% 28%'),
+  [normalizeLeaderName('Hefsibamakelle Mteri')]: portrait('hefsibamakelle-mteri.avif', '50% 40%', '50% 42%'),
+  [normalizeLeaderName('Noreen Mrema')]: portrait('noreen-mrema.avif', '50% 30%', '50% 34%'),
+  [normalizeLeaderName('Sifa Kamendu')]: portrait('sifa-kamendu.avif', '50% 34%', '50% 38%'),
+  [normalizeLeaderName('Lutome Galila')]: portrait('lutome-galila.avif', '50% 30%', '50% 34%'),
+  [normalizeLeaderName('Gadi Josephat')]: portrait('gadi-josephat.avif', '50% 28%', '50% 32%'),
+  [normalizeLeaderName('Abdon Musa')]: portrait('abdon-musa.avif', '50% 30%', '50% 32%'),
+  [normalizeLeaderName('Dorcas Laiser')]: portrait('dorcas-laiser.avif', '50% 18%', '50% 24%'),
+  [normalizeLeaderName('Winifrida Masalu')]: portrait('winifrida-masalu.avif', '50% 32%', '50% 36%'),
   [normalizeLeaderName('Prof. Baraka J. Maiseli')]: professorPortrait,
   [normalizeLeaderName('Baraka Maiseli')]: professorPortrait,
 }
@@ -51,15 +84,19 @@ export function getLocalLeaderPortrait(name: string) {
   return localLeaderPortraits[normalizeLeaderName(getCanonicalLeaderName(name))]
 }
 
-export function resolveLeaderPortrait(name: string, databaseImage?: string | null): ResolvedLeaderPortrait {
+export function resolveLeaderPortrait(
+  name: string,
+  databaseImage?: string | null,
+  variant: LeaderPortraitVariant = 'card',
+): ResolvedLeaderPortrait {
   const databaseSrc = databaseImage?.trim() || undefined
   const localPortrait = getLocalLeaderPortrait(name)
 
   return {
-    src: databaseSrc ?? localPortrait?.src,
-    fallbackSrc: databaseSrc ? localPortrait?.src : undefined,
-    objectPosition: databaseSrc ? '50% 50%' : (localPortrait?.objectPosition ?? '50% 50%'),
-    fallbackObjectPosition: localPortrait?.objectPosition ?? '50% 50%',
+    src: localPortrait?.src ?? databaseSrc,
+    fallbackSrc: localPortrait ? databaseSrc : undefined,
+    objectPosition: localPortrait?.objectPositions[variant] ?? '50% 50%',
+    fallbackObjectPosition: '50% 50%',
   }
 }
 

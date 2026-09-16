@@ -1,7 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 import { leadershipCatalog } from "../../lib/leadership-catalog";
-import { getCanonicalLeaderName, getLocalLeaderPortrait, resolveLeaderPortrait } from "../../lib/leader-portraits";
+import {
+  getActiveLeaderPortraitCandidate,
+  getCanonicalLeaderName,
+  getLeaderPortraitCandidates,
+  getLocalLeaderPortrait,
+  resolveLeaderPortrait,
+} from "../../lib/leader-portraits";
 
 const publicRoutes = ["/", "/about", "/clubs", "/events", "/projects", "/blog", "/membership", "/login"];
 
@@ -54,16 +60,18 @@ test("FAQ controls expose expanded state", async ({ page }) => {
 
 test("the local leadership portrait manifest maps every supplied portrait", () => {
   const expectedPortraits = {
-    "Winifrida Masalu": "/leaders/2026-2027/winifrida-masalu.webp?v=2",
-    "Lutome Galila": "/leaders/2026-2027/lutome-galila.webp?v=2",
-    "Hefsibamakelle Mteri": "/leaders/2026-2027/hefsibamakelle-mteri.webp?v=2",
-    "Sifa Kamendu": "/leaders/2026-2027/sifa-kamendu.webp?v=2",
-    "Abdon Musa": "/leaders/2026-2027/abdon-musa.webp?v=2",
-    "Alexander Marwa": "/leaders/2026-2027/alexander-marwa.webp?v=2",
-    "Noreen Mrema": "/leaders/2026-2027/noreen-mrema.webp?v=2",
-    "Dorcas Laiser": "/leaders/2026-2027/dorcas-laiser.webp?v=2",
-    "Gadi Josephat": "/leaders/2026-2027/gadi-josephat.webp?v=2",
-    "Prof. Baraka J. Maiseli": "/leaders/2026-2027/prof-baraka-maiseli.webp",
+    "Collince Sanare": "/leaders/2026-2027/collince-sanare.avif",
+    "Baraka Alex": "/leaders/2026-2027/baraka-alex.avif",
+    "Alexander Marwa": "/leaders/2026-2027/alexander-marwa.avif",
+    "Hefsibamakelle Mteri": "/leaders/2026-2027/hefsibamakelle-mteri.avif",
+    "Noreen Mrema": "/leaders/2026-2027/noreen-mrema.avif",
+    "Sifa Kamendu": "/leaders/2026-2027/sifa-kamendu.avif",
+    "Lutome Galila": "/leaders/2026-2027/lutome-galila.avif",
+    "Gadi Josephat": "/leaders/2026-2027/gadi-josephat.avif",
+    "Abdon Musa": "/leaders/2026-2027/abdon-musa.avif",
+    "Dorcas Laiser": "/leaders/2026-2027/dorcas-laiser.avif",
+    "Winifrida Masalu": "/leaders/2026-2027/winifrida-masalu.avif",
+    "Prof. Baraka J. Maiseli": "/leaders/2026-2027/prof-baraka-maiseli.avif",
   } as const;
 
   for (const [name, src] of Object.entries(expectedPortraits)) {
@@ -71,25 +79,44 @@ test("the local leadership portrait manifest maps every supplied portrait", () =
   }
 });
 
-test("database portraits override local portraits without removing the local fallback", () => {
+test("local portraits override database portraits without removing the database fallback", () => {
   const databaseImage = "https://res.cloudinary.com/dsuixbwp7/image/upload/example.webp";
-  const resolvedPortrait = resolveLeaderPortrait("Sifa Kamendu", databaseImage);
+  const resolvedPortrait = resolveLeaderPortrait("Sifa Kamendu", databaseImage, "card");
+  const avatarPortrait = resolveLeaderPortrait("Sifa Kamendu", databaseImage, "avatar");
+  const advisorPortrait = resolveLeaderPortrait("Sifa Kamendu", databaseImage, "advisor");
 
-  expect(resolvedPortrait.src).toBe(databaseImage);
-  expect(resolvedPortrait.fallbackSrc).toBe("/leaders/2026-2027/sifa-kamendu.webp?v=2");
+  expect(resolvedPortrait.src).toBe("/leaders/2026-2027/sifa-kamendu.avif");
+  expect(resolvedPortrait.fallbackSrc).toBe(databaseImage);
+  expect(resolvedPortrait.objectPosition).toBe("50% 38%");
+  expect(avatarPortrait.objectPosition).toBe("50% 34%");
+  expect(advisorPortrait.objectPosition).toBe(resolvedPortrait.objectPosition);
+  expect(avatarPortrait.fallbackObjectPosition).toBe("50% 50%");
+  const candidates = getLeaderPortraitCandidates(resolvedPortrait);
+  expect(getActiveLeaderPortraitCandidate(candidates, [])).toEqual({
+    src: "/leaders/2026-2027/sifa-kamendu.avif",
+    objectPosition: "50% 38%",
+  });
+  expect(getActiveLeaderPortraitCandidate(candidates, ["/leaders/2026-2027/sifa-kamendu.avif"])).toEqual({
+    src: databaseImage,
+    objectPosition: "50% 50%",
+  });
+  expect(getActiveLeaderPortraitCandidate(candidates, ["/leaders/2026-2027/sifa-kamendu.avif", databaseImage])).toBeUndefined();
+  expect(getLeaderPortraitCandidates(resolveLeaderPortrait("Sifa Kamendu", "/leaders/2026-2027/sifa-kamendu.avif", "card"))).toEqual([
+    { src: "/leaders/2026-2027/sifa-kamendu.avif", objectPosition: "50% 38%" },
+  ]);
   expect(getCanonicalLeaderName("Sifa Ramendu")).toBe("Sifa Kamendu");
-  expect(getLocalLeaderPortrait("Sifa Ramendu")?.src).toBe("/leaders/2026-2027/sifa-kamendu.webp?v=2");
-  expect(resolveLeaderPortrait("Collince Sanare").src).toBeUndefined();
-  expect(resolveLeaderPortrait("Baraka Alex").src).toBeUndefined();
+  expect(getLocalLeaderPortrait("Sifa Ramendu")?.src).toBe("/leaders/2026-2027/sifa-kamendu.avif");
+  expect(resolveLeaderPortrait("Collince Sanare").src).toBe("/leaders/2026-2027/collince-sanare.avif");
+  expect(resolveLeaderPortrait("Baraka Alex").src).toBe("/leaders/2026-2027/baraka-alex.avif");
 });
 
-test("the public leadership views use portraits and preserve intentional initials", async ({ page }) => {
+test("the public leadership views use every supplied portrait", async ({ page }) => {
   await page.goto("/about");
 
   await expect(page.getByAltText("Portrait of Prof. Baraka J. Maiseli")).toHaveCount(1);
   await expect(page.getByAltText("Portrait of Sifa Kamendu")).toHaveCount(1);
-  await expect(page.getByLabel("Collince Sanare initials")).toBeVisible();
-  await expect(page.getByLabel("Baraka Alex initials")).toBeVisible();
+  await expect(page.getByAltText("Portrait of Collince Sanare")).toHaveCount(1);
+  await expect(page.getByAltText("Portrait of Baraka Alex")).toHaveCount(1);
   await expect(page.locator("main")).not.toContainText("Sifa Ramendu");
 
   await page.goto("/");
@@ -100,7 +127,7 @@ test("a broken portrait request degrades to initials", async ({ page }, testInfo
   test.skip(testInfo.project.name !== "chromium-mobile-390", "One deterministic mobile run covers image fallback behavior.");
   await page.route("**/*", async (route) => {
     const requestUrl = decodeURIComponent(route.request().url());
-    if (requestUrl.includes("prof-baraka-maiseli.webp")) {
+    if (requestUrl.includes("prof-baraka-maiseli.avif")) {
       await route.fulfill({ status: 404, body: "Portrait unavailable" });
       return;
     }
