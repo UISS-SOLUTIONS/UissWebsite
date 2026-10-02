@@ -1,0 +1,38 @@
+.page :global(.merch-card) {
+  animation: arrive var(--uiss-duration-section) var(--uiss-ease-out) both;
+  transition: border-color var(--uiss-duration-control) ease,
+    box-shadow var(--uiss-duration-control) ease;
+}
+
+.page :global(.merch-card:nth-child(2)) {
+  animation-delay: 70ms;
+}
+
+.page :global(.merch-shirt) {
+  transition: transform var(--uiss-duration-section) var(--uiss-ease-out);
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .page :global(.merch-card:hover) {
+    border-color: rgb(var(--uiss-ink) / 0.25);
+    box-shadow: var(--uiss-shadow-soft);
+  }
+
+  .page :global(.merch-image-panel:hover .merch-shirt) {
+    transform: translateY(-3px) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page :global(.merch-card),
+  .page :global(.merch-shirt) {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}

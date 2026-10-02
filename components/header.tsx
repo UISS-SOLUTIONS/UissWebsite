@@ -16,6 +16,7 @@ import {
   Menu,
   Network,
   Palette,
+  Shirt,
   type LucideIcon,
   X,
 } from "lucide-react";
@@ -55,6 +56,7 @@ const clubItems: NavigationCard[] = [
 const exploreItems: NavigationCard[] = [
   { title: "Events", href: "/events", description: "Join workshops, meetups, and student-led experiences.", icon: CalendarDays },
   { title: "Projects", href: "/projects", description: "Discover practical work built by UISS students.", icon: FolderKanban },
+  { title: "Merch", href: "/merch", description: "Wear your UISS pride. Explore the polo collection.", icon: Shirt },
 ];
 
 const directItems = [

@@ -19,6 +19,7 @@ const footerGroups: FooterGroup[] = [
             { label: 'Clubs', href: '/clubs' },
             { label: 'Events', href: '/events' },
             { label: 'Projects', href: '/projects' },
+            { label: 'Merch', href: '/merch' },
             { label: 'Blog', href: '/blog' },
         ],
     },

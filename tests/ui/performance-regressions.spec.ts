@@ -232,6 +232,7 @@ test("mobile Header 3 disclosures retain every UISS destination", async ({ page 
   await panel.getByRole("button", { name: "Explore", exact: true }).click();
   await expect(panel.locator('a[href="/events"]')).toHaveCount(1);
   await expect(panel.locator('a[href="/projects"]')).toHaveCount(1);
+  await expect(panel.locator('a[href="/merch"]')).toHaveCount(1);
   await expect(panel.locator('a[href="/blog"]')).toHaveCount(1);
   await expect(panel.locator('a[href="/about"]')).toHaveCount(1);
   await expect(panel.locator('a[href="/membership"]')).toHaveCount(1);

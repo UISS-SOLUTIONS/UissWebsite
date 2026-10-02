@@ -9,7 +9,7 @@ import {
   resolveLeaderPortrait,
 } from "../../lib/leader-portraits";
 
-const publicRoutes = ["/", "/about", "/clubs", "/events", "/projects", "/blog", "/membership", "/login"];
+const publicRoutes = ["/", "/about", "/clubs", "/events", "/projects", "/merch", "/blog", "/membership", "/login"];
 
 for (const route of publicRoutes) {
   test(`${route} has sound responsive structure`, async ({ page }) => {
