@@ -1,112 +1,106 @@
-import { submitForm } from "@/app/actions";
+import { submitForm } from "@/app/admin/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const AddClub = () => {
+  const formId = React.useId();
+
   const [error, setError] = useState("");
-  const handleSubmit = async (
-    values: Record<string, FormDataEntryValue | null>
-  ) => {
-    if (
-      typeof values.introVidId === "string" &&
-      values.introVidId.includes("youtu.be/")
-    ) {
+
+  const handleSubmit = async (values: Record<string, FormDataEntryValue | null>) => {
+    const video = z.string().safeParse(values.introVidId);
+
+    if (video.success && video.data.includes("youtu.be/")) {
       values = {
         ...values,
-        introVidId: values.introVidId.split("youtu.be/")[1],
+        introVidId: video.data.split("youtu.be/")[1],
       };
     } else {
       setError("Invalid URL Provided");
     }
-    toast.promise(submitForm(values, "http://localhost:3000/api/clubs"), {
+
+    toast.promise(submitForm(values, "/clubs"), {
       loading: "Submitting data...",
       success: (result) => result.message || "Form submitted successfully!",
       error: (error) => error.message || "Failed to submit form.",
     });
   };
+
   return (
     <FormWrapper onSubmit={handleSubmit}>
-      <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
-        Add Club
-      </span>
-      <div className="flex flex-col gap-2 pt-5">
-        <div className="flex flex-col">
-          <label htmlFor="title" className="text-xl font-bold">
+      <span className="flex w-full text-2xl font-semibold">Add Club</span>
+      <div className="uiss-form-fields">
+        <div className="grid min-w-0 gap-2">
+          <label htmlFor={`${formId}-title`} className="text-sm font-medium">
             Club Name:
           </label>
-          <input
-            type="text"
-            name="title"
-            id=""
-            required
-            className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          />
+          <input type="text" name="title" id={`${formId}-title`} required className="uiss-field" />
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="introVidId" className="text-xl font-bold">
-            Introduction Video Link:
-          </label>
-          <input
-            type="text"
-            name="introVidId"
-            id=""
-            required
-            placeholder="https://youtu.be/kVQSdLgd1rM?si=-zvR9ammHmx7Iqk7"
-            className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          />
-          {error !== "" && <span className="text-xl font-bold text-red-700">{error}</span>}
+        <div className="grid min-w-0 gap-2">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-introVidId`} className="text-sm font-medium">
+              Introduction Video Link:
+            </label>
+            <input
+              type="text"
+              name="introVidId"
+              id={`${formId}-introVidId`}
+              required
+              placeholder="https://youtu.be/kVQSdLgd1rM?si=-zvR9ammHmx7Iqk7"
+              className="uiss-field"
+            />
+          </div>
+          {error !== "" && <span className="text-xl font-semibold text-danger">{error}</span>}
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="description" className="text-xl font-bold pt-1">
+        <div className="grid min-w-0 gap-2">
+          <label htmlFor={`${formId}-description`} className="text-sm font-medium">
             Description:
           </label>
           <textarea
             name="description"
-            id=""
+            id={`${formId}-description`}
             required
-            className="p-2 text-base resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+            className="uiss-field min-h-28 resize-y"
             rows={4}
           />
         </div>
-        <div className="flex gap-2">
-          <div className="">
-            <label htmlFor="mission" className="text-xl font-bold py-1">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-mission`} className="text-sm font-medium">
               Mission:
             </label>
             <textarea
               name="mission"
-              id=""
+              id={`${formId}-mission`}
               required
-              className="p-2 text-base w-full resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field min-h-28 resize-y"
               rows={4}
             />
           </div>
-          <div>
-            <label htmlFor="vision" className="text-xl font-bold py-1">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-vision`} className="text-sm font-medium">
               Vision:
             </label>
             <textarea
               name="vision"
-              id=""
+              id={`${formId}-vision`}
               required
-              className="p-2 text-base w-full resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field min-h-28 resize-y"
               rows={4}
             />
           </div>
         </div>
-        <div className="flex flex-col">
-          <label
-            htmlFor="missiondescription"
-            className="text-xl font-bold pt-1"
-          >
+        <div className="grid min-w-0 gap-2">
+          <label htmlFor={`${formId}-missiondescription`} className="text-sm font-medium">
             Mission & Vision Description:
           </label>
           <textarea
             name="missiondescription"
-            id=""
+            id={`${formId}-missiondescription`}
             required
-            className="p-2 text-base resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+            className="uiss-field min-h-28 resize-y"
             rows={4}
           />
         </div>

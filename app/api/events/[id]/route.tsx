@@ -6,48 +6,38 @@ import { slugify } from "@/lib/slugify";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const clubId = parseInt(id);
+
     if (isNaN(clubId)) {
-      return NextResponse.json(
-        { error: "Invalid id provided" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid id provided" }, { status: 400 });
     }
 
-    const eventsResults = await db
-      .select()
-      .from(events)
-      .where(eq(events.clubId, clubId));
+    const eventsResults = await db.select().from(events).where(eq(events.clubId, clubId));
+
     return NextResponse.json(eventsResults, { status: 200 });
   } catch (e) {
-    throw new Error((e as Error).message);
+    throw new Error(e instanceof Error ? e.message : "Unknown error");
   }
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin();
+
   if (denied) return denied;
 
   try {
-    const {id} = await params;
+    const { id } = await params;
     const clubId = parseInt(id);
+
     if (isNaN(clubId)) {
-      return NextResponse.json(
-        { error: "Invalid id provided" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid id provided" }, { status: 400 });
     }
 
     const body = await request.json();
+
     const [event] = await db
       .insert(events)
       .values({
@@ -67,6 +57,6 @@ export async function POST(
 
     return NextResponse.json(event, { status: 201 });
   } catch (e) {
-    throw new Error((e as Error).message);
+    throw new Error(e instanceof Error ? e.message : "Unknown error");
   }
 }

@@ -4,6 +4,8 @@ import { createHash } from "node:crypto";
 import { headers } from "next/headers";
 import { sql } from "drizzle-orm";
 import { Resend } from "resend";
+import { z } from "zod";
+import { escapeHtml } from "@/lib/format/escape-markup";
 import { db } from "@/app/db";
 import { members, membershipRateLimits } from "@/app/db/schema";
 
@@ -15,26 +17,14 @@ export type MembershipActionState = {
 class RateLimitError extends Error {}
 
 function field(formData: FormData, name: string, maxLength: number): string {
-  const value = formData.get(name);
-  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
-}
+  const parsed = z.string().safeParse(formData.get(name));
 
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => {
-    const entities: Record<string, string> = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;",
-    };
-    return entities[character];
-  });
+  return parsed.success ? parsed.data.trim().slice(0, maxLength) : "";
 }
 
 export async function submitMembershipApplication(
   _previousState: MembershipActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<MembershipActionState> {
   if (field(formData, "website", 200)) {
     return { status: "success", message: "Application received." };
@@ -91,8 +81,10 @@ export async function submitMembershipApplication(
 
     const from = process.env.RESEND_FROM_EMAIL;
     const to = process.env.MEMBERSHIP_NOTIFICATION_EMAIL;
+
     if (process.env.RESEND_API_KEY && from && to) {
       const resend = new Resend(process.env.RESEND_API_KEY);
+
       const { error } = await resend.emails.send({
         from,
         to: [to],
@@ -102,6 +94,7 @@ export async function submitMembershipApplication(
           <p><strong>Club interest:</strong> ${escapeHtml(clubInterest)}</p>
           <p><strong>Message:</strong> ${escapeHtml(message || "None")}</p>`,
       });
+
       if (error) {
         console.error("Membership notification failed", error.message);
       }
@@ -115,7 +108,9 @@ export async function submitMembershipApplication(
     if (error instanceof RateLimitError) {
       return { status: "error", message: "Too many attempts. Try again in an hour." };
     }
+
     console.error("Membership application failed", error);
+
     return {
       status: "error",
       message: "We could not save your application. Try again.",

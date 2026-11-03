@@ -26,7 +26,7 @@ export function MerchProductOrder({ product }: { product: MerchProduct }) {
                 required
                 className="peer sr-only"
               />
-              <span className="merch-size-option inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-md border border-line bg-canvas px-3 text-sm font-semibold text-ink peer-checked:border-ink peer-checked:bg-ink peer-checked:text-canvas peer-focus:outline peer-focus:outline-[3px] peer-focus:outline-focus peer-focus:outline-offset-[3px]">
+              <span className="merch-size-option inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-control bg-panel shadow-border px-3 text-sm font-medium text-ink peer-checked:bg-ink peer-checked:text-canvas peer-focus-visible:shadow-focus-ring">
                 {size}
               </span>
             </label>
@@ -34,20 +34,30 @@ export function MerchProductOrder({ product }: { product: MerchProduct }) {
         </div>
       </FieldSet>
       {selectedSize ? (
-        <Button asChild size="lg" className="mt-5 w-full focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2">
-          <a
-            href={getMerchOrderUrl(product, selectedSize)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Order ${product.name}, size ${selectedSize}, on WhatsApp (opens in a new tab)`}
-          >
-            <MessageCircle aria-hidden="true" />
-            Order on WhatsApp
-            <ArrowUpRight aria-hidden="true" className="ml-auto" />
-          </a>
+        <Button
+          render={
+            <a
+              href={getMerchOrderUrl(product, selectedSize)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Order ${product.name}, size ${selectedSize}, on WhatsApp (opens in a new tab)`}
+            />
+          }
+          nativeButton={false}
+          size="lg"
+          className="mt-5 w-full focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2"
+        >
+          <MessageCircle aria-hidden="true" />
+          Order on WhatsApp
+          <ArrowUpRight aria-hidden="true" className="ml-auto" />
         </Button>
       ) : (
-        <Button disabled size="lg" className="mt-5 w-full" aria-label={`Choose a size to order ${product.name} on WhatsApp`}>
+        <Button
+          disabled
+          size="lg"
+          className="mt-5 w-full"
+          aria-label={`Choose a size to order ${product.name} on WhatsApp`}
+        >
           <MessageCircle aria-hidden="true" /> Choose a size
         </Button>
       )}

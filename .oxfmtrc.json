@@ -1,0 +1,14 @@
+{
+  "ignorePatterns": [
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "test-results/**",
+    "playwright-report/**",
+    "tools/oxlint/anti-slop/**",
+    "bun.lock",
+    "public/**",
+    "drizzle/meta/**"
+  ]
+}

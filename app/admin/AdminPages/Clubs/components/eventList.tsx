@@ -1,4 +1,4 @@
-import { fetchData } from "@/app/actions";
+import { fetchData } from "@/app/admin/actions";
 import React from "react";
 import UpcomingEventsCard from "./upcomingEventsCards";
 import { IEvents } from "@/app/admin/types";
@@ -6,14 +6,17 @@ import { IEvents } from "@/app/admin/types";
 interface props {
   id: string;
 }
+
 const EventList: React.FC<props> = async ({ id }) => {
   let events: IEvents[] = [];
+
   try {
-    const { data } = await fetchData<IEvents[]>(`http://localhost:3000/api/events/${id}`);
+    const { data } = await fetchData<IEvents[]>(`/events/${id}`);
     events = data;
   } catch (e) {
-    throw new Error((e as Error).message);
+    throw new Error(e instanceof Error ? e.message : "Unknown error");
   }
+
   return (
     <>
       {events.length !== 0 ? (
@@ -28,10 +31,9 @@ const EventList: React.FC<props> = async ({ id }) => {
           );
         })
       ) : (
-        <div className="text-black font-bold text-2xl text-center w-full flex flex-col gap-3 my-5">
-          <span className="text-5xl">😞</span>
-          <span className="text-black/80">Sorry!! No Events Available</span>
-        </div>
+        <p className="py-8 text-sm leading-6 text-muted">
+          No events have been added for this club.
+        </p>
       )}
     </>
   );

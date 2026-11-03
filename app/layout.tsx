@@ -1,26 +1,19 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Poppins, Source_Sans_3 } from 'next/font/google'
-import { Toaster } from 'sonner';
+import { Toaster } from "sonner";
 import "./globals.css";
 
-const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-source-sans-3',
-})
-
-const uissWordmark = Poppins({
-  subsets: ['latin'],
-  weight: ['800'],
-  variable: '--font-uiss-wordmark',
-})
-
-const uissDisplay = localFont({
+const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
-  variable: "--font-uiss-display",
-})
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "UISS",
@@ -35,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSans3.className} ${sourceSans3.variable} ${uissWordmark.variable} ${uissDisplay.variable} antialiased`}
+        className={`${geistSans.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
         <Toaster richColors position="top-right" />

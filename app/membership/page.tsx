@@ -6,8 +6,7 @@ import { getClub } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "Join UISS | Membership application",
-  description:
-    "Apply to join the University of Dar es Salaam ICT Students' Society.",
+  description: "Apply to join the University of Dar es Salaam ICT Students' Society.",
 };
 
 const benefits = [
@@ -19,67 +18,56 @@ const benefits = [
   "Access member events and society opportunities.",
 ];
 
-export default async function MembershipPage({ searchParams }: { searchParams: Promise<{ club?: string }> }) {
+export default async function MembershipPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ club?: string }>;
+}) {
   const slug = (await searchParams).club;
   const club = slug ? await getClub(slug) : null;
+
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <HeroHeader />
-      <main>
-        <section className="border-b border-line bg-surface">
-          <div className="mx-auto grid max-w-6xl gap-14 px-6 py-16 sm:py-24 lg:grid-cols-12 lg:gap-10 lg:py-28">
-            <div className="lg:col-span-5 lg:pt-8">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-muted">
-                UISS membership
+      <main id="main-content" tabIndex={-1}>
+        <section className="uiss-page-intro bg-canvas">
+          <div className="uiss-container grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-5">
+              <p className="uiss-eyebrow">UISS membership</p>
+              <h1 className="uiss-page-title mt-4">Find your place in the UISS community.</h1>
+              <p className="mt-4 max-w-xl text-pretty text-base leading-7 text-muted">
+                Tell us who you are and which technical community interests you. Applications stay
+                open throughout the year, and the UISS team reviews them weekly.
               </p>
-              <h1 className="uiss-page-title mt-4">
-                Find your place in the UISS community.
-              </h1>
-              <p className="mt-6 max-w-xl text-pretty text-lg leading-8 text-muted">
-                Tell us who you are and which technical community interests you.
-                Applications stay open throughout the year, and the UISS team reviews
-                them weekly.
-              </p>
-              <div className="mt-10 border-l-4 border-brand pl-5">
+              <div className="mt-10">
                 <p className="font-semibold">What happens next</p>
                 <p className="mt-2 max-w-md leading-7 text-muted">
-                  We save your application and send it to the UISS team. They will use
-                  your university email to follow up.
+                  We save your application and send it to the UISS team. They will use your
+                  university email to follow up.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-6 lg:col-start-7">
-              <div className="rounded-lg border border-line bg-canvas p-6 shadow-soft sm:p-9">
+              <div className="rounded-lg bg-panel p-6 shadow-soft sm:p-8">
                 <CustomForm initialClub={club?.title} />
               </div>
             </div>
           </div>
         </section>
 
-        <section
-          aria-labelledby="membership-benefits"
-          className="bg-canvas py-20 sm:py-28"
-        >
-          <div className="mx-auto max-w-6xl px-6">
+        <section aria-labelledby="membership-benefits" className="uiss-section bg-canvas">
+          <div className="uiss-container">
             <div className="max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-muted">
-                Why join
-              </p>
-              <h2
-                id="membership-benefits"
-                className="mt-3 text-balance text-4xl font-bold tracking-tight sm:text-5xl"
-              >
+              <p className="uiss-eyebrow">Why join</p>
+              <h2 id="membership-benefits" className="uiss-section-title mt-4">
                 Learn with people who are building too.
               </h2>
             </div>
 
-            <ol className="mt-12 grid border-t border-line md:grid-cols-2">
+            <ol className="mt-8 grid sm:mt-10 gap-x-12 gap-y-8 md:grid-cols-2">
               {benefits.map((benefit, index) => (
-                <li
-                  key={benefit}
-                  className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line py-7 md:odd:pr-10 md:even:border-l md:even:pl-10"
-                >
+                <li key={benefit} className="grid grid-cols-[3rem_1fr] gap-4">
                   <span className="font-mono text-sm font-semibold tabular-nums text-muted">
                     {String(index + 1).padStart(2, "0")}
                   </span>

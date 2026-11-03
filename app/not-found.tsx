@@ -16,28 +16,33 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <HeroHeader />
-      <main className="mx-auto flex min-h-[65vh] max-w-6xl items-center px-6 py-20">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="uiss-container uiss-page-content flex min-h-[65dvh] items-center"
+      >
         <section className="max-w-3xl" aria-labelledby="not-found-heading">
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-muted">
-            Error 404
-          </p>
-          <h1
-            id="not-found-heading"
-            className="mt-4 text-balance text-5xl font-bold leading-none tracking-tight sm:text-6xl"
-          >
+          <p className="uiss-eyebrow">Error 404</p>
+          <h1 id="not-found-heading" className="uiss-page-title mt-4">
             This page is no longer here.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
-            The UISS website has moved forward. Use one of the current sections
-            below, or return to the homepage.
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted">
+            The UISS website has moved forward. Use one of the current sections below, or return to
+            the homepage.
           </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/">Return home</Link>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button render={<Link href="/" />} nativeButton={false} size="lg">
+              Return home
             </Button>
             {destinations.map((destination) => (
-              <Button asChild key={destination.href} variant="outline" size="lg">
-                <Link href={destination.href}>{destination.label}</Link>
+              <Button
+                render={<Link href={destination.href} />}
+                nativeButton={false}
+                key={destination.href}
+                variant="outline"
+                size="lg"
+              >
+                {destination.label}
               </Button>
             ))}
           </div>

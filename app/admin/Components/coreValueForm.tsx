@@ -1,50 +1,58 @@
 import React from "react";
 import FormWrapper from "../../components/formWrapper";
-import { submitForm } from "../../actions";
+import { submitForm } from "@/app/admin/actions";
 import { toast } from "sonner";
+import { coreValueFields, type AdminRow } from "@/lib/admin-data";
 
 interface props {
   add?: boolean;
-  data?: Record<string, unknown>;
+  data?: AdminRow;
 }
 
 const CoreValueForm: React.FC<props> = ({ add, data }) => {
-  const handleSubmit = async (
-    values: Record<string, FormDataEntryValue | null>
-  ) => {
-    toast.promise(submitForm(values, "http://localhost:3000/api/coreValues"), {
+  const formId = React.useId();
+
+  const fields = coreValueFields.parse(data ?? {});
+
+  const handleSubmit = async (values: Record<string, FormDataEntryValue | null>) => {
+    toast.promise(submitForm(values, "/coreValues"), {
       loading: "Submitting data...",
       success: (result) => result.message || "Form submitted successfully!",
       error: (error) => error.message || "Failed to submit form.",
     });
   };
+
   return (
     <FormWrapper onSubmit={handleSubmit}>
-      <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
+      <span className="flex w-full text-2xl font-semibold">
         {add ? "Add Core Value" : "Edit Core Value"}
       </span>
-      <div className="flex flex-col gap-2 py-5">
-        <label htmlFor="value" className="text-xl font-bold">
-          Value:
-        </label>
-        <input
-          type="text"
-          name="value"
-          id=""
-          className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          defaultValue={add ? "" : typeof data?.value === "string" ? data.value : ""}
-          readOnly={add ? false : true}
-        />
-        <label htmlFor="description" className="text-xl font-bold">
-          Description:
-        </label>
-        <textarea
-          name="description"
-          id=""
-          defaultValue={add ? "" : typeof data?.description === "string" ? data.description : ""}
-          className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          rows={6}
-        />
+      <div className="uiss-form-fields">
+        <div className="grid min-w-0 gap-2">
+          <label htmlFor={`${formId}-value`} className="text-sm font-medium">
+            Value:
+          </label>
+          <input
+            type="text"
+            name="value"
+            id={`${formId}-value`}
+            className="uiss-field"
+            defaultValue={add ? "" : fields.value}
+            readOnly={add ? false : true}
+          />
+        </div>
+        <div className="grid min-w-0 gap-2">
+          <label htmlFor={`${formId}-description`} className="text-sm font-medium">
+            Description:
+          </label>
+          <textarea
+            name="description"
+            id={`${formId}-description`}
+            defaultValue={add ? "" : fields.description}
+            className="uiss-field min-h-28 resize-y"
+            rows={6}
+          />
+        </div>
       </div>
     </FormWrapper>
   );

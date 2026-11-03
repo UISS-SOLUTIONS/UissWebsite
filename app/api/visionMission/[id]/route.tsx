@@ -5,59 +5,53 @@ import { clubs } from "@/app/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin();
+
   if (denied) return denied;
 
   try {
     const { id } = await params;
     const clubId = parseInt(id);
+
     if (isNaN(clubId)) {
       return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
     }
+
     const body = await request.json();
+
     const changes = {
       vision: body.vision,
       mission: body.mission,
       description: body.description,
       updatedAt: new Date(),
     };
+
     const updatedvisionMission = await db
       .update(clubs)
       .set(Object.fromEntries(Object.entries(changes).filter(([, value]) => value !== undefined)))
       .where(eq(clubs.id, clubId))
       .returning();
+
     if (updatedvisionMission.length === 0) {
-      return NextResponse.json(
-        { error: "Vision or Mission not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Vision or Mission not found" }, { status: 404 });
     }
-    return NextResponse.json(
-      updatedvisionMission[0],
-      { status: 200 }
-    );
+
+    return NextResponse.json(updatedvisionMission[0], { status: 200 });
   } catch (e) {
-    throw new Error((e as Error).message);
+    throw new Error(e instanceof Error ? e.message : "Unknown error");
   }
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const clubId = parseInt(id);
+
     if (isNaN(clubId)) {
-      return NextResponse.json(
-        { error: "Invalid Vision Mission Id" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid Vision Mission Id" }, { status: 400 });
     }
+
     const result = await db
       .select({
         id: clubs.id,
@@ -76,8 +70,8 @@ export async function GET(
     }
   } catch (e) {
     return NextResponse.json(
-      { message: (e as Error).message },
-      { status: 400 }
+      { message: e instanceof Error ? e.message : "Unknown error" },
+      { status: 400 },
     );
   }
 }

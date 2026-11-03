@@ -13,14 +13,23 @@ const clubSlugs = [
 
 test("section rendering does not create containment-driven layout shifts", async ({ page }) => {
   await page.goto("/");
-  const sectionVisibility = await page.locator("main > section").evaluateAll((sections) =>
-    sections.map((section) => getComputedStyle(section).contentVisibility),
-  );
+
+  const sectionVisibility = await page
+    .locator("main > section")
+    .evaluateAll((sections) =>
+      sections.map((section) => getComputedStyle(section).contentVisibility),
+    );
+
   expect(sectionVisibility.every((value) => value === "visible")).toBe(true);
 });
 
-test("desktop navbar stays centered and dropdown transitions remain responsive", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-desktop", "One deterministic desktop run covers navbar geometry.");
+test("desktop navigation stays stable and dropdowns remain responsive", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "One deterministic desktop run covers navbar geometry.",
+  );
   await page.goto("/");
   const row = page.locator("header nav > div").first();
   const navigation = page.getByRole("navigation", { name: "Main navigation" });
@@ -35,17 +44,26 @@ test("desktop navbar stays centered and dropdown transitions remain responsive",
   expect(before).not.toBeNull();
   expect(after).not.toBeNull();
   expect(Math.abs((before?.height ?? 0) - (after?.height ?? 0))).toBeLessThanOrEqual(1);
-  expect(Math.abs((beforeLogo!.y + beforeLogo!.height / 2) - (afterLogo!.y + afterLogo!.height / 2))).toBeLessThanOrEqual(1);
-  expect(Math.abs((beforeJoin!.y + beforeJoin!.height / 2) - (afterJoin!.y + afterJoin!.height / 2))).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(beforeLogo!.y + beforeLogo!.height / 2 - (afterLogo!.y + afterLogo!.height / 2)),
+  ).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(beforeJoin!.y + beforeJoin!.height / 2 - (afterJoin!.y + afterJoin!.height / 2)),
+  ).toBeLessThanOrEqual(1);
   await page.getByRole("button", { name: "Clubs", exact: true }).first().hover();
-  await expect(navigation.getByText("Technical communities", { exact: true })).toBeVisible({ timeout: 500 });
+  await expect(navigation.getByText("Technical communities", { exact: true })).toBeVisible({
+    timeout: 500,
+  });
   await page.getByRole("button", { name: "Explore", exact: true }).hover();
   await expect(navigation.getByText("Explore UISS", { exact: true })).toBeVisible({ timeout: 500 });
 });
 
 for (const route of ["/", "/clubs"]) {
   test(`${route} club preview is viewport-bound and restores focus`, async ({ page }) => {
-    test.skip((test.info().project.name !== "chromium-desktop"), "One deterministic desktop run covers modal geometry and focus restoration.");
+    test.skip(
+      test.info().project.name !== "chromium-desktop",
+      "One deterministic desktop run covers modal geometry and focus restoration.",
+    );
     await page.goto(route);
     const trigger = page.getByRole("button", { name: /Artificial Intelligence/ });
     await trigger.scrollIntoViewIfNeeded();
@@ -70,43 +88,62 @@ for (const route of ["/", "/clubs"]) {
   });
 }
 
-test("club rows retain the original expansion and all profile destinations", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-desktop", "One deterministic pointer run covers expansion and every destination.");
+test("club rows stay stable and retain all profile destinations", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "One deterministic pointer run covers row geometry and every destination.",
+  );
   test.setTimeout(90_000);
   await page.goto("/clubs");
 
   const firstTrigger = page.getByRole("button", { name: /Artificial Intelligence/ });
-  await firstTrigger.hover();
   const row = page.getByTestId("club-row-artificial-intelligence");
-  await expect(row).toHaveAttribute("data-active", "true");
-  await expect.poll(async () => (await row.boundingBox())?.height ?? 0).toBeGreaterThan(240);
+  await firstTrigger.scrollIntoViewIfNeeded();
+  const before = await row.boundingBox();
+  await firstTrigger.hover();
+  const after = await row.boundingBox();
+  expect(before).not.toBeNull();
+  expect(after).not.toBeNull();
+  expect(after!.height).toBeCloseTo(before!.height, 0);
+  await expect(row).toContainText("Build practical AI systems");
 
   for (const slug of clubSlugs) {
     const trigger = page.getByTestId(`club-row-${slug}`).locator("xpath=ancestor::button[1]");
     await trigger.click();
-    await expect(page.getByRole("dialog").getByRole("link", { name: /Open full club profile/i })).toHaveAttribute("href", `/clubs/${slug}`);
+    await expect(
+      page.getByRole("dialog").getByRole("link", { name: /Open full club profile/i }),
+    ).toHaveAttribute("href", `/clubs/${slug}`);
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
   }
 });
 
-test("partner marquee moves continuously in normal motion mode", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.endsWith("desktop"), "Marquee motion is sampled once per desktop browser engine.");
+test("every collaborator stays visible without decorative motion", async ({ page }, testInfo) => {
+  test.skip(
+    !testInfo.project.name.endsWith("desktop"),
+    "Partner layout is verified once per desktop browser engine.",
+  );
   await page.goto("/");
-  const marquee = page.getByTestId("partner-logo-marquee");
-  await marquee.scrollIntoViewIfNeeded();
-  const track = marquee.locator(":scope > div");
-  await expect(track).toBeVisible();
-  await expect(marquee.getByRole("img", { name: "UDICTI" })).toHaveCount(1);
-  await expect(marquee.locator('[aria-hidden="true"] [aria-label="UDICTI"]')).toHaveCount(0);
-  const firstTransform = await track.evaluate((element) => getComputedStyle(element).transform);
-  await page.waitForTimeout(300);
-  const secondTransform = await track.evaluate((element) => getComputedStyle(element).transform);
-  expect(secondTransform).not.toBe(firstTransform);
+  const logos = page.getByTestId("partner-logo-static");
+  await logos.scrollIntoViewIfNeeded();
+  await expect(logos.getByRole("img")).toHaveCount(6);
+
+  for (const logo of await logos.getByRole("img").all()) {
+    await expect(logo).toBeVisible();
+    await expect(logo).toHaveCSS("transform", "none");
+    await expect(logo).toHaveCSS("animation-name", "none");
+  }
+
+  await expect(page.getByTestId("partner-logo-marquee")).toHaveCount(0);
 });
 
-test("reduced motion presents every partner without a clipped marquee", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-reduced-motion", "Dedicated reduced-motion project.");
+test("reduced motion presents every partner without a clipped marquee", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "chromium-reduced-motion",
+    "Dedicated reduced-motion project.",
+  );
   await page.goto("/");
   const staticLogos = page.getByTestId("partner-logo-static");
   await expect(staticLogos).toBeVisible();
@@ -115,18 +152,21 @@ test("reduced motion presents every partner without a clipped marquee", async ({
   await expect(page.getByTestId("partner-logo-marquee")).toHaveCount(0);
 });
 
-test("leadership remains a one-row accessible carousel", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.endsWith("desktop"), "Carousel layout is verified in every desktop browser engine.");
+test("leadership exposes every student in a static portrait grid", async ({ page }) => {
   await page.goto("/");
-  const carousel = page.getByRole("region", { name: "UISS leaders" });
-  await carousel.scrollIntoViewIfNeeded();
-  await expect(carousel).toHaveAttribute("aria-roledescription", "carousel");
-  await expect(carousel.getByRole("group")).toHaveCount(11);
-  await expect(carousel.getByRole("button", { name: "Previous slide" })).toBeDisabled();
-  await expect(carousel.getByRole("button", { name: "Next slide" })).toBeEnabled();
+  const team = page.locator("#team");
+  await expect(team.getByRole("list", { name: "UISS leaders" }).getByRole("listitem")).toHaveCount(
+    11,
+  );
+  await expect(team.getByRole("heading", { name: "Collince Sanare", exact: true })).toBeVisible();
+  await expect(team.getByRole("heading", { name: "Winifrida Masalu", exact: true })).toBeVisible();
+  await expect(team.getByRole("link", { name: "About our leadership" })).toHaveAttribute(
+    "href",
+    "/about#leadership",
+  );
 });
 
-test("FAQ uses the restored animated SVG control", async ({ page }) => {
+test("FAQ responds immediately and exposes an actionable answer", async ({ page }) => {
   await page.goto("/#faq");
   const question = page.getByRole("button", { name: "Who can join UISS?" });
   await expect(question).toBeVisible();
@@ -135,21 +175,39 @@ test("FAQ uses the restored animated SVG control", async ({ page }) => {
   await expect(question).toHaveAttribute("aria-expanded", "true");
   const panelId = await question.getAttribute("aria-controls");
   await expect(page.locator(`#${panelId}`)).toHaveAttribute("aria-hidden", "false");
+  await expect(page.locator(`#${panelId}`).getByRole("link")).toHaveAttribute(
+    "href",
+    "/membership",
+  );
+  await question.press("Enter");
+  await expect(page.locator(`#${panelId}`)).toBeHidden();
 });
 
-test("published project cards retain their reveal behavior", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.endsWith("desktop"), "Reveal behavior is sampled once per desktop browser engine.");
+test("published project cards render without waiting for a reveal", async ({ page }, testInfo) => {
+  test.skip(
+    !testInfo.project.name.endsWith("desktop"),
+    "Static rendering is sampled once per desktop browser engine.",
+  );
   await page.goto("/");
   const projectSection = page.locator("main > section").filter({ hasText: "Student work" });
   const firstCard = projectSection.locator("article").first();
-  test.skip(await firstCard.count() === 0, "No published project fixture is available in this environment.");
-  await firstCard.scrollIntoViewIfNeeded();
+  test.skip(
+    (await firstCard.count()) === 0,
+    "No published project fixture is available in this environment.",
+  );
   await expect(firstCard).toHaveCSS("opacity", "1");
+  await expect(firstCard).toHaveCSS("transform", "none");
+  await firstCard.scrollIntoViewIfNeeded();
   await expect(firstCard).toBeInViewport();
 });
 
-test("Header 3 shell removes closed mobile menu from layout", async ({ page }, testInfo) => {
-  test.skip(!/(mobile|tablet)/.test(testInfo.project.name), "Responsive shell geometry is covered on mobile and tablet.");
+test("the full-width header removes closed mobile menus from layout", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    !/(mobile|tablet)/.test(testInfo.project.name),
+    "Responsive shell geometry is covered on mobile and tablet.",
+  );
   await page.goto("/");
 
   const shell = page.locator("header > div > div");
@@ -158,10 +216,9 @@ test("Header 3 shell removes closed mobile menu from layout", async ({ page }, t
   const closedHeader = await header.boundingBox();
   expect(closedShell).not.toBeNull();
   expect(closedHeader).not.toBeNull();
-  expect(closedShell!.y).toBe(12);
-  expect(closedShell!.height).toBeGreaterThanOrEqual(testInfo.project.name === "chromium-tablet" ? 56 : 55);
-  expect(closedShell!.height).toBeLessThanOrEqual(testInfo.project.name === "chromium-tablet" ? 57 : 57);
-  expect(closedHeader!.height).toBeLessThanOrEqual(72);
+  expect(closedShell!.y).toBe(0);
+  expect(closedShell!.height).toBeCloseTo(64, 0);
+  expect(closedHeader!.height).toBeCloseTo(64, 0);
   const closedPanel = page.locator("#mobile-navigation");
   await expect(closedPanel).toBeHidden();
   expect(await closedPanel.boundingBox()).toBeNull();
@@ -180,17 +237,20 @@ test("Header 3 shell removes closed mobile menu from layout", async ({ page }, t
   await expect(page.locator("body")).toHaveCSS("overflow", "visible");
 });
 
-test("Header 3 desktop shell remains centered and stable while scrolling", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.endsWith("desktop"), "Desktop shell geometry is covered in each browser engine.");
+test("the full-width desktop header stays stable while scrolling", async ({ page }, testInfo) => {
+  test.skip(
+    !testInfo.project.name.endsWith("desktop"),
+    "Desktop shell geometry is covered in each browser engine.",
+  );
   await page.goto("/");
   const shell = page.locator("header > div > div");
   const viewport = page.viewportSize();
   const before = await shell.boundingBox();
   expect(before).not.toBeNull();
-  expect(before!.width).toBeCloseTo(576, 0);
   expect(viewport).not.toBeNull();
-  expect(before!.x).toBeCloseTo((viewport!.width - 576) / 2, 0);
-  expect(before!.height).toBeCloseTo(48, 0);
+  expect(before!.width).toBeCloseTo(viewport!.width, 0);
+  expect(before!.x).toBeCloseTo(0, 0);
+  expect(before!.height).toBeCloseTo(64, 0);
 
   await page.evaluate(() => window.scrollTo(0, 240));
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
@@ -201,22 +261,35 @@ test("Header 3 desktop shell remains centered and stable while scrolling", async
   expect(after!.height).toBeCloseTo(before!.height, 0);
 });
 
-test("reduced motion keeps Header 3 menu transitions static", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-reduced-motion", "Reduced-motion navbar behavior has one deterministic project.");
+test("reduced motion keeps header menu transitions static", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "chromium-reduced-motion",
+    "Reduced-motion navbar behavior has one deterministic project.",
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page.getByRole("button", { name: "Open navigation menu" }).click();
   await expect(page.locator("#mobile-navigation")).toBeVisible();
-  await expect.poll(() => page.locator("#mobile-navigation").evaluate((element) => Number.parseFloat(getComputedStyle(element).transitionDuration))).toBeLessThanOrEqual(0.001);
+  await expect
+    .poll(() =>
+      page
+        .locator("#mobile-navigation")
+        .evaluate((element) => Number.parseFloat(getComputedStyle(element).transitionDuration)),
+    )
+    .toBeLessThanOrEqual(0.001);
 });
 
-test("mobile Header 3 disclosures retain every UISS destination", async ({ page }, testInfo) => {
-  test.skip(!testInfo.project.name.includes("mobile"), "Mobile navigation destinations are covered on mobile.");
+test("mobile header disclosures retain every UISS destination", async ({ page }, testInfo) => {
+  test.skip(
+    !testInfo.project.name.includes("mobile"),
+    "Mobile navigation destinations are covered on mobile.",
+  );
   await page.goto("/");
   await page.getByRole("button", { name: "Open navigation menu" }).click();
   const panel = page.locator("#mobile-navigation");
 
   await panel.getByRole("button", { name: "Clubs", exact: true }).click();
+
   for (const href of [
     "/clubs/artificial-intelligence",
     "/clubs/blockchain",
@@ -238,9 +311,13 @@ test("mobile Header 3 disclosures retain every UISS destination", async ({ page 
   await expect(panel.locator('a[href="/membership"]')).toHaveCount(1);
 });
 
-test("the intended Source Sans typography loads", async ({ page }) => {
+test("the intended local Geist typography loads", async ({ page }) => {
   await page.goto("/");
-  await expect.poll(async () => page.locator("body").evaluate((element) => getComputedStyle(element).fontFamily)).toContain("Source Sans 3");
+  await expect
+    .poll(async () =>
+      page.locator("body").evaluate((element) => getComputedStyle(element).fontFamily),
+    )
+    .toContain("geistSans");
 });
 
 test("known image hosts optimize and unknown sources retain safe fallback behavior", () => {
@@ -253,8 +330,12 @@ test("known image hosts optimize and unknown sources retain safe fallback behavi
 });
 
 test("all canonical club detail pages resolve", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-desktop", "Canonical route matrix only needs one browser run.");
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "Canonical route matrix only needs one browser run.",
+  );
   test.setTimeout(90_000);
+
   for (const slug of clubSlugs) {
     const response = await page.goto(`/clubs/${slug}`);
     expect(response?.status()).toBe(200);
@@ -263,11 +344,16 @@ test("all canonical club detail pages resolve", async ({ page }, testInfo) => {
 });
 
 test("available dynamic event, project, and blog details resolve", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-desktop", "Dynamic route smoke matrix only needs one browser run.");
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "Dynamic route smoke matrix only needs one browser run.",
+  );
   test.setTimeout(90_000);
+
   for (const route of ["events", "projects", "blog"]) {
     await page.goto(`/${route}`);
     const detailLink = page.locator(`main a[href^="/${route}/"]`).first();
+
     if (await detailLink.count()) {
       const href = await detailLink.getAttribute("href");
       const response = await page.goto(href!);
@@ -278,7 +364,10 @@ test("available dynamic event, project, and blog details resolve", async ({ page
 });
 
 test("unauthenticated administration access safely reaches login", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-desktop", "Administration smoke check only needs one browser run.");
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "Administration smoke check only needs one browser run.",
+  );
   await page.goto("/admin");
   await expect(page).toHaveURL(/\/login(?:\?|$)/);
   await expect(page.locator("body")).toBeVisible();

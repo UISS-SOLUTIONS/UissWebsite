@@ -1,54 +1,54 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import {
-  ScrollProgress,
-  type ScrollProgressSection,
-} from "@/components/ui/scroll-progress"
+import { useEffect, useState } from "react";
+import { ScrollProgress, type ScrollProgressSection } from "@/components/ui/scroll-progress";
 
 const introduction: ScrollProgressSection = {
   id: "article-introduction",
   label: "Introduction",
-}
+};
 
 function toId(value: string) {
   return value
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replace(/^-+|-+$/g, "");
 }
 
 export function BlogReadingProgress() {
-  const [sections, setSections] = useState<ScrollProgressSection[]>([
-    introduction,
-  ])
+  const [sections, setSections] = useState<ScrollProgressSection[]>([introduction]);
 
   useEffect(() => {
-    const article = document.querySelector<HTMLElement>("[data-blog-article]")
-    if (!article) return
+    const article = document.querySelector<HTMLElement>("[data-blog-article]");
 
-    const usedIds = new Set<string>([introduction.id])
-    const articleSections = Array.from(
-      article.querySelectorAll<HTMLHeadingElement>("h2, h3"),
-    ).map((heading, index) => {
-      const label = heading.textContent?.trim() || `Section ${index + 1}`
-      const baseId = heading.id || toId(label) || `article-section-${index + 1}`
-      let id = baseId
-      let suffix = 2
+    if (!article) return;
 
-      while (usedIds.has(id)) {
-        id = `${baseId}-${suffix}`
-        suffix += 1
-      }
+    const usedIds = new Set<string>([introduction.id]);
 
-      usedIds.add(id)
-      heading.id = id
-      return { id, label }
-    })
+    const articleSections = Array.from(article.querySelectorAll<HTMLHeadingElement>("h2, h3")).map(
+      (heading, index) => {
+        const label = heading.textContent?.trim() || `Section ${index + 1}`;
+        const baseId = heading.id || toId(label) || `article-section-${index + 1}`;
+        let id = baseId;
+        let suffix = 2;
 
-    setSections([introduction, ...articleSections])
-  }, [])
+        while (usedIds.has(id)) {
+          id = `${baseId}-${suffix}`;
+          suffix += 1;
+        }
+
+        usedIds.add(id);
+        heading.id = id;
+
+        return { id, label };
+      },
+    );
+
+    // The heading list comes from the rendered article DOM, after hydration.
+    // oxlint-disable-next-line react/set-state-in-effect
+    setSections([introduction, ...articleSections]);
+  }, []);
 
   return (
     <ScrollProgress
@@ -56,5 +56,5 @@ export function BlogReadingProgress() {
       offset={160}
       aria-label="Article reading progress and section navigation"
     />
-  )
+  );
 }

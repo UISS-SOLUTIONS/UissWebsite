@@ -1,5 +1,6 @@
 "use client";
-import { submitForm } from "@/app/actions";
+
+import { submitForm } from "@/app/admin/actions";
 import AddIcon from "@/app/admin/Components/addIcon";
 import FormWrapper from "@/app/components/formWrapper";
 import { useParams } from "next/navigation";
@@ -7,51 +8,49 @@ import React from "react";
 import { toast } from "sonner";
 
 const AddEvent = () => {
+  const formId = React.useId();
+
   const params = useParams<{ id: string }>();
+
   const handleSubmit = (values: Record<string, FormDataEntryValue | null>) => {
-    toast.promise(
-      submitForm(values, `http://localhost:3000/api/events/${params.id}`),
-      {
-        loading: "Submitting Form",
-        success: "Event added successful",
-        error: (error) => error.message,
-      }
-    );
+    toast.promise(submitForm(values, `/events/${params.id}`), {
+      loading: "Submitting Form",
+      success: "Event added successful",
+      error: (error) => error.message,
+    });
   };
+
   return (
-    <AddIcon className="p-2 bg-ternary/90 cursor-pointer rounded-md">
+    <AddIcon
+      className="uiss-button uiss-pressable grid size-11 place-items-center bg-ink text-white hover:bg-ink/85"
+      aria-label="Add event"
+    >
       <FormWrapper onSubmit={handleSubmit}>
-        <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
-          Add Event
-        </span>
-        <div className="flex flex-col gap-2 py-5">
-          <label htmlFor="title" className="text-xl font-bold">
-            Title:
-          </label>
-          <input
-            type="text"
-            name="title"
-            id=""
-            className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          />
-          <label htmlFor="title" className="text-xl font-bold">
-            Held On:
-          </label>
-          <input
-            type="datetime-local"
-            name="date"
-            id=""
-            className="p-2 text-lg focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-          />
-          <label htmlFor="description" className="text-xl font-bold">
-            Description:
-          </label>
-          <textarea
-            name="description"
-            id=""
-            className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-            rows={6}
-          />
+        <span className="flex w-full text-2xl font-semibold">Add Event</span>
+        <div className="uiss-form-fields">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-title`} className="text-sm font-medium">
+              Title:
+            </label>
+            <input type="text" name="title" id={`${formId}-title`} className="uiss-field" />
+          </div>
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-date`} className="text-sm font-medium">
+              Held On:
+            </label>
+            <input type="datetime-local" name="date" id={`${formId}-date`} className="uiss-field" />
+          </div>
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-description`} className="text-sm font-medium">
+              Description:
+            </label>
+            <textarea
+              name="description"
+              id={`${formId}-description`}
+              className="uiss-field min-h-28 resize-y"
+              rows={6}
+            />
+          </div>
         </div>
       </FormWrapper>
     </AddIcon>

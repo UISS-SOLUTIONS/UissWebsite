@@ -5,7 +5,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const denied = await requireAdmin();
+
   if (denied) return denied;
+
   try {
     const allUsers = await db
       .select({
@@ -22,12 +24,10 @@ export async function GET() {
     if (allUsers.length === 0) {
       return NextResponse.json({ message: "No users found" }, { status: 404 });
     }
+
     return NextResponse.json(allUsers, { status: 200 });
   } catch {
-    return NextResponse.json(
-      { message: "Unable to load users" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Unable to load users" }, { status: 500 });
   }
 }
 

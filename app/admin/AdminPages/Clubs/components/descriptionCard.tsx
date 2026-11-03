@@ -1,22 +1,22 @@
-
 import EditIcon from "@/app/admin/Components/editIcon";
 import React from "react";
 import UpdateVisionMission from "./updateVisionMission";
 
-interface props{
-    description: string;
-    title: string
+interface props {
+  description: string;
+  title: string;
 }
-const DescriptionCard:React.FC<props> = ({description, title}) => {
+
+const DescriptionCard: React.FC<props> = ({ description, title }) => {
   return (
-    <div className="bg-white rounded-md shadow-md p-3 ">
-      <div className="flex justify-between">
-        <span className="text-2xl font-bold">{title}</span>
+    <div className="uiss-admin-panel min-w-0 p-6">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold">{title}</h2>
         <EditIcon>
           <UpdateVisionMission title={title} />
         </EditIcon>
       </div>
-      <p className="py-2 opacity-60">{description}</p>
+      <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-muted">{description}</p>
     </div>
   );
 };

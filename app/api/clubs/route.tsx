@@ -22,28 +22,28 @@ export async function GET() {
       .orderBy(clubs.id);
 
     if (allClubs.length === 0) {
-      return NextResponse.json(
-        { message: "Sorry!! No clubs found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Sorry!! No clubs found" }, { status: 404 });
     } else {
       return NextResponse.json(allClubs, { status: 200 });
     }
   } catch (e) {
     return NextResponse.json(
-      { message: (e as Error).message },
-      { status: 400 }
+      { message: e instanceof Error ? e.message : "Unknown error" },
+      { status: 400 },
     );
   }
 }
 
 export async function POST(request: NextRequest) {
   const denied = await requireAdmin();
+
   if (denied) return denied;
 
   const body = await request.json();
+
   try {
     const title = String(body.title ?? "").trim();
+
     if (!title) {
       return NextResponse.json({ message: "Title is required" }, { status: 400 });
     }
@@ -70,8 +70,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newClub, { status: 201 });
   } catch (e) {
     return NextResponse.json(
-      { message: (e as Error).message },
-      { status: 400 }
+      { message: e instanceof Error ? e.message : "Unknown error" },
+      { status: 400 },
     );
   }
 }

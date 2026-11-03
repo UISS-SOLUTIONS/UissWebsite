@@ -1,4 +1,5 @@
 export const merchSizes = ["M", "L", "XL", "XXL"] as const;
+
 export type MerchSize = (typeof merchSizes)[number];
 
 export type MerchProduct = {
@@ -40,5 +41,6 @@ export function formatMerchPrice(price: number) {
 
 export function getMerchOrderUrl(product: MerchProduct, size: MerchSize) {
   const message = `Hi UISS, I’d like to order the ${product.name}, size ${size} (${formatMerchPrice(product.price)}). Please confirm availability and pickup or delivery.`;
+
   return `https://wa.me/${merchWhatsAppNumber}?text=${encodeURIComponent(message)}`;
 }

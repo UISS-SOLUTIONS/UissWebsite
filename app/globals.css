@@ -1,14 +1,304 @@
-@import "./tokens.css";
+@import "./tokens.css" layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-body {
-  background: rgb(var(--uiss-canvas));
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: rgb(var(--uiss-canvas));
+  --color-foreground: rgb(var(--uiss-ink));
+  --color-border: rgb(var(--uiss-line));
+  --color-ring: rgb(var(--uiss-focus));
+
+  --color-accent: rgb(var(--uiss-surface));
+  --color-accent-foreground: rgb(var(--uiss-ink));
+
+  --color-popover: rgb(var(--uiss-panel));
+  --color-popover-foreground: rgb(var(--uiss-ink));
+
+  --color-primary: rgb(var(--uiss-ink));
+  --color-secondary: rgb(var(--uiss-canvas));
+  --color-ternary: rgb(var(--uiss-brand));
+  --color-canvas: rgb(var(--uiss-canvas));
+  --color-panel: rgb(var(--uiss-panel));
+  --color-input-focus: rgb(var(--uiss-input-focus));
+  --color-surface: rgb(var(--uiss-surface));
+  --color-ink: rgb(var(--uiss-ink));
+  --color-muted: rgb(var(--uiss-muted));
+  --color-line: rgb(var(--uiss-line));
+  --color-brand: rgb(var(--uiss-brand));
+  --color-brand-ink: rgb(var(--uiss-brand-ink));
+  --color-brand-mark: rgb(var(--uiss-brand-mark));
+  --color-focus: rgb(var(--uiss-focus));
+  --color-danger: rgb(var(--uiss-danger));
+  --color-success: rgb(var(--uiss-success));
+  --color-warning: rgb(var(--uiss-warning));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --font-sans: var(--font-geist-sans), Arial, sans-serif;
+  --font-display: var(--font-geist-sans), Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --radius-control: var(--uiss-radius-control);
+  --radius-xl: var(--uiss-radius-xl);
+  --radius-lg: var(--uiss-radius-lg);
+  --radius-md: var(--uiss-radius-md);
+  --radius-sm: var(--uiss-radius-sm);
+
+  --shadow-border: var(--uiss-shadow-border);
+  --shadow-focus-ring: var(--uiss-focus-ring);
+  --shadow-modal: var(--uiss-shadow-modal);
+  --shadow-soft: var(--uiss-shadow-soft);
+  --shadow-raised: var(--uiss-shadow-raised);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  html {
+    scroll-padding-block-start: 4rem;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+}
+
+@utility uiss-container {
+  width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-content));
+  margin-inline: auto;
+}
+
+@utility uiss-container-wide {
+  width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-content-wide));
+  margin-inline: auto;
+}
+
+@utility uiss-reading-rail {
+  width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-reading));
+  margin-inline: auto;
+}
+
+@utility uiss-section {
+  padding-block: var(--uiss-section-space);
+}
+
+@utility uiss-page-intro {
+  padding-block-start: var(--uiss-page-start);
+}
+
+@utility uiss-page-content {
+  padding-block: var(--uiss-page-start) var(--uiss-section-space);
+}
+
+@utility uiss-form-fields {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@utility uiss-page-title {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.0475em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+@utility uiss-section-title {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+@utility uiss-eyebrow {
+  color: rgb(var(--uiss-muted));
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+@utility uiss-lead {
+  color: rgb(var(--uiss-muted));
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@utility uiss-surface {
+  border-radius: var(--uiss-radius-lg);
+  background: rgb(var(--uiss-panel));
+  box-shadow: var(--uiss-shadow-border);
+}
+
+@utility uiss-admin-page {
+  min-height: 100%;
+  padding: var(--uiss-section-space) var(--uiss-page-gutter);
+}
+
+@utility uiss-admin-panel {
+  border-radius: var(--uiss-radius-lg);
+  background: rgb(var(--uiss-panel));
+  box-shadow: var(--uiss-shadow-soft);
+}
+
+@utility zenblog-content {
   color: rgb(var(--uiss-ink));
-  font-family: var(--font-source-sans-3);
-  text-rendering: optimizeLegibility;
+  font-size: 1.125rem;
+  line-height: 1.8;
+
+  & > * + * {
+    margin-top: 1.5rem;
+  }
+
+  & h2 {
+    margin-top: 2.5rem;
+    scroll-margin-top: 8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  & h3 {
+    margin-top: 2.5rem;
+    scroll-margin-top: 8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  & h2 {
+    font-size: 2rem;
+  }
+  & h3 {
+    font-size: 1.5rem;
+  }
+  & a {
+    font-weight: 500;
+    color: rgb(var(--uiss-input-focus));
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  & ul {
+    list-style: disc;
+    padding-inline-start: 1.5rem;
+  }
+  & ol {
+    list-style: decimal;
+    padding-inline-start: 1.5rem;
+  }
+  & blockquote {
+    border-inline-start: 4px solid rgb(var(--uiss-brand));
+    padding-inline-start: 1.25rem;
+    color: rgb(var(--uiss-muted));
+  }
+  & img {
+    width: 100%;
+    border-radius: var(--uiss-radius-md);
+  }
+  & pre {
+    overflow-x: auto;
+    border-radius: var(--uiss-radius-md);
+    background: #111111;
+    padding: 1.25rem;
+    color: #ffffff;
+  }
+}
+
+@utility zenblog-content--quartz {
+  color: rgb(var(--uiss-muted));
+  font-size: 1rem;
+  line-height: 1.625;
+
+  & > p:empty {
+    display: none;
+  }
+  & > * + * {
+    margin-top: 1rem;
+  }
+  & > :first-child,
+  & > div > :first-child {
+    margin-block-start: 0;
+  }
+  & h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 2rem;
+    color: rgb(var(--uiss-ink));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  & h3 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 2rem;
+    color: rgb(var(--uiss-ink));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  & h2 {
+    font-size: 1.5rem;
+  }
+  & h3 {
+    font-size: 1.25rem;
+  }
+  & strong {
+    color: rgb(var(--uiss-ink));
+    font-weight: 600;
+  }
+  & a {
+    color: rgb(var(--uiss-ink));
+  }
+  & blockquote {
+    border-inline-start: 4px solid rgb(var(--uiss-brand));
+    padding-inline-start: 1.25rem;
+    color: rgb(var(--uiss-muted));
+  }
+}
+
+@layer utilities {
+  body {
+    background: rgb(var(--uiss-canvas));
+    color: rgb(var(--uiss-ink));
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-feature-settings: "liga";
+    text-rendering: optimizeLegibility;
+  }
 }
 
 @layer base {
@@ -35,164 +325,117 @@ body {
   }
 }
 
-@layer components {
-  .uiss-container {
-    width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-content));
-    margin-inline: auto;
-  }
-
-  .uiss-container-wide {
-    width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-content-wide));
-    margin-inline: auto;
-  }
-
-  .uiss-reading-rail {
-    width: min(100% - (2 * var(--uiss-page-gutter)), var(--uiss-reading));
-    margin-inline: auto;
-  }
-
-  .uiss-section { padding-block: var(--uiss-section-space); }
-  .uiss-page-title {
-    font-family: var(--font-uiss-display), var(--font-source-sans-3), sans-serif;
-    font-size: clamp(3rem, 7vw, 4.5rem);
-    font-weight: 650;
-    letter-spacing: -0.045em;
-    line-height: 0.98;
-    text-wrap: balance;
-  }
-  .uiss-section-title {
-    font-family: var(--font-uiss-display), var(--font-source-sans-3), sans-serif;
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
-    font-weight: 650;
-    letter-spacing: -0.035em;
-    line-height: 1.02;
-    text-wrap: balance;
-  }
-  .uiss-eyebrow {
-    color: rgb(var(--uiss-muted));
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .uiss-lead { color: rgb(var(--uiss-muted)); font-size: clamp(1.125rem, 2vw, 1.25rem); line-height: 1.65; }
-  .uiss-surface { border: 1px solid rgb(var(--uiss-line)); border-radius: var(--uiss-radius-lg); background: rgb(var(--uiss-canvas)); }
-  .uiss-admin-page { min-height: 100%; padding: var(--uiss-section-space) var(--uiss-page-gutter); }
-  .uiss-admin-panel { border: 1px solid rgb(var(--uiss-line)); border-radius: var(--uiss-radius-lg); background: rgb(var(--uiss-canvas)); box-shadow: var(--uiss-shadow-soft); }
-
-  .zenblog-content {
-    color: rgb(var(--uiss-ink));
-    font-size: 1.125rem;
-    line-height: 1.8;
-  }
-
-  .zenblog-content > * + * {
-    margin-top: 1.5rem;
-  }
-
-  .zenblog-content h2,
-  .zenblog-content h3 {
-    margin-top: 2.5rem;
-    scroll-margin-top: 8rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-
-  .zenblog-content h2 { font-size: 2rem; }
-  .zenblog-content h3 { font-size: 1.5rem; }
-  .zenblog-content a { font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
-  .zenblog-content ul { list-style: disc; padding-left: 1.5rem; }
-  .zenblog-content ol { list-style: decimal; padding-left: 1.5rem; }
-  .zenblog-content blockquote { border-left: 4px solid rgb(var(--uiss-brand)); padding-left: 1.25rem; color: rgb(var(--uiss-muted)); }
-  .zenblog-content img { width: 100%; border-radius: var(--uiss-radius-md); }
-  .zenblog-content pre { overflow-x: auto; border-radius: var(--uiss-radius-md); background: #111111; padding: 1.25rem; color: #ffffff; }
-
-  .zenblog-content--quartz {
-    color: rgb(var(--uiss-muted));
-    font-size: 1rem;
-    line-height: 1.625;
-  }
-
-  .zenblog-content--quartz > p:empty { display: none; }
-  .zenblog-content--quartz > * + * { margin-top: 1rem; }
-  .zenblog-content--quartz h2,
-  .zenblog-content--quartz h3 {
-    margin-top: 4rem;
-    margin-bottom: 1rem;
-    scroll-margin-top: 2rem;
-    color: rgb(var(--uiss-ink));
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.25;
-  }
-  .zenblog-content--quartz h2 { font-size: 1.5rem; }
-  .zenblog-content--quartz h3 { font-size: 1.25rem; }
-  .zenblog-content--quartz strong { color: rgb(var(--uiss-ink)); font-weight: 600; }
-  .zenblog-content--quartz a { color: rgb(var(--uiss-ink)); }
-  .zenblog-content--quartz blockquote { border-left: 4px solid rgb(var(--uiss-brand)); padding-left: 1.25rem; color: rgb(var(--uiss-muted)); }
-
-  .uiss-footer-shell {
-    background: rgb(var(--uiss-canvas));
-  }
-
-  .uiss-footer-panel {
-    background: rgb(var(--uiss-canvas));
-  }
-
-  .uiss-footer-wordmark {
-    overflow: hidden;
-    color: transparent;
-    font-family: var(--font-uiss-wordmark), Arial, sans-serif;
-    font-size: clamp(7rem, 28vw, 20rem);
-    font-weight: 800;
-    letter-spacing: -0.09em;
-    line-height: 0.72;
-    text-indent: -0.06em;
-    -webkit-text-stroke: 1px rgb(var(--uiss-brand-mark) / 0.82);
-    user-select: none;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
 @layer base {
-  *:focus-visible {
-    outline: 3px solid rgb(var(--uiss-focus));
-    outline-offset: 3px;
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-feature-settings: "liga";
   }
 
-  button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+  strong,
+  b {
+    font-weight: 500;
+  }
+
+  *:focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: var(--uiss-focus-ring);
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
 
   ::selection {
-    background: rgb(var(--uiss-brand));
-    color: #111111;
+    background: rgb(var(--uiss-focus) / 0.16);
+    color: rgb(var(--uiss-ink));
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .uiss-pressable:hover { transform: translateY(-1px); }
+main:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+:where(button, [role="button"], .uiss-button, .uiss-pressable) {
+  border-radius: var(--uiss-radius-control);
+}
+
+@utility uiss-field {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: var(--uiss-radius-control);
+  background: rgb(var(--uiss-panel));
+  box-shadow: var(--uiss-shadow-border);
+  padding: 0.5rem 0.75rem;
+  color: rgb(var(--uiss-ink));
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgb(var(--uiss-input-focus));
+  outline-offset: 2px;
+  box-shadow: var(--uiss-shadow-border);
 }
 
 .uiss-pressable {
-  transition: transform var(--uiss-duration-press) var(--uiss-ease-out),
+  transition:
     background-color var(--uiss-duration-control) ease,
-    border-color var(--uiss-duration-control) ease,
-    color var(--uiss-duration-control) ease,
-    box-shadow var(--uiss-duration-control) ease;
+    color var(--uiss-duration-control) ease;
 }
 
-.uiss-pressable:active { transform: scale(0.98); }
+.uiss-pressable:focus-visible {
+  transition: none;
+}
+
+.uiss-skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 1.5rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: var(--uiss-radius-sm);
+  background: rgb(var(--uiss-panel));
+  color: rgb(var(--uiss-focus));
+  transform: translateY(-200%);
+}
+
+.uiss-skip-link:focus {
+  transform: none;
+}
+
+@media (forced-colors: active) {
+  *:focus-visible {
+    outline-color: Highlight;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-  .uiss-pressable:hover, .uiss-pressable:active { transform: none; }
+  .uiss-pressable:hover,
+  .uiss-pressable:active {
+    transform: none;
+  }
 }

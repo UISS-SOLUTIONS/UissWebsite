@@ -1,5 +1,6 @@
 "use client";
-import { updateData } from "@/app/actions";
+
+import { updateData } from "@/app/admin/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -10,68 +11,72 @@ interface props {
 }
 
 const UpdateVisionMission: React.FC<props> = ({ title }) => {
+  const formId = React.useId();
+
   const params = useParams<{ id: string }>();
-  const handleSubmit = async (
-    values: Record<string, FormDataEntryValue | null>
-  ) => {
+
+  const handleSubmit = async (values: Record<string, FormDataEntryValue | null>) => {
     toast.promise(
       updateData(
         values,
-        title === "Description"
-          ? `http://localhost:3000/api/clubs/${params.id}`
-          : `http://localhost:3000/api/visionMission/${params.id}`
+        title === "Description" ? `/clubs/${params.id}` : `/visionMission/${params.id}`,
       ),
       {
         loading: `updating ${title}`,
         success: `updated ${title} successfully`,
         error: `Error occured when updating ${title}`,
-      }
+      },
     );
   };
+
   return (
     <FormWrapper onSubmit={handleSubmit}>
-      <span className="flex w-full text-2xl uppercase font-bold pb-3 border-b-[1px] border-black/50">
-        Edit {title}
-      </span>
-      <div className="flex flex-col gap-2 py-5">
+      <span className="flex w-full text-2xl font-semibold">Edit {title}</span>
+      <div className="uiss-form-fields">
         {title === "Description" || title === "Vision & Mission" ? (
           <>
-            <label htmlFor="description" className="text-xl font-bold">
-              Description:
-            </label>
-            <textarea
-              name="description"
-              id=""
-              className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-              rows={6}
-            />
+            <div className="grid min-w-0 gap-2">
+              <label htmlFor={`${formId}-description`} className="text-sm font-medium">
+                Description:
+              </label>
+              <textarea
+                name="description"
+                id={`${formId}-description`}
+                className="uiss-field min-h-28 resize-y"
+                rows={6}
+              />
+            </div>
           </>
         ) : (
           title === "Mission" && (
             <>
-              <label htmlFor="mission" className="text-xl font-bold">
-                Mission:
-              </label>
-              <textarea
-                name="mission"
-                id=""
-                className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-                rows={6}
-              />
+              <div className="grid min-w-0 gap-2">
+                <label htmlFor={`${formId}-mission`} className="text-sm font-medium">
+                  Mission:
+                </label>
+                <textarea
+                  name="mission"
+                  id={`${formId}-mission`}
+                  className="uiss-field min-h-28 resize-y"
+                  rows={6}
+                />
+              </div>
             </>
           )
         )}
         {title === "Vision" && (
           <>
-            <label htmlFor="vision" className="text-xl font-bold">
-              vision:
-            </label>
-            <textarea
-              name="vision"
-              id=""
-              className="p-2 resize-none focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
-              rows={6}
-            />
+            <div className="grid min-w-0 gap-2">
+              <label htmlFor={`${formId}-vision`} className="text-sm font-medium">
+                vision:
+              </label>
+              <textarea
+                name="vision"
+                id={`${formId}-vision`}
+                className="uiss-field min-h-28 resize-y"
+                rows={6}
+              />
+            </div>
           </>
         )}
       </div>
