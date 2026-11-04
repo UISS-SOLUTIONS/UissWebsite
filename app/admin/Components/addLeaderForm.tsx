@@ -1,5 +1,6 @@
 "use client";
-import { submitForm } from "@/app/actions";
+
+import { submitForm } from "@/app/admin/actions";
 import FormWrapper from "@/app/components/formWrapper";
 import React, { useState } from "react";
 import Image from "next/image";
@@ -7,27 +8,31 @@ import { toast } from "sonner";
 import SelectOptions from "./selectOptions";
 
 const AddLeaderForm = () => {
+  const formId = React.useId();
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = async (
-    values: Record<string, FormDataEntryValue | null>
-  ) => {
-    if (!imageFile)
-      return toast.error("Please upload an image before submitting");
+  const handleSubmit = async (values: Record<string, FormDataEntryValue | null>) => {
+    if (!imageFile) return toast.error("Please upload an image before submitting");
 
     const formData = new FormData();
+
     for (const key in values) {
-      formData.append(key, values[key] as string);
+      const value = values[key];
+
+      if (value !== null) formData.append(key, value);
     }
+
     formData.append("file", imageFile);
     formData.append("upload_preset", "UissWebsite");
 
@@ -39,16 +44,13 @@ const AddLeaderForm = () => {
         .then((res) => res.json())
         .then((data) => {
           values.imageUrl = data.public_id;
-          submitForm(
-            values,
-            `${process.env.NEXT_PUBLIC_API_ROUTE}/leaders`
-          );
+          submitForm(values, "/leaders");
         }),
       {
         loading: "Submitting data...",
         success: "Form submitted successfully!",
         error: (error) => error.message || "Failed to submit form.",
-      }
+      },
     );
   };
 
@@ -66,7 +68,7 @@ const AddLeaderForm = () => {
               className="object-cover rounded-full"
             />
           ) : (
-            <div className="w-full h-full bg-slate-200 flex justify-center items-center rounded-full">
+            <div className="w-full h-full bg-surface flex justify-center items-center rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -83,116 +85,118 @@ const AddLeaderForm = () => {
               </svg>
             </div>
           )}
-          <div className="absolute bottom-2 right-1">
-            <label htmlFor="image" className="text-xl font-bold">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                className="size-10 cursor-pointer stroke-black/40 fill-[#efb631]"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </label>
+          <div className="absolute bottom-2 end-1">
             <input
               type="file"
-              id="image"
+              id={`${formId}-image`}
+              aria-label="Upload leader portrait"
               accept="image/*"
               onChange={handleFileInput}
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg hidden"
+              className="peer sr-only"
             />
+            <label
+              htmlFor={`${formId}-image`}
+              className="uiss-button grid size-11 cursor-pointer place-items-center bg-ink text-xl text-white shadow-border peer-focus-visible:shadow-focus-ring"
+            >
+              <span aria-hidden>+</span>
+              <span className="sr-only">Upload leader portrait</span>
+            </label>
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 pt-5">
-        <div className="flex justify-between gap-2">
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="firstName" className="text-xl font-bold">
+      <div className="uiss-form-fields">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-firstName`} className="text-sm font-medium">
               First Name:
             </label>
             <input
               type="text"
               name="firstName"
+              id={`${formId}-firstName`}
               required
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field"
             />
           </div>
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="lastName" className="text-xl font-bold">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-lastName`} className="text-sm font-medium">
               Last Name:
             </label>
             <input
               type="text"
               name="lastName"
+              id={`${formId}-lastName`}
               required
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field"
             />
           </div>
         </div>
-        <div className="flex justify-between gap-2">
-          <div className="flex flex-col w-[70%]">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-2">
             <SelectOptions />
           </div>
-          <div className="flex flex-col w-[30%]">
-            <label htmlFor="year" className="text-xl font-bold pt-1">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-year`} className="text-sm font-medium">
               Year:
             </label>
             <input
               type="number"
               name="year"
+              id={`${formId}-year`}
               required
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field"
             />
           </div>
         </div>
-        <div className="flex justify-between gap-2">
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="facebook" className="text-xl font-bold">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-facebook`} className="text-sm font-medium">
               Facebook Name:
             </label>
             <input
               type="text"
               name="facebook"
+              id={`${formId}-facebook`}
               required
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              className="uiss-field"
             />
           </div>
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="linkedIn" className="text-xl font-bold">
-              Instagram Name:
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-linkedIn`} className="text-sm font-medium">
+              LinkedIn profile:
             </label>
             <input
               type="text"
               required
               name="linkedIn"
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              id={`${formId}-linkedIn`}
+              className="uiss-field"
             />
           </div>
         </div>
-        <div className="flex justify-between gap-2">
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="instagram" className="text-xl font-bold">
-              LinkedIn Name:
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-instagram`} className="text-sm font-medium">
+              Instagram profile:
             </label>
             <input
               type="text"
               required
               name="instagram"
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              id={`${formId}-instagram`}
+              className="uiss-field"
             />
           </div>
-          <div className="flex flex-col w-[50%]">
-            <label htmlFor="twitter" className="text-xl font-bold">
+          <div className="grid min-w-0 gap-2">
+            <label htmlFor={`${formId}-twitter`} className="text-sm font-medium">
               Twitter Name:
             </label>
             <input
               type="text"
               required
               name="twitter"
-              className="p-2 text-base w-full focus:outline-none bg-transparent border-black/20 border-[1px] rounded-lg"
+              id={`${formId}-twitter`}
+              className="uiss-field"
             />
           </div>
         </div>

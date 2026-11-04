@@ -1,16 +1,19 @@
 :root {
-  --font-source-sans-3: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-uiss-display: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-uiss-wordmark: Arial Black, Arial, sans-serif;
-  --uiss-canvas: 255 255 255;
-  --uiss-surface: 248 248 247;
-  --uiss-ink: 17 17 17;
-  --uiss-muted: 95 99 104;
-  --uiss-line: 222 222 218;
-  --uiss-brand: 239 182 49;
-  --uiss-brand-ink: 17 17 17;
-  --uiss-brand-mark: 216 161 58;
-  --uiss-focus: 29 78 216;
+  --font-geist-sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --uiss-canvas: 250 250 250;
+  --uiss-panel: 255 255 255;
+  --uiss-surface: 242 242 242;
+  --uiss-ink: 23 23 23;
+  --uiss-muted: 102 102 102;
+  --uiss-secondary: 77 77 77;
+  --uiss-line: 235 235 235;
+  --uiss-brand: 23 23 23;
+  --uiss-brand-ink: 255 255 255;
+  --uiss-brand-mark: 77 77 77;
+  --uiss-focus: 0 114 245;
+  --uiss-input-focus: 0 95 204;
   --uiss-danger: 185 28 28;
   --uiss-success: 21 128 61;
   --uiss-warning: 180 109 0;
@@ -23,18 +26,26 @@
   --uiss-space-6: 2rem;
   --uiss-space-7: 3rem;
   --uiss-space-8: 4rem;
-  --uiss-section-space: clamp(4.5rem, 8vw, 7rem);
-  --uiss-page-gutter: clamp(1.25rem, 4vw, 2rem);
-  --uiss-content: 72rem;
-  --uiss-content-wide: 80rem;
-  --uiss-reading: 44rem;
+  --uiss-section-space: 3rem;
+  --uiss-page-start: 4rem;
+  --uiss-page-gutter: 1.5rem;
+  --uiss-content: 75rem;
+  --uiss-content-wide: 87.5rem;
+  --uiss-reading: 42rem;
 
+  --uiss-radius-control: 6px;
   --uiss-radius-sm: 0.375rem;
-  --uiss-radius-md: 0.75rem;
-  --uiss-radius-lg: 1rem;
-  --uiss-radius-xl: 1.5rem;
-  --uiss-shadow-soft: 0 20px 60px -32px rgb(17 17 17 / 0.24);
-  --uiss-shadow-raised: 0 18px 45px -24px rgb(17 17 17 / 0.3);
+  --uiss-radius-md: 0.5rem;
+  --uiss-radius-lg: 0.75rem;
+  --uiss-radius-xl: 0.75rem;
+  --uiss-shadow-border: 0 0 0 1px rgb(0 0 0 / 0.08);
+  --uiss-shadow-soft: var(--uiss-shadow-border), 0 2px 2px rgb(0 0 0 / 0.04);
+  --uiss-shadow-raised:
+    var(--uiss-shadow-border), 0 2px 2px rgb(0 0 0 / 0.04), 0 8px 16px -4px rgb(0 0 0 / 0.04);
+  --uiss-shadow-modal:
+    var(--uiss-shadow-border), 0 1px 1px rgb(0 0 0 / 0.02), 0 8px 16px -4px rgb(0 0 0 / 0.04),
+    0 24px 32px -8px rgb(0 0 0 / 0.06);
+  --uiss-focus-ring: 0 0 0 2px rgb(var(--uiss-panel)), 0 0 0 4px rgb(var(--uiss-focus));
 
   --uiss-duration-press: 140ms;
   --uiss-duration-control: 180ms;
@@ -43,21 +54,26 @@
   --uiss-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.uiss-proof {
-  --uiss-canvas: 17 17 17;
-  --uiss-surface: 28 28 28;
-  --uiss-ink: 255 255 255;
-  --uiss-muted: 190 190 185;
-  --uiss-line: 62 62 59;
+@media (min-width: 640px) {
+  :root {
+    --uiss-section-space: 4rem;
+    --uiss-page-start: 6rem;
+  }
 }
 
 .uiss-density-admin {
-  --uiss-section-space: clamp(2rem, 4vw, 3.5rem);
-  --uiss-page-gutter: clamp(1rem, 3vw, 2rem);
+  --uiss-section-space: 2rem;
+  --uiss-page-gutter: 1.5rem;
 }
 
-/* Gold is decorative or paired with dark text. It is never body text on white. */
+@media (min-width: 1024px) {
+  .uiss-density-admin {
+    --uiss-section-space: 3rem;
+    --uiss-page-gutter: 2rem;
+  }
+}
+
 .uiss-focus-ring {
-  outline: 3px solid rgb(var(--uiss-focus));
-  outline-offset: 3px;
+  outline: 2px solid transparent;
+  box-shadow: var(--uiss-focus-ring);
 }

@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import { fetchData } from "@/app/actions";
+import { fetchData } from "@/app/admin/actions";
 import TableComponent from "@/app/admin/Components/table";
 import VisionMissionCard from "../components/visionMissionCard";
 import DescriptionCard from "../components/descriptionCard";
@@ -9,12 +8,9 @@ import EventList from "../components/eventList";
 import { IClubDetail } from "@/app/admin/types";
 import { IClubUser } from "@/app/components/types";
 
-export default async function AdminClubDetails({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function AdminClubDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+
   let data: IClubDetail = {
     clubId: 0,
     clubName: "",
@@ -23,80 +19,54 @@ export default async function AdminClubDetails({
     mission: "",
     visiondescription: "",
   };
+
   let users: IClubUser[] = [];
+
   try {
-    const response = await fetchData<IClubDetail>(`http://localhost:3000/api/clubs/${id}`);
-    const userRes = await fetchData<IClubUser[]>(`http://localhost:3000/api/users/clubUsers/${id}`);
+    const response = await fetchData<IClubDetail>(`/clubs/${id}`);
+    const userRes = await fetchData<IClubUser[]>(`/users/clubUsers/${id}`);
+
     if (response.success) {
       data = response.data;
     }
-    if(userRes.success) {
-      users = userRes.data;
-    } 
-  } catch (e) {
-    return (e as Error).message;
-  }
-  return (
-    <div className="flex flex-col items-center gap-5">
-      <div className="h-[18vh] bg-red-900 relative w-full">
-        <Image
-          src="https://img.freepik.com/free-vector/online-human-team-connecting-concept-template-business-marketing_1017-53279.jpg?t=st=1741758839~exp=1741762439~hmac=283c52cd3def5da82a52e74b20279bf449b20eeb1fe897658e0e2f9aa105a127&w=1060"
-          alt=""
-          fill
-          sizes="100vw"
-          quality={65}
-          className="object-cover"
-        />
-        <div className="bg-black/75 w-full h-full absolute top-0" />
-        <div className="absolute top-[35%] left-5 z-10 flex gap-5">
-          <div className="relative w-[150px] h-[150px] bg-orange-600 rounded-full overflow-hidden border-[5px] border-[#E1ECE9]">
-            <Image
-              src="https://img.freepik.com/premium-photo/engineer-working-big-cloud-computing-server_249974-14070.jpg?w=900"
-              alt=""
-              fill
-              sizes="150px"
-              quality={65}
-              className="object-cover"
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-4xl pt-4 font-bold text-[#E1ECE9]">
-              {data.clubName} Club
-            </span>
-            <span className="text-xl text-[#E1ECE9] font-semibold">{users.length} students</span>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-end w-[94%] gap-5 mt-14">
-        <div className="w-[60%] flex flex-col gap-5 justify-between">
-          <DescriptionCard
-            description={data.clubDescription}
-            title="Description"
-          />
-          <DescriptionCard
-            description={data.visiondescription}
-            title="Vision & Mission"
-          />
 
-          <div className="flex gap-5 ">
+    if (userRes.success) {
+      users = userRes.data;
+    }
+  } catch {
+    return (
+      <section className="uiss-admin-page" role="alert">
+        <h1 className="uiss-section-title">Club details could not be loaded.</h1>
+        <p className="mt-4 text-muted">Please try again later.</p>
+      </section>
+    );
+  }
+
+  return (
+    <div className="uiss-admin-page space-y-8">
+      <header>
+        <p className="uiss-eyebrow">Club management</p>
+        <h1 className="uiss-section-title mt-2">{data.clubName || "Club"}</h1>
+        <p className="mt-3 text-sm text-muted">{users.length} students</p>
+      </header>
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[1.4fr_1fr]">
+        <div className="min-w-0 space-y-6">
+          <DescriptionCard description={data.clubDescription} title="Description" />
+          <DescriptionCard description={data.visiondescription} title="Vision & Mission" />
+          <div className="grid gap-6 sm:grid-cols-2">
             <VisionMissionCard title="Vision" description={data.vision} />
             <VisionMissionCard title="Mission" description={data.mission} />
           </div>
         </div>
-        <div className="bg-white w-[40%] rounded-md shadow-md px-3 overflow-auto h-fit max-h-[68vh]">
-          <div className="flex justify-between pt-3 sticky top-0 z-10 bg-white">
-            <span className="font-bold text-2xl">Events</span>
+        <section className="uiss-admin-panel min-w-0 self-start p-6">
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-lg font-semibold">Events</h2>
             <AddEvent />
           </div>
           <EventList id={id} />
-        </div>
+        </section>
       </div>
-      <div className="w-full mt-10">
-        {
-          
-        }
-        <TableComponent title="Members" values={users} />
-      </div>
+      <TableComponent title="Members" headingLevel="h2" values={users} />
     </div>
   );
 }

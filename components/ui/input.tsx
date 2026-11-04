@@ -1,19 +1,21 @@
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+"use client";
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
-    return (
-        <input
-            type={type}
-            data-slot="input"
-            className={cn(
-                'flex h-11 w-full min-w-0 rounded-md border border-line bg-canvas px-3 py-2 text-base text-ink placeholder:text-muted transition-[border-color,box-shadow] duration-200 disabled:cursor-not-allowed disabled:opacity-50',
-                'aria-invalid:border-danger',
-                className
-            )}
-            {...props}
-        />
-    )
+import { Input as InputPrimitive } from "@base-ui/react/input";
+import { cn } from "@/lib/utils";
+
+function Input({ className, type, ...props }: InputPrimitive.Props) {
+  return (
+    <InputPrimitive
+      type={type}
+      data-slot="input"
+      className={cn(
+        "flex h-11 w-full min-w-0 rounded-control bg-panel px-3 py-2 text-base text-ink shadow-border placeholder:text-muted disabled:cursor-not-allowed disabled:opacity-50",
+        "aria-invalid:ring-1 aria-invalid:ring-danger",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-export { Input }
+export { Input };

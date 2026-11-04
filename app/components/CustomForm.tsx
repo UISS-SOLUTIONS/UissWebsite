@@ -1,14 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
-import {
-  submitMembershipApplication,
-  type MembershipActionState,
-} from "@/app/membership/actions";
+import { useActionState, useState } from "react";
+import { submitMembershipApplication, type MembershipActionState } from "@/app/membership/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useEntranceMotion } from "@/hooks/use-entrance-motion";
 
 const initialMembershipActionState: MembershipActionState = {
   status: "idle",
@@ -18,19 +16,27 @@ const initialMembershipActionState: MembershipActionState = {
 export default function CustomForm({ initialClub }: { initialClub?: string }) {
   const [state, formAction, pending] = useActionState(
     submitMembershipApplication,
-    initialMembershipActionState
+    initialMembershipActionState,
   );
+
+  const [animateFeedback, setAnimateFeedback] = useState(false);
+
+  const feedbackRef = useEntranceMotion<HTMLParagraphElement>({
+    enabled: state.status === "success" && animateFeedback,
+    fromOpacity: 0.6,
+    duration: "control",
+  });
 
   return (
     <>
-      <div className="border-b border-line pb-6">
-        <h2 className="text-3xl font-bold tracking-tight">Apply for membership</h2>
+      <div>
+        <h2 className="text-3xl font-semibold tracking-tight">Apply for membership</h2>
         <p className="mt-2 leading-7 text-muted">
           All fields except the message are required. We will reply by email.
         </p>
       </div>
-      <form action={formAction} className="mt-7 space-y-5">
-        <div className="grid gap-5 sm:grid-cols-2">
+      <form action={formAction} className="mt-8 space-y-6">
+        <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="firstName">First name</Label>
             <Input
@@ -72,8 +78,8 @@ export default function CustomForm({ initialClub }: { initialClub?: string }) {
             maxLength={120}
             id="clubInterest"
             name="clubInterest"
-              placeholder="For example, cybersecurity or programming"
-              defaultValue={initialClub}
+            placeholder="For example, cybersecurity or programming"
+            defaultValue={initialClub}
           />
         </div>
 
@@ -91,14 +97,15 @@ export default function CustomForm({ initialClub }: { initialClub?: string }) {
 
         {state.status !== "idle" && (
           <p
+            ref={feedbackRef}
             role="status"
             aria-live="polite"
-            className={
-              state.status === "success"
-                ? "rounded-md border border-success/30 bg-success/5 px-4 py-3 text-success"
-                : "rounded-md border border-danger/30 bg-danger/5 px-4 py-3 text-danger"
-            }
+            className="flex items-start gap-3 rounded-md bg-panel px-4 py-3 text-sm leading-6 text-ink shadow-border"
           >
+            <span
+              aria-hidden
+              className={`mt-2 size-2 shrink-0 rounded-full ${state.status === "success" ? "bg-success" : "bg-danger"}`}
+            />
             {state.message}
           </p>
         )}
@@ -106,6 +113,7 @@ export default function CustomForm({ initialClub }: { initialClub?: string }) {
         <div className="flex justify-end pt-2">
           <Button
             type="submit"
+            onClick={(event) => setAnimateFeedback(event.detail > 0)}
             disabled={pending}
             variant="secondary"
             size="lg"

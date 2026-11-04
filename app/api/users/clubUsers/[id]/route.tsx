@@ -4,11 +4,9 @@ import { requireAdmin } from "@/lib/requireAdmin";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin();
+
   if (denied) return denied;
 
   try {
@@ -37,9 +35,6 @@ export async function GET(
 
     return NextResponse.json(clubusers, { status: 200 });
   } catch {
-    return NextResponse.json(
-      { error: "Unable to load club members" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Unable to load club members" }, { status: 500 });
   }
 }

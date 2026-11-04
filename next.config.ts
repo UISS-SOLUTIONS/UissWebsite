@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { optimizedImageHosts } from "./lib/image-hosts";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingRoot: process.cwd(),
   async redirects() {
     return [

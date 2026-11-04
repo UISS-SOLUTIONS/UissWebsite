@@ -1,8 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-type SessionRole = { role?: string };
-
 /**
  * Server-side authorization gate for every mutating route/action.
  * Middleware alone is not trusted: it only proves a token exists.
@@ -10,10 +8,10 @@ type SessionRole = { role?: string };
  */
 export async function requireAdmin(): Promise<NextResponse | null> {
   const session = await auth();
-  const role = (session?.user as SessionRole | undefined)?.role;
 
-  if (!session || role !== "admin") {
+  if (!session?.user || !("role" in session.user) || session.user.role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
+
   return null;
 }

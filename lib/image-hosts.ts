@@ -4,14 +4,16 @@ export const optimizedImageHosts = [
   "images.zenblog.com",
   "img.freepik.com",
   "media.istockphoto.com",
-] as const
+] as const;
 
 export function canOptimizeImage(src: string) {
-  if (src.startsWith("/")) return true
+  if (src.startsWith("/")) return true;
 
   try {
-    return optimizedImageHosts.includes(new URL(src).hostname as (typeof optimizedImageHosts)[number])
+    const hostname = new URL(src).hostname;
+
+    return optimizedImageHosts.some((knownHost) => knownHost === hostname);
   } catch {
-    return false
+    return false;
   }
 }

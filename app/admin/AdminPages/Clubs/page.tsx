@@ -2,19 +2,22 @@ export const dynamic = "force-dynamic";
 
 import React from "react";
 import TableComponent from "../../Components/table";
-import { fetchData } from "@/app/actions";
+import { fetchData } from "@/app/admin/actions";
 import { IClubsData } from "@/app/components/types";
 
 const Clubs = async () => {
-  let data:IClubsData[] = [];
+  let data: IClubsData[] = [];
+
   try {
-    const response = await fetchData<IClubsData[]>(`${process.env.NEXT_PUBLIC_API_ROUTE}/clubs`);
+    const response = await fetchData<IClubsData[]>("/clubs");
+
     if (response.success) {
       data = response.data;
     }
   } catch (e) {
-    throw new Error((e as Error).message);
+    throw new Error(e instanceof Error ? e.message : "Unknown error");
   }
+
   return (
     <div className="uiss-admin-page">
       <TableComponent title="Clubs" values={data} view />

@@ -4,6 +4,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
 config({ path: ".env.local" });
+
 config();
 
 if (!process.env.DATABASE_URL) {

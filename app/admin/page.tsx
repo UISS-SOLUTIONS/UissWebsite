@@ -8,7 +8,9 @@ import { auth } from "@/auth";
 
 const Adminpage = async () => {
   const session = await auth();
+
   if (!session) redirect("/login");
+
   return (
     <AdminLayout>
       <WebMaintenance />

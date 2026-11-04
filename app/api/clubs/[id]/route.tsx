@@ -1,20 +1,20 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 
-import { db } from '@/app/db';
-import { clubs } from '@/app/db/schema';
-import { eq } from 'drizzle-orm';
-import { NextRequest, NextResponse } from 'next/server';
+import { db } from "@/app/db";
+import { clubs } from "@/app/db/schema";
+import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> } // Correct typing
+  { params }: { params: Promise<{ id: string }> }, // Correct typing
 ) {
   try {
     const { id } = await params; // Await the Promise
     const clubId = parseInt(id);
 
     if (isNaN(clubId)) {
-      return NextResponse.json({ error: 'Invalid club ID' }, { status: 400 });
+      return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
     }
 
     const clubDetails = await db
@@ -30,7 +30,7 @@ export async function GET(
       .where(eq(clubs.id, clubId));
 
     if (clubDetails.length === 0) {
-      return NextResponse.json({ error: 'Club not found' }, { status: 404 });
+      return NextResponse.json({ error: "Club not found" }, { status: 404 });
     }
 
     return NextResponse.json(
@@ -42,21 +42,22 @@ export async function GET(
         mission: clubDetails[0].mission,
         visiondescription: clubDetails[0].visiondescription,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
-      { error: (error as Error).message || 'Internal server error' },
-      { status: 500 }
+      {
+        error:
+          (error instanceof Error ? error.message : "Unknown error") || "Internal server error",
+      },
+      { status: 500 },
     );
   }
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const denied = await requireAdmin();
+
   if (denied) return denied;
 
   try {
@@ -64,10 +65,11 @@ export async function PATCH(
     const clubId = parseInt(id);
 
     if (isNaN(clubId)) {
-      return NextResponse.json({ error: 'Invalid club ID' }, { status: 400 });
+      return NextResponse.json({ error: "Invalid club ID" }, { status: 400 });
     }
 
     const body = await request.json();
+
     const changes = {
       title: body.title,
       summary: body.summary,
@@ -83,17 +85,15 @@ export async function PATCH(
       introVidId: body.introVidId,
       updatedAt: new Date(),
     };
+
     const values = Object.fromEntries(
-      Object.entries(changes).filter(([, value]) => value !== undefined)
+      Object.entries(changes).filter(([, value]) => value !== undefined),
     );
-    const updatedClub = await db
-      .update(clubs)
-      .set(values)
-      .where(eq(clubs.id, clubId))
-      .returning();
+
+    const updatedClub = await db.update(clubs).set(values).where(eq(clubs.id, clubId)).returning();
 
     if (updatedClub.length === 0) {
-      return NextResponse.json({ error: 'Club not found' }, { status: 404 });
+      return NextResponse.json({ error: "Club not found" }, { status: 404 });
     }
 
     return NextResponse.json(
@@ -101,12 +101,15 @@ export async function PATCH(
         success: true,
         data: updatedClub[0],
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
-      { error: (error as Error).message || 'Internal server error' },
-      { status: 500 }
+      {
+        error:
+          (error instanceof Error ? error.message : "Unknown error") || "Internal server error",
+      },
+      { status: 500 },
     );
   }
 }

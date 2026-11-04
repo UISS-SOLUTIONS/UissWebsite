@@ -5,24 +5,25 @@ export interface INavDropDown {
   title: string;
   link?: string;
   dropDown?: boolean;
-  children?: INavDropDown[]
+  children?: INavDropDown[];
 }
 
 export interface StatCounterProps {
   id: number;
-  start: number; 
-  end: number; 
-  duration: number; 
-  label: string; 
+  start: number;
+  end: number;
+  duration: number;
+  label: string;
 }
 
-export interface options{
-  name: string
+export interface options {
+  name: string;
 }
+
 export interface SelectProps {
-    id: number;
-    placeholder: string;
-    options: options[]
+  id: number;
+  placeholder: string;
+  options: options[];
 }
 
 export interface IDialog {
@@ -32,33 +33,33 @@ export interface IDialog {
   className: string;
 }
 
-export interface IFormContainer{
+export interface IFormContainer {
   children: ReactNode;
 }
 
 export interface IModal {
   children: ReactNode;
   isOpen: boolean;
+  animateEntrance?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
 
 export interface IClubsData {
-  id:                number;
-  title:             string;
-  description:       string;
-  vision:            string;
-  mission:           string;
+  id: number;
+  title: string;
+  description: string;
+  vision: string;
+  mission: string;
   introVidId: string;
   visiondescription: string;
 }
 
 export interface IClubData {
-  clubId:            number;
-  clubName:          string;
-  clubDescription:   string;
-  vision:            string;
-  mission:           string;
+  clubId: number;
+  clubName: string;
+  clubDescription: string;
+  vision: string;
+  mission: string;
   visiondescription: string;
 }
 
@@ -68,22 +69,22 @@ export interface IVisionMission {
   mission: string;
   description: string;
   name: string;
-  message:string;
+  message: string;
 }
 
 export interface IUser {
-  id:           number;
-  firstName:    string;
-  lastName:     string;
-  email:        string;
-  password:     string;
-  role:         string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
   registeredAt: Date;
 }
 
 export interface IClubUser {
-  userId:    number;
+  userId: number;
   firstName: string;
-  lastName:  string;
-  email:     string;
+  lastName: string;
+  email: string;
 }

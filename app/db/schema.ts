@@ -16,10 +16,20 @@ const identity = (name: string) =>
   bigint(name, { mode: "number" }).primaryKey().generatedAlwaysAsIdentity();
 
 export const clubStatus = pgEnum("club_status", ["active", "inactive"]);
+
 export const memberStatus = pgEnum("member_status", ["pending", "active", "inactive", "rejected"]);
-export const registrationStatus = pgEnum("registration_status", ["open", "closed", "full", "not_required"]);
+
+export const registrationStatus = pgEnum("registration_status", [
+  "open",
+  "closed",
+  "full",
+  "not_required",
+]);
+
 export const projectStatus = pgEnum("project_status", ["concept", "active", "completed"]);
+
 export const publicationStatus = pgEnum("publication_status", ["draft", "published"]);
+
 export const privateSchema = pgSchema("private");
 
 export const media = pgTable("media", {
@@ -81,7 +91,7 @@ export const leaders = pgTable(
     twitter: text("twitter"),
     imageURL: text("image_url").notNull().default(""),
   },
-  (table) => [index("leaders_position_id_idx").on(table.positionId)]
+  (table) => [index("leaders_position_id_idx").on(table.positionId)],
 );
 
 export const clubs = pgTable(
@@ -94,21 +104,29 @@ export const clubs = pgTable(
     description: text("description"),
     vision: text("vision"),
     mission: text("mission"),
-    disciplines: text("disciplines").array().notNull().default(sql`'{}'::text[]`),
-    skillLevels: text("skill_levels").array().notNull().default(sql`'{}'::text[]`),
+    disciplines: text("disciplines")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    skillLevels: text("skill_levels")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
     schedule: text("schedule"),
     location: text("location"),
     eligibility: text("eligibility"),
     status: clubStatus("status").notNull().default("active"),
     introVidId: text("intro_video_id").notNull().default(""),
-    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
     uniqueIndex("clubs_slug_uidx").on(table.slug),
     index("clubs_cover_media_id_idx").on(table.coverMediaId),
-  ]
+  ],
 );
 
 export const members = pgTable(
@@ -124,7 +142,7 @@ export const members = pgTable(
     registeredAt: timestamp("registered_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [uniqueIndex("members_email_uidx").on(table.email)]
+  (table) => [uniqueIndex("members_email_uidx").on(table.email)],
 );
 
 export const membershipRateLimits = privateSchema.table("membership_rate_limits", {
@@ -136,20 +154,26 @@ export const membershipRateLimits = privateSchema.table("membership_rate_limits"
 export const memberClub = pgTable(
   "member_club",
   {
-    memberId: bigint("member_id", { mode: "number" }).notNull().references(() => members.id, { onDelete: "cascade" }),
-    clubId: bigint("club_id", { mode: "number" }).notNull().references(() => clubs.id, { onDelete: "cascade" }),
+    memberId: bigint("member_id", { mode: "number" })
+      .notNull()
+      .references(() => members.id, { onDelete: "cascade" }),
+    clubId: bigint("club_id", { mode: "number" })
+      .notNull()
+      .references(() => clubs.id, { onDelete: "cascade" }),
   },
   (table) => [
     primaryKey({ columns: [table.memberId, table.clubId] }),
     index("member_club_club_id_idx").on(table.clubId),
-  ]
+  ],
 );
 
 export const testimonials = pgTable(
   "testimonials",
   {
     id: identity("id"),
-    memberId: bigint("member_id", { mode: "number" }).notNull().references(() => members.id, { onDelete: "cascade" }),
+    memberId: bigint("member_id", { mode: "number" })
+      .notNull()
+      .references(() => members.id, { onDelete: "cascade" }),
     testimony: text("testimony").notNull(),
     postedOn: timestamp("posted_on", { withTimezone: true }).notNull().defaultNow(),
     status: publicationStatus("status").notNull().default("draft"),
@@ -157,7 +181,7 @@ export const testimonials = pgTable(
     publishedAt: timestamp("published_at", { withTimezone: true }),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [index("testimonials_member_id_idx").on(table.memberId)]
+  (table) => [index("testimonials_member_id_idx").on(table.memberId)],
 );
 
 export const events = pgTable(
@@ -165,7 +189,9 @@ export const events = pgTable(
   {
     id: identity("id"),
     slug: text("slug").notNull(),
-    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, { onDelete: "set null" }),
+    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, {
+      onDelete: "set null",
+    }),
     title: text("title").notNull(),
     summary: text("summary").notNull().default(""),
     description: text("description"),
@@ -175,7 +201,9 @@ export const events = pgTable(
     onlineUrl: text("online_url"),
     registrationUrl: text("registration_url"),
     registrationStatus: registrationStatus("registration_status").notNull().default("not_required"),
-    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, {
+      onDelete: "set null",
+    }),
     addedOn: timestamp("added_on", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -184,7 +212,7 @@ export const events = pgTable(
     index("events_club_id_idx").on(table.clubId),
     index("events_cover_media_id_idx").on(table.coverMediaId),
     index("events_starts_at_idx").on(table.startsAt),
-  ]
+  ],
 );
 
 export const projects = pgTable(
@@ -200,11 +228,18 @@ export const projects = pgTable(
     year: integer("year").notNull(),
     status: projectStatus("status").notNull().default("concept"),
     publicationStatus: publicationStatus("publication_status").notNull().default("draft"),
-    techStack: text("tech_stack").array().notNull().default(sql`'{}'::text[]`),
-    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, { onDelete: "set null" }),
+    techStack: text("tech_stack")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    clubId: bigint("club_id", { mode: "number" }).references(() => clubs.id, {
+      onDelete: "set null",
+    }),
     repositoryUrl: text("repository_url"),
     demoUrl: text("demo_url"),
-    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -213,20 +248,24 @@ export const projects = pgTable(
     index("projects_club_id_idx").on(table.clubId),
     index("projects_cover_media_id_idx").on(table.coverMediaId),
     index("projects_publication_status_idx").on(table.publicationStatus),
-  ]
+  ],
 );
 
 export const projectMedia = pgTable(
   "project_media",
   {
-    projectId: bigint("project_id", { mode: "number" }).notNull().references(() => projects.id, { onDelete: "cascade" }),
-    mediaId: bigint("media_id", { mode: "number" }).notNull().references(() => media.id, { onDelete: "cascade" }),
+    projectId: bigint("project_id", { mode: "number" })
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    mediaId: bigint("media_id", { mode: "number" })
+      .notNull()
+      .references(() => media.id, { onDelete: "cascade" }),
     sortOrder: integer("sort_order").notNull().default(0),
   },
   (table) => [
     primaryKey({ columns: [table.projectId, table.mediaId] }),
     index("project_media_media_id_idx").on(table.mediaId),
-  ]
+  ],
 );
 
 export const news = pgTable(
@@ -239,7 +278,9 @@ export const news = pgTable(
     body: text("body").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true }),
     status: publicationStatus("status").notNull().default("draft"),
-    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, { onDelete: "set null" }),
+    coverMediaId: bigint("cover_media_id", { mode: "number" }).references(() => media.id, {
+      onDelete: "set null",
+    }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -247,43 +288,52 @@ export const news = pgTable(
     uniqueIndex("news_slug_uidx").on(table.slug),
     index("news_cover_media_id_idx").on(table.coverMediaId),
     index("news_status_published_at_idx").on(table.status, table.publishedAt),
-  ]
+  ],
 );
 
 export const positionRelations = relations(position, ({ many }) => ({ leaders: many(leaders) }));
+
 export const leadersRelations = relations(leaders, ({ one }) => ({
   position: one(position, { fields: [leaders.positionId], references: [position.id] }),
 }));
+
 export const clubsRelations = relations(clubs, ({ one, many }) => ({
   coverMedia: one(media, { fields: [clubs.coverMediaId], references: [media.id] }),
   memberClubs: many(memberClub),
   events: many(events),
   projects: many(projects),
 }));
+
 export const membersRelations = relations(members, ({ many }) => ({
   memberClubs: many(memberClub),
   testimonials: many(testimonials),
 }));
+
 export const memberClubRelations = relations(memberClub, ({ one }) => ({
   member: one(members, { fields: [memberClub.memberId], references: [members.id] }),
   club: one(clubs, { fields: [memberClub.clubId], references: [clubs.id] }),
 }));
+
 export const testimonialsRelations = relations(testimonials, ({ one }) => ({
   member: one(members, { fields: [testimonials.memberId], references: [members.id] }),
 }));
+
 export const eventsRelations = relations(events, ({ one }) => ({
   club: one(clubs, { fields: [events.clubId], references: [clubs.id] }),
   coverMedia: one(media, { fields: [events.coverMediaId], references: [media.id] }),
 }));
+
 export const projectsRelations = relations(projects, ({ one, many }) => ({
   club: one(clubs, { fields: [projects.clubId], references: [clubs.id] }),
   coverMedia: one(media, { fields: [projects.coverMediaId], references: [media.id] }),
   gallery: many(projectMedia),
 }));
+
 export const projectMediaRelations = relations(projectMedia, ({ one }) => ({
   project: one(projects, { fields: [projectMedia.projectId], references: [projects.id] }),
   media: one(media, { fields: [projectMedia.mediaId], references: [media.id] }),
 }));
+
 export const newsRelations = relations(news, ({ one }) => ({
   coverMedia: one(media, { fields: [news.coverMediaId], references: [media.id] }),
 }));

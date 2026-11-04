@@ -1,4 +1,4 @@
-// import { fetchData } from "@/app/actions";
+// import { fetchData } from "@/app/admin/actions";
 
 // const ClubMembers = async ({ params }: { params: { id: string } }) => {
 //   let data: {
@@ -13,13 +13,13 @@
 //   } = { clubId: 0, clubName: "", users: [] };
 //   try {
 //     const response = await fetchData(
-//       `http://localhost:3000/api/clubs/${params.id}`
+//       `/clubs/${params.id}`
 //     );
 //     if (response.success) {
 //       data = response.data;
 //     }
 //   } catch (e) {
-//     throw new Error((e as Error).message);
+//     throw new Error((e instanceof Error ? e.message : "Unknown error"));
 //   }
 //   return ;
 // };

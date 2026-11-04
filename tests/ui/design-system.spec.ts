@@ -9,16 +9,36 @@ import {
   resolveLeaderPortrait,
 } from "../../lib/leader-portraits";
 
-const publicRoutes = ["/", "/about", "/clubs", "/events", "/projects", "/merch", "/blog", "/membership", "/login"];
+const publicRoutes = [
+  "/",
+  "/about",
+  "/clubs",
+  "/events",
+  "/projects",
+  "/merch",
+  "/blog",
+  "/membership",
+  "/login",
+];
 
 for (const route of publicRoutes) {
   test(`${route} has sound responsive structure`, async ({ page }) => {
     await page.goto(route);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("main")).toBeVisible();
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    );
+
     expect(overflow).toBe(false);
-    const unnamedControls = await page.locator("button:not([aria-label])").evaluateAll((buttons) => buttons.filter((button) => !(button.textContent || "").trim()).length);
+
+    const unnamedControls = await page
+      .locator("button:not([aria-label])")
+      .evaluateAll(
+        (buttons) => buttons.filter((button) => !(button.textContent || "").trim()).length,
+      );
+
     expect(unnamedControls).toBe(0);
   });
 }
@@ -27,14 +47,26 @@ test("keyboard focus remains visible", async ({ page }) => {
   await page.goto("/");
   const control = page.getByRole("link", { name: "UISS home" });
   await control.focus();
-  const outline = await control.evaluate((element) => getComputedStyle(element).outlineStyle);
-  expect(outline).not.toBe("none");
+  await expect
+    .poll(() => control.evaluate((element) => getComputedStyle(element).boxShadow))
+    .toContain("rgb(0, 114, 245)");
+  await control.press("Shift+Tab");
+  const skip = page.getByRole("link", { name: "Skip to content", exact: true });
+  await expect(skip).toBeFocused();
+  await skip.press("Enter");
+  await expect(page.locator("#main-content")).toBeFocused();
 });
 
 test("reduced motion disables smooth scrolling", async ({ page }) => {
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  expect(await page.locator("html").evaluate((element) => getComputedStyle(element).scrollBehavior)).toBe("auto");
+  await expect(page.getByTestId("partner-logo-static")).toBeVisible();
+  expect(
+    await page.locator("html").evaluate((element) => getComputedStyle(element).scrollBehavior),
+  ).toBe("auto");
+  expect(pageErrors).toEqual([]);
 });
 
 test("mobile navigation opens with an actionable close control", async ({ page }) => {
@@ -43,7 +75,11 @@ test("mobile navigation opens with an actionable close control", async ({ page }
   await page.goto("/");
   const trigger = page.getByRole("button", { name: "Open navigation menu" });
   await trigger.click();
-  await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("button", { name: "Close navigation menu" })).toBeVisible();
+  await expect(
+    page
+      .getByRole("navigation", { name: "Main navigation" })
+      .getByRole("button", { name: "Close navigation menu" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Close navigation menu" }).click();
   await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
 });
@@ -96,17 +132,28 @@ test("local portraits override database portraits without removing the database 
     src: "/leaders/2026-2027/sifa-kamendu.avif",
     objectPosition: "50% 38%",
   });
-  expect(getActiveLeaderPortraitCandidate(candidates, ["/leaders/2026-2027/sifa-kamendu.avif"])).toEqual({
+  expect(
+    getActiveLeaderPortraitCandidate(candidates, ["/leaders/2026-2027/sifa-kamendu.avif"]),
+  ).toEqual({
     src: databaseImage,
     objectPosition: "50% 50%",
   });
-  expect(getActiveLeaderPortraitCandidate(candidates, ["/leaders/2026-2027/sifa-kamendu.avif", databaseImage])).toBeUndefined();
-  expect(getLeaderPortraitCandidates(resolveLeaderPortrait("Sifa Kamendu", "/leaders/2026-2027/sifa-kamendu.avif", "card"))).toEqual([
-    { src: "/leaders/2026-2027/sifa-kamendu.avif", objectPosition: "50% 38%" },
-  ]);
+  expect(
+    getActiveLeaderPortraitCandidate(candidates, [
+      "/leaders/2026-2027/sifa-kamendu.avif",
+      databaseImage,
+    ]),
+  ).toBeUndefined();
+  expect(
+    getLeaderPortraitCandidates(
+      resolveLeaderPortrait("Sifa Kamendu", "/leaders/2026-2027/sifa-kamendu.avif", "card"),
+    ),
+  ).toEqual([{ src: "/leaders/2026-2027/sifa-kamendu.avif", objectPosition: "50% 38%" }]);
   expect(getCanonicalLeaderName("Sifa Ramendu")).toBe("Sifa Kamendu");
   expect(getLocalLeaderPortrait("Sifa Ramendu")?.src).toBe("/leaders/2026-2027/sifa-kamendu.avif");
-  expect(resolveLeaderPortrait("Collince Sanare").src).toBe("/leaders/2026-2027/collince-sanare.avif");
+  expect(resolveLeaderPortrait("Collince Sanare").src).toBe(
+    "/leaders/2026-2027/collince-sanare.avif",
+  );
   expect(resolveLeaderPortrait("Baraka Alex").src).toBe("/leaders/2026-2027/baraka-alex.avif");
 });
 
@@ -124,20 +171,28 @@ test("the public leadership views use every supplied portrait", async ({ page })
 });
 
 test("a broken portrait request degrades to initials", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium-mobile-390", "One deterministic mobile run covers image fallback behavior.");
+  test.skip(
+    testInfo.project.name !== "chromium-mobile-390",
+    "One deterministic mobile run covers image fallback behavior.",
+  );
   await page.route("**/*", async (route) => {
     const requestUrl = decodeURIComponent(route.request().url());
+
     if (requestUrl.includes("prof-baraka-maiseli.avif")) {
       await route.fulfill({ status: 404, body: "Portrait unavailable" });
+
       return;
     }
+
     await route.continue();
   });
 
   await page.goto("/about");
   const portrait = page.getByAltText("Portrait of Prof. Baraka J. Maiseli");
   await portrait.scrollIntoViewIfNeeded();
-  await expect(page.getByLabel("Prof. Baraka J. Maiseli initials")).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByLabel("Prof. Baraka J. Maiseli initials")).toBeVisible({
+    timeout: 30_000,
+  });
 });
 
 test("the leadership catalog uses the canonical Sifa spelling", () => {

@@ -1,9 +1,11 @@
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface FormWrapperProps {
   onSubmit: (values: Record<string, FormDataEntryValue | null>) => void;
   children: React.ReactNode;
-  className?: string
+  className?: string;
 }
 
 const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children, className }) => {
@@ -21,18 +23,12 @@ const FormWrapper: React.FC<FormWrapperProps> = ({ onSubmit, children, className
   };
 
   return (
-    <form
-      className={className}
-      onSubmit={handleSubmit}
-    >
+    <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit}>
       {children}
-      <div className="w-full">
-        <button
-          type="submit"
-          className="uiss-pressable mt-4 min-h-11 rounded-md bg-brand px-5 py-2 font-semibold text-brand-ink"
-        >
+      <div className="flex w-full justify-end">
+        <Button type="submit" size="lg" className="w-full sm:w-auto">
           Submit
-        </button>
+        </Button>
       </div>
     </form>
   );
